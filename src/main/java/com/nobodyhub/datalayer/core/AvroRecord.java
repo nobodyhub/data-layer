@@ -1,9 +1,8 @@
 package com.nobodyhub.datalayer.core;
 
 import lombok.Data;
-import lombok.Generated;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import org.apache.avro.Schema;
+import org.apache.avro.SchemaBuilder;
 
 import java.util.List;
 
@@ -13,11 +12,26 @@ import java.util.List;
  * @author Ryan
  */
 @Data
-@RequiredArgsConstructor
 public class AvroRecord {
     private final Class<?> clazz;
-    private String type;
-    private String name;
-    private String namespace;
+    private final String name;
+    private final String namespace;
     private List<AvroField> fields;
+
+    public AvroRecord(Class<?> clazz) {
+        this.clazz = clazz;
+        this.namespace = clazz.getPackage().getName();
+        this.name = clazz.getSimpleName();
+    }
+
+    public Schema toSchema() {
+        SchemaBuilder.FieldAssembler<Schema> assembler = SchemaBuilder
+                .record(name)
+                .namespace(namespace)
+                .fields();
+        for (AvroField field : fields) {
+
+        }
+        return assembler.endRecord();
+    }
 }
