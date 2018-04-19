@@ -13,25 +13,40 @@ import java.util.List;
  */
 @Data
 public class AvroRecord {
+    /**
+     * Java class
+     */
     private final Class<?> clazz;
-    private final String name;
+    /**
+     * Java package
+     */
     private final String namespace;
-    private List<AvroType> fields;
+    /**
+     * Fields contained by {@link this#clazz}
+     */
+    private List<AvroField> fields;
 
     public AvroRecord(Class<?> clazz) {
         this.clazz = clazz;
         this.namespace = clazz.getPackage().getName();
-        this.name = clazz.getSimpleName();
     }
 
     public Schema toSchema() {
         SchemaBuilder.FieldAssembler<Schema> assembler = SchemaBuilder
-                .record(name)
+                .record(getSimpleName())
                 .namespace(namespace)
                 .fields();
-        for (AvroType field : fields) {
+        for (AvroField field : fields) {
 
         }
         return assembler.endRecord();
+    }
+
+    public String getSimpleName() {
+        return clazz.getSimpleName();
+    }
+
+    public String getQualifiedName() {
+        return clazz.getName();
     }
 }

@@ -40,32 +40,30 @@ import java.util.stream.Collectors;
 public final class AvroSchemaConverter {
     public static final Map<String, Schema> schemas = Maps.newHashMap();
     public static final Map<String, AvroRecord> records = Maps.newHashMap();
-    ;
-
-    public static Schema getSchema(String name) {
-        Schema schema = schemas.get(name);
-        if (schema == null) {
-            AvroRecord record = records.get(name);
-            if (record == null) {
-                throw new AvroCoreException(String.format("No AvroRecord Found for name: '%s'", name));
-            }
-            schema = record.toSchema();
-            schemas.put(schema.getFullName(), schema);
-        }
-        return schema;
-    }
 
     private AvroSchemaConverter() {
     }
 
-    public static Schema parse(Class<?>... classes) {
-
-
-        for (Class<?> clazz : classes) {
-            records.put(clazz.getName(), parseClass(clazz));
+    public static Schema getSchema(String qualifiedName) {
+        Schema schema = schemas.get(qualifiedName);
+        if (schema == null) {
+            AvroRecord record = records.get(qualifiedName);
+            if (record == null) {
+                throw new AvroCoreException(String.format("No AvroRecord Found for name: '%s'", qualifiedName));
+            }
+            schemas.put(qualifiedName, record.toSchema());
         }
+        return schema;
+    }
 
-        //TODO
+    public static Schema parse(Class<?>... classes) {
+        for (Class<?> clazz : classes) {
+            AvroRecord record = parseClass(clazz);
+            records.put(record.getQualifiedName(), record);
+        }
+        for(AvroRecord record: records.values()) {
+            schemas.put(record.getQualifiedName(), record.toSchema());
+        }
         return null;
     }
 
