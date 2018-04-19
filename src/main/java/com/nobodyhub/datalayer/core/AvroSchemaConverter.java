@@ -81,6 +81,7 @@ public final class AvroSchemaConverter {
                 if (annotations != null && annotations.length > 0) {
                     AvroField avroField = new AvroField(field);
                     parseType(field.getGenericType(), avroField.getAvroType());
+                    record.addField(avroField);
                 }
             }
             clz = clz.getSuperclass();
@@ -217,7 +218,7 @@ public final class AvroSchemaConverter {
             schema = timestamp.addToSchema(Schema.create(Schema.Type.LONG));
         }
         if (schema != null) {
-            schemas.put(schema.getFullName(), schema);
+            schemas.put(cls.getName(), schema);
         }
     }
 }

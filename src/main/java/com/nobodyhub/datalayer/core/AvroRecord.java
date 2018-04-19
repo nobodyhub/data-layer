@@ -1,5 +1,6 @@
 package com.nobodyhub.datalayer.core;
 
+import com.google.common.collect.Lists;
 import lombok.Data;
 import org.apache.avro.Schema;
 import org.apache.avro.SchemaBuilder;
@@ -29,17 +30,7 @@ public class AvroRecord {
     public AvroRecord(Class<?> clazz) {
         this.clazz = clazz;
         this.namespace = clazz.getPackage().getName();
-    }
-
-    public Schema toSchema() {
-        SchemaBuilder.FieldAssembler<Schema> assembler = SchemaBuilder
-                .record(getSimpleName())
-                .namespace(namespace)
-                .fields();
-        for (AvroField field : fields) {
-
-        }
-        return assembler.endRecord();
+        this.fields = Lists.newArrayList();
     }
 
     public String getSimpleName() {
@@ -49,4 +40,20 @@ public class AvroRecord {
     public String getQualifiedName() {
         return clazz.getName();
     }
+
+    public void addField(AvroField field) {
+        this.fields.add(field);
+    }
+
+    public Schema toSchema() {
+        SchemaBuilder.FieldAssembler<Schema> assembler = SchemaBuilder
+                .record(getSimpleName())
+                .namespace(namespace)
+                .fields();
+        for (AvroField field : fields) {
+            assembler = field.assemble(assembler);
+        }
+        return assembler.endRecord();
+    }
+
 }

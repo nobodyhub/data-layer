@@ -24,9 +24,9 @@ public class AvroType {
      */
     private Field field;
     /**
-     * full qualified class name
+     * full qualified class qualifiedName
      */
-    private final String name;
+    private final String qualifiedName;
     /**
      * the string representing the {@link Schema.Type} or {@link LogicalTypes}
      */
@@ -61,41 +61,40 @@ public class AvroType {
 
     public AvroType(Class<?> cls) {
         this.cls = cls;
-        this.name = cls.getName();
+        this.qualifiedName = cls.getName();
     }
 
     public AvroType(Field field) {
         this.field = field;
         this.cls = field.getType();
-        this.name = cls.getName();
+        this.qualifiedName = cls.getName();
     }
 
-    @SuppressWarnings("unchecked")
-    public SchemaBuilder.FieldAssembler<Schema> assemble(SchemaBuilder.TypeBuilder<?> typeBuilder) {
+    public <R extends SchemaBuilder.FieldDefault> SchemaBuilder.FieldAssembler assemble(SchemaBuilder.TypeBuilder<R> typeBuilder) {
         switch (type) {
             case INT: {
-                return ((SchemaBuilder.IntDefault<Schema>) typeBuilder.intType()).noDefault();
+                return typeBuilder.intType().noDefault();
             }
             case LONG: {
-                return ((SchemaBuilder.LongDefault<Schema>) typeBuilder.longType()).noDefault();
+                return typeBuilder.longType().noDefault();
             }
             case FLOAT: {
-                return ((SchemaBuilder.FloatDefault<Schema>) typeBuilder.floatType()).noDefault();
+                return typeBuilder.floatType().noDefault();
             }
             case DOUBLE: {
-                return ((SchemaBuilder.DoubleDefault<Schema>) typeBuilder.doubleType()).noDefault();
+                return typeBuilder.doubleType().noDefault();
             }
             case BOOLEAN: {
-                return ((SchemaBuilder.BooleanDefault<Schema>) typeBuilder.booleanType()).noDefault();
+                return typeBuilder.booleanType().noDefault();
             }
             case NULL: {
-                return ((SchemaBuilder.NullDefault<Schema>) typeBuilder.nullType()).noDefault();
+                return typeBuilder.nullType().noDefault();
             }
             case BYTES: {
-                return ((SchemaBuilder.BytesDefault<Schema>) typeBuilder.bytesType()).noDefault();
+                return typeBuilder.bytesType().noDefault();
             }
             case STRING: {
-                return ((SchemaBuilder.StringDefault<Schema>) typeBuilder.stringType()).noDefault();
+                return typeBuilder.stringType().noDefault();
             }
             case MAP: {
                 if (valueType.getLogicalType() == null
@@ -103,8 +102,8 @@ public class AvroType {
                         && valueType.getType() != Schema.Type.ENUM) {
                     return assemble(typeBuilder.map().values());
                 } else {
-                    return ((SchemaBuilder.MapDefault<Schema>) typeBuilder.map()
-                            .values(AvroSchemaConverter.getSchema(valueType.getName())))
+                    return typeBuilder.map()
+                            .values(AvroSchemaConverter.getSchema(valueType.getQualifiedName()))
                             .noDefault();
                 }
             }
@@ -114,8 +113,8 @@ public class AvroType {
                         && itemType.getType() != Schema.Type.ENUM) {
                     return assemble(typeBuilder.array().items());
                 } else {
-                    return ((SchemaBuilder.ArrayDefault<Schema>) typeBuilder.map()
-                            .values(AvroSchemaConverter.getSchema(itemType.getName())))
+                    return typeBuilder.map()
+                            .values(AvroSchemaConverter.getSchema(itemType.getQualifiedName()))
                             .noDefault();
                 }
             }

@@ -30,6 +30,10 @@ public class AvroField {
      */
     private final AvroType avroType;
 
+    public String getQualifiedName() {
+        return field.getType().getName();
+    }
+
     public AvroField(Field field) {
         this.field = field;
         this.name = field.getName();
@@ -71,40 +75,32 @@ public class AvroField {
                     return typeBuilder.stringType().noDefault();
                 }
                 case ENUM: {
-                    return fieldBuilder.type(AvroSchemaConverter.getSchema(name)).noDefault();
+                    return fieldBuilder.type(AvroSchemaConverter.getSchema(getQualifiedName())).noDefault();
                 }
                 case RECORD: {
-                    return fieldBuilder.type(AvroSchemaConverter.getSchema(name)).noDefault();
+                    return fieldBuilder.type(AvroSchemaConverter.getSchema(getQualifiedName())).noDefault();
                 }
                 case MAP: {
                     AvroType valueType = avroType.getValueType();
                     if (valueType.getLogicalType() == null
                             && valueType.getType() != Schema.Type.RECORD
                             && valueType.getType() != Schema.Type.ENUM) {
-                        SchemaBuilder.TypeBuilder<?> builder = typeBuilder.map().values();
-                        if (nullable) {
-                            builder = (SchemaBuilder.TypeBuilder<?>) builder.nullable();
-                        }
-                        return valueType.assemble(builder);
+                        return valueType.assemble(typeBuilder.map().values());
                     } else {
                         return typeBuilder.map()
-                                .values(AvroSchemaConverter.getSchema(valueType.getName()))
+                                .values(AvroSchemaConverter.getSchema(valueType.getQualifiedName()))
                                 .noDefault();
                     }
                 }
                 case ARRAY: {
-                    AvroType itemType = avroType.getValueType();
+                    AvroType itemType = avroType.getItemType();
                     if (itemType.getLogicalType() == null
                             && itemType.getType() != Schema.Type.RECORD
                             && itemType.getType() != Schema.Type.ENUM) {
-                        SchemaBuilder.TypeBuilder<?> builder = typeBuilder.array().items();
-                        if (nullable) {
-                            builder = (SchemaBuilder.TypeBuilder<?>) builder.nullable();
-                        }
-                        return itemType.assemble(builder);
+                        return itemType.assemble(typeBuilder.array().items());
                     } else {
                         return typeBuilder.map()
-                                .values(AvroSchemaConverter.getSchema(itemType.getName()))
+                                .values(AvroSchemaConverter.getSchema(itemType.getQualifiedName()))
                                 .noDefault();
                     }
                 }
@@ -115,7 +111,7 @@ public class AvroField {
                 }
             }
         } else {
-            return fieldBuilder.type(AvroSchemaConverter.getSchema(name)).noDefault();
+            return fieldBuilder.type(AvroSchemaConverter.getSchema(getQualifiedName())).noDefault();
         }
     }
 
