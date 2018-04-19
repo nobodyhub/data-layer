@@ -16,7 +16,7 @@ public class AvroRecord {
     private final Class<?> clazz;
     private final String name;
     private final String namespace;
-    private List<AvroField> fields;
+    private List<AvroType> fields;
 
     public AvroRecord(Class<?> clazz) {
         this.clazz = clazz;
@@ -29,7 +29,7 @@ public class AvroRecord {
                 .record(name)
                 .namespace(namespace)
                 .fields();
-        for (AvroField field : fields) {
+        for (AvroType field : fields) {
 
         }
         return assembler.endRecord();

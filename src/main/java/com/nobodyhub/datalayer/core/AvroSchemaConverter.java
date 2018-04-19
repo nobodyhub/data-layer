@@ -81,18 +81,17 @@ public final class AvroSchemaConverter {
             for (Field field : clz.getDeclaredFields()) {
                 Annotation[] annotations = field.getAnnotationsByType(Column.class);
                 if (annotations != null && annotations.length > 0) {
-                    AvroField avroField = new AvroField(field.getType());
-                    avroField.setField(field);
-                    parseType(field.getGenericType(), avroField);
+                    AvroField avroField = new AvroField(field);
+                    parseType(field.getGenericType(), avroField.getAvroType());
                 }
             }
             clz = clz.getSuperclass();
         }
     }
 
-    public static void parseType(Type type, AvroField avroField) {
-        parseBasicType(type, avroField);
-        parseLogicalType(type, avroField);
+    public static void parseType(Type type, AvroType avroType) {
+        parseBasicType(type, avroType);
+        parseLogicalType(type, avroType);
     }
 
     /**
@@ -104,28 +103,28 @@ public final class AvroSchemaConverter {
      * 2. {@link Schema.Type#UNION} and {@link Schema.Type#FIXED} have NO corresponding types in Java
      *
      * @param type
-     * @param avroField
+     * @param avroType
      * @return the Type for {@link Schema}
      * @see SpecificData#createSchema
      */
-    protected static void parseBasicType(Type type, AvroField avroField) {
+    protected static void parseBasicType(Type type, AvroType avroType) {
         if (type instanceof Class
                 && CharSequence.class.isAssignableFrom((Class) type)) {
-            avroField.setType(Schema.Type.STRING);
+            avroType.setType(Schema.Type.STRING);
         } else if (type == ByteBuffer.class) {
-            avroField.setType(Schema.Type.BYTES);
+            avroType.setType(Schema.Type.BYTES);
         } else if ((type == Integer.class) || (type == Integer.TYPE)) {
-            avroField.setType(Schema.Type.INT);
+            avroType.setType(Schema.Type.INT);
         } else if ((type == Long.class) || (type == Long.TYPE)) {
-            avroField.setType(Schema.Type.LONG);
+            avroType.setType(Schema.Type.LONG);
         } else if ((type == Float.class) || (type == Float.TYPE)) {
-            avroField.setType(Schema.Type.FLOAT);
+            avroType.setType(Schema.Type.FLOAT);
         } else if ((type == Double.class) || (type == Double.TYPE)) {
-            avroField.setType(Schema.Type.DOUBLE);
+            avroType.setType(Schema.Type.DOUBLE);
         } else if ((type == Boolean.class) || (type == Boolean.TYPE)) {
-            avroField.setType(Schema.Type.BOOLEAN);
+            avroType.setType(Schema.Type.BOOLEAN);
         } else if ((type == Void.class) || (type == Void.TYPE)) {
-            avroField.setType(Schema.Type.NULL);
+            avroType.setType(Schema.Type.NULL);
         } else if (type instanceof ParameterizedType) {
             ParameterizedType ptype = (ParameterizedType) (Type) type;
             Class raw = (Class) ptype.getRawType();
@@ -135,10 +134,10 @@ public final class AvroSchemaConverter {
                 if (params.length != 1) {
                     throw new AvroTypeException("No array type specified.");
                 }
-                avroField.setType(Schema.Type.ARRAY);
-                AvroField itemType = new AvroField(params[0].getClass());
+                avroType.setType(Schema.Type.ARRAY);
+                AvroType itemType = new AvroType(params[0].getClass());
                 parseType(params[0], itemType);
-                avroField.setItemType(itemType);
+                avroType.setItemType(itemType);
             } else if (Map.class.isAssignableFrom(raw)) {
                 // map
                 java.lang.reflect.Type key = params[0];
@@ -147,19 +146,19 @@ public final class AvroSchemaConverter {
                         && CharSequence.class.isAssignableFrom((Class) key))) {
                     throw new AvroTypeException("Map key class not CharSequence: " + key);
                 }
-                avroField.setType(Schema.Type.MAP);
-                AvroField valueType = new AvroField(params[1].getClass());
+                avroType.setType(Schema.Type.MAP);
+                AvroType valueType = new AvroType(params[1].getClass());
                 parseType(params[1], valueType);
-                avroField.setValueType(valueType);
+                avroType.setValueType(valueType);
             } else {
-                avroField.setType(Schema.Type.RECORD);
+                avroType.setType(Schema.Type.RECORD);
             }
         } else if (type instanceof Class) {
             Class clazz = (Class) type;
             if (clazz.isEnum()) {
                 //enum
-                avroField.setType(Schema.Type.ENUM);
-                avroField.setSymbols(Sets.newHashSet(Arrays.stream(clazz.getDeclaredFields()).map(new Function<Field, String>() {
+                avroType.setType(Schema.Type.ENUM);
+                avroType.setSymbols(Sets.newHashSet(Arrays.stream(clazz.getDeclaredFields()).map(new Function<Field, String>() {
                     @Nullable
                     @Override
                     public String apply(@Nullable Field input) {
@@ -168,7 +167,7 @@ public final class AvroSchemaConverter {
                 }).collect(Collectors.toList())));
             } else {
                 // class
-                avroField.setType(Schema.Type.RECORD);
+                avroType.setType(Schema.Type.RECORD);
             }
         }
     }
@@ -177,44 +176,45 @@ public final class AvroSchemaConverter {
      * Parse logical types from Java type
      *
      * @param type
-     * @param avroField
+     * @param avroType
      * @see <a href="https://avro.apache.org/docs/1.8.1/spec.html#Logical+Types">Logical Types</a>
      */
-    protected static void parseLogicalType(Type type, AvroField avroField) {
+    protected static void parseLogicalType(Type type, AvroType avroType) {
         if (!(type instanceof Class)) {
             return;
         }
         Class cls = (Class) type;
         Schema schema = null;
         if (BigDecimal.class == cls) {
-            Field field = avroField.getField();
+            Field field = avroType.getField();
             /**
-             * precision/scale initial value follows {@link Column}
+             * precision/scale initial value follows {@link org.hibernate.mapping.Column}
              */
-            int precision = 0, scale = 0;
+            int precision = 19;
+            int scale = 2;
             if (field != null) {
                 Column annotation = field.getAnnotation(Column.class);
                 if (annotation != null) {
-                    precision = annotation.precision();
-                    scale = annotation.scale();
+                    precision = annotation.precision() == 0 ? precision : annotation.precision();
+                    scale = annotation.scale() == 0 ? scale : annotation.scale();
                 }
             }
             LogicalType decimal = LogicalTypes.decimal(precision, scale);
-            //add to avroField
-            avroField.setLogicalType(decimal);
+            //add to avroType
+            avroType.setLogicalType(decimal);
             //add to schemas
-            schema = decimal.addToSchema(Schema.create(Schema.Type.STRING));
+            schema = decimal.addToSchema(Schema.create(Schema.Type.BYTES));
         } else if (UUID.class == cls) {
             LogicalType uuid = LogicalTypes.uuid();
-            avroField.setLogicalType(uuid);
+            avroType.setLogicalType(uuid);
             schema = uuid.addToSchema(Schema.create(Schema.Type.STRING));
         } else if (Date.class == cls) {
             LogicalType date = LogicalTypes.date();
-            avroField.setLogicalType(date);
+            avroType.setLogicalType(date);
             schema = date.addToSchema(Schema.create(Schema.Type.INT));
         } else if (Timestamp.class == cls) {
             LogicalType timestamp = LogicalTypes.timestampMillis();
-            avroField.setLogicalType(timestamp);
+            avroType.setLogicalType(timestamp);
             schema = timestamp.addToSchema(Schema.create(Schema.Type.LONG));
         }
         if (schema != null) {

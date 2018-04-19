@@ -34,39 +34,39 @@ public class AvroSchemaConverterParseLogcalTypeTest {
     public void test() {
         Field[] fields = getClass().getDeclaredFields();
         for (Field field : fields) {
-            AvroField avroField = new AvroField(field.getType());
-            avroField.setField(field);
-            AvroSchemaConverter.parseLogicalType(field.getGenericType(), avroField);
-            doAssert(field.getGenericType(), avroField);
+            AvroType avroType = new AvroType(field.getType());
+            avroType.setField(field);
+            AvroSchemaConverter.parseLogicalType(field.getGenericType(), avroType);
+            doAssert(field.getGenericType(), avroType);
         }
     }
 
-    protected void doAssert(Type type, AvroField avroField) {
+    protected void doAssert(Type type, AvroType avroType) {
         if (!(type instanceof Class)) {
             return;
         }
         Class cls = (Class) type;
         if (BigDecimal.class == cls) {
-            String fieldName = avroField.getField().getName();
+            String fieldName = avroType.getField().getName();
             if ("FIELD_BIGDECIMAL".equals(fieldName)) {
-                assertEquals(0, ((LogicalTypes.Decimal) avroField.getLogicalType()).getPrecision());
-                assertEquals(0, ((LogicalTypes.Decimal) avroField.getLogicalType()).getScale());
+                assertEquals(19, ((LogicalTypes.Decimal) avroType.getLogicalType()).getPrecision());
+                assertEquals(2, ((LogicalTypes.Decimal) avroType.getLogicalType()).getScale());
             } else if ("FIELD_BIGDECIMAL_PRECISION".equals(fieldName)) {
-                assertEquals(10, ((LogicalTypes.Decimal) avroField.getLogicalType()).getPrecision());
-                assertEquals(0, ((LogicalTypes.Decimal) avroField.getLogicalType()).getScale());
+                assertEquals(10, ((LogicalTypes.Decimal) avroType.getLogicalType()).getPrecision());
+                assertEquals(2, ((LogicalTypes.Decimal) avroType.getLogicalType()).getScale());
             } else if ("FIELD_BIGDECIMAL_SCALE".equals(fieldName)) {
-                assertEquals(0, ((LogicalTypes.Decimal) avroField.getLogicalType()).getPrecision());
-                assertEquals(9, ((LogicalTypes.Decimal) avroField.getLogicalType()).getScale());
+                assertEquals(19, ((LogicalTypes.Decimal) avroType.getLogicalType()).getPrecision());
+                assertEquals(9, ((LogicalTypes.Decimal) avroType.getLogicalType()).getScale());
             } else if ("FIELD_BIGDECIMAL_BOTH".equals(fieldName)) {
-                assertEquals(2, ((LogicalTypes.Decimal) avroField.getLogicalType()).getPrecision());
-                assertEquals(1, ((LogicalTypes.Decimal) avroField.getLogicalType()).getScale());
+                assertEquals(2, ((LogicalTypes.Decimal) avroType.getLogicalType()).getPrecision());
+                assertEquals(1, ((LogicalTypes.Decimal) avroType.getLogicalType()).getScale());
             }
         } else if (UUID.class == cls) {
-            assertEquals(LogicalTypes.uuid(), avroField.getLogicalType());
+            assertEquals(LogicalTypes.uuid(), avroType.getLogicalType());
         } else if (Date.class == cls) {
-            assertEquals(LogicalTypes.date(), avroField.getLogicalType());
+            assertEquals(LogicalTypes.date(), avroType.getLogicalType());
         } else if (Timestamp.class == cls) {
-            assertEquals(LogicalTypes.timestampMillis(), avroField.getLogicalType());
+            assertEquals(LogicalTypes.timestampMillis(), avroType.getLogicalType());
         }
     }
 

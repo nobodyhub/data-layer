@@ -50,66 +50,66 @@ public class AvroSchemaConverterParseBasicTypeTest {
     public void test() {
         Field[] fields = getClass().getDeclaredFields();
         for (Field field : fields) {
-            AvroField avroField = new AvroField(field.getType());
-            avroField.setField(field);
-            AvroSchemaConverter.parseBasicType(field.getGenericType(), avroField);
-            doAssert(field.getGenericType(), avroField);
+            AvroType avroType = new AvroType(field.getType());
+            avroType.setField(field);
+            AvroSchemaConverter.parseBasicType(field.getGenericType(), avroType);
+            doAssert(field.getGenericType(), avroType);
         }
     }
 
-    protected void doAssert(Type type, AvroField avroField) {
+    protected void doAssert(Type type, AvroType avroType) {
         if (type instanceof Class
                 && CharSequence.class.isAssignableFrom((Class) type)) {
-            assertEquals(Schema.Type.STRING, avroField.getType());
+            assertEquals(Schema.Type.STRING, avroType.getType());
         } else if (type == ByteBuffer.class) {
-            assertEquals(Schema.Type.BYTES, avroField.getType());
+            assertEquals(Schema.Type.BYTES, avroType.getType());
         } else if ((type == Integer.class) || (type == Integer.TYPE)) {
-            assertEquals(Schema.Type.INT, avroField.getType());
+            assertEquals(Schema.Type.INT, avroType.getType());
         } else if ((type == Long.class) || (type == Long.TYPE)) {
-            assertEquals(Schema.Type.LONG, avroField.getType());
+            assertEquals(Schema.Type.LONG, avroType.getType());
         } else if ((type == Float.class) || (type == Float.TYPE)) {
-            assertEquals(Schema.Type.FLOAT, avroField.getType());
+            assertEquals(Schema.Type.FLOAT, avroType.getType());
         } else if ((type == Double.class) || (type == Double.TYPE)) {
-            assertEquals(Schema.Type.DOUBLE, avroField.getType());
+            assertEquals(Schema.Type.DOUBLE, avroType.getType());
         } else if ((type == Boolean.class) || (type == Boolean.TYPE)) {
-            assertEquals(Schema.Type.BOOLEAN, avroField.getType());
+            assertEquals(Schema.Type.BOOLEAN, avroType.getType());
         } else if ((type == Void.class) || (type == Void.TYPE)) {
-            assertEquals(Schema.Type.NULL, avroField.getType());
+            assertEquals(Schema.Type.NULL, avroType.getType());
         } else if (type instanceof ParameterizedType) {
             ParameterizedType ptype = (ParameterizedType) (Type) type;
             Class raw = (Class) ptype.getRawType();
-            String fieldName = avroField.getField().getName();
+            String fieldName = avroType.getField().getName();
             if (Collection.class.isAssignableFrom(raw)) {
-                assertEquals(Schema.Type.ARRAY, avroField.getType());
+                assertEquals(Schema.Type.ARRAY, avroType.getType());
                 if ("FIELD_SET".equals(fieldName)) {
-                    assertEquals(LogicalTypes.timestampMillis(), avroField.getItemType().getLogicalType());
+                    assertEquals(LogicalTypes.timestampMillis(), avroType.getItemType().getLogicalType());
                 } else if ("FIELD_TREESET".equals(fieldName)) {
-                    assertEquals(LogicalTypes.date(), avroField.getItemType().getLogicalType());
+                    assertEquals(LogicalTypes.date(), avroType.getItemType().getLogicalType());
                 } else {
-                    assertEquals(Schema.Type.STRING, avroField.getItemType().getType());
+                    assertEquals(Schema.Type.STRING, avroType.getItemType().getType());
                 }
             } else if (Map.class.isAssignableFrom(raw)) {
-                assertEquals(Schema.Type.MAP, avroField.getType());
+                assertEquals(Schema.Type.MAP, avroType.getType());
                 if ("FIELD_MAP".equals(fieldName)) {
-                    assertEquals(Schema.Type.INT, avroField.getValueType().getType());
+                    assertEquals(Schema.Type.INT, avroType.getValueType().getType());
                 } else if ("FIELD_HASHMAP".equals(fieldName)) {
-                    assertEquals(LogicalTypes.decimal(0, 0), avroField.getValueType().getLogicalType());
+                    assertEquals(LogicalTypes.decimal(19, 2), avroType.getValueType().getLogicalType());
                 } else if ("FIELD_TREEMAP".equals(fieldName)) {
-                    assertEquals(LogicalTypes.uuid(), avroField.getValueType().getLogicalType());
+                    assertEquals(LogicalTypes.uuid(), avroType.getValueType().getLogicalType());
                 } else {
-                    assertEquals(Schema.Type.INT, avroField.getValueType().getType());
+                    assertEquals(Schema.Type.INT, avroType.getValueType().getType());
                 }
             } else {
-                assertEquals(Schema.Type.RECORD, avroField.getType());
+                assertEquals(Schema.Type.RECORD, avroType.getType());
             }
         } else if (type instanceof Class) {
             Class clazz = (Class) type;
             if (clazz.isEnum()) {
                 //enum
-                assertEquals(Schema.Type.ENUM, avroField.getType());
+                assertEquals(Schema.Type.ENUM, avroType.getType());
             } else {
                 // class
-                assertEquals(Schema.Type.RECORD, avroField.getType());
+                assertEquals(Schema.Type.RECORD, avroType.getType());
             }
         }
     }
