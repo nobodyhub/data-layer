@@ -174,6 +174,7 @@ public final class AvroSchemaConverter {
 
     /**
      * Parse logical types from Java type
+     * and add to schemas set
      *
      * @param type
      * @param avroType
