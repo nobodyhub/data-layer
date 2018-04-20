@@ -110,21 +110,21 @@ public final class AvroSchemaConverter {
     protected static void parseBasicType(Type type, AvroType avroType) {
         if (type instanceof Class
                 && CharSequence.class.isAssignableFrom((Class) type)) {
-            avroType.setType(Schema.Type.STRING);
+            avroType.setSchemaType(Schema.Type.STRING);
         } else if (type == ByteBuffer.class) {
-            avroType.setType(Schema.Type.BYTES);
+            avroType.setSchemaType(Schema.Type.BYTES);
         } else if ((type == Integer.class) || (type == Integer.TYPE)) {
-            avroType.setType(Schema.Type.INT);
+            avroType.setSchemaType(Schema.Type.INT);
         } else if ((type == Long.class) || (type == Long.TYPE)) {
-            avroType.setType(Schema.Type.LONG);
+            avroType.setSchemaType(Schema.Type.LONG);
         } else if ((type == Float.class) || (type == Float.TYPE)) {
-            avroType.setType(Schema.Type.FLOAT);
+            avroType.setSchemaType(Schema.Type.FLOAT);
         } else if ((type == Double.class) || (type == Double.TYPE)) {
-            avroType.setType(Schema.Type.DOUBLE);
+            avroType.setSchemaType(Schema.Type.DOUBLE);
         } else if ((type == Boolean.class) || (type == Boolean.TYPE)) {
-            avroType.setType(Schema.Type.BOOLEAN);
+            avroType.setSchemaType(Schema.Type.BOOLEAN);
         } else if ((type == Void.class) || (type == Void.TYPE)) {
-            avroType.setType(Schema.Type.NULL);
+            avroType.setSchemaType(Schema.Type.NULL);
         } else if (type instanceof ParameterizedType) {
             ParameterizedType ptype = (ParameterizedType) (Type) type;
             Class raw = (Class) ptype.getRawType();
@@ -134,8 +134,8 @@ public final class AvroSchemaConverter {
                 if (params.length != 1) {
                     throw new AvroTypeException("No array type specified.");
                 }
-                avroType.setType(Schema.Type.ARRAY);
-                AvroType itemType = new AvroType(params[0].getClass());
+                avroType.setSchemaType(Schema.Type.ARRAY);
+                AvroType itemType = new AvroType(params[0]);
                 parseType(params[0], itemType);
                 avroType.setItemType(itemType);
             } else if (Map.class.isAssignableFrom(raw)) {
@@ -146,17 +146,17 @@ public final class AvroSchemaConverter {
                         && CharSequence.class.isAssignableFrom((Class) key))) {
                     throw new AvroTypeException("Map key class not CharSequence: " + key);
                 }
-                avroType.setType(Schema.Type.MAP);
-                AvroType valueType = new AvroType(params[1].getClass());
+                avroType.setSchemaType(Schema.Type.MAP);
+                AvroType valueType = new AvroType(params[1]);
                 parseType(params[1], valueType);
                 avroType.setValueType(valueType);
             } else {
-                avroType.setType(Schema.Type.RECORD);
+                avroType.setSchemaType(Schema.Type.RECORD);
             }
         } else if (type instanceof Class) {
             Class clazz = (Class) type;
             if (clazz.isEnum()) {
-                avroType.setType(Schema.Type.ENUM);
+                avroType.setSchemaType(Schema.Type.ENUM);
                 //enum
 //                if (avroType.getField() != null
 //                        && avroType.getField().getAnnotation(Column.class) != null) {
@@ -168,10 +168,10 @@ public final class AvroSchemaConverter {
 //                }
             } else {
                 // class
-                avroType.setType(Schema.Type.RECORD);
+                avroType.setSchemaType(Schema.Type.RECORD);
             }
         } else {
-            avroType.setType(Schema.Type.RECORD);
+            avroType.setSchemaType(Schema.Type.RECORD);
         }
     }
 

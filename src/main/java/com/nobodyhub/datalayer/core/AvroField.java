@@ -6,7 +6,6 @@ import org.apache.avro.Schema;
 import org.apache.avro.SchemaBuilder;
 
 import javax.persistence.Column;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
 /**
@@ -56,7 +55,7 @@ public class AvroField {
             if (nullable) {
                 typeBuilder = ((SchemaBuilder.FieldTypeBuilder<Schema>) typeBuilder).nullable();
             }
-            switch (avroType.getType()) {
+            switch (avroType.getSchemaType()) {
                 case INT: {
                     return typeBuilder.intType().noDefault();
                 }
@@ -90,8 +89,8 @@ public class AvroField {
                 case MAP: {
                     AvroType valueType = avroType.getValueType();
                     if (valueType.getLogicalType() == null
-                            && valueType.getType() != Schema.Type.RECORD
-                            && valueType.getType() != Schema.Type.ENUM) {
+                            && valueType.getSchemaType() != Schema.Type.RECORD
+                            && valueType.getSchemaType() != Schema.Type.ENUM) {
                         return valueType.assemble(typeBuilder.map().values());
                     } else {
                         return typeBuilder.map()
@@ -102,19 +101,19 @@ public class AvroField {
                 case ARRAY: {
                     AvroType itemType = avroType.getItemType();
                     if (itemType.getLogicalType() == null
-                            && itemType.getType() != Schema.Type.RECORD
-                            && itemType.getType() != Schema.Type.ENUM) {
+                            && itemType.getSchemaType() != Schema.Type.RECORD
+                            && itemType.getSchemaType() != Schema.Type.ENUM) {
                         return itemType.assemble(typeBuilder.array().items());
                     } else {
-                        return typeBuilder.map()
-                                .values(AvroSchemaConverter.getSchema(itemType.getQualifiedName()))
+                        return typeBuilder.array()
+                                .items(AvroSchemaConverter.getSchema(itemType.getQualifiedName()))
                                 .noDefault();
                     }
                 }
                 default: {
                     //case UNION:
                     //case FIXED:
-                    throw new AvroCoreException(String.format("Not support type: '%s'", avroType.getType()));
+                    throw new AvroCoreException(String.format("Not support type: '%s'", avroType.getSchemaType()));
                 }
             }
         } else {

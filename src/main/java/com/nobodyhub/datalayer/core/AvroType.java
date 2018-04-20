@@ -8,6 +8,7 @@ import org.apache.avro.Schema;
 import org.apache.avro.SchemaBuilder;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.util.Set;
 
 /**
@@ -18,7 +19,7 @@ public class AvroType {
     /**
      * the Java class
      */
-    private final Class<?> cls;
+    private final Type type;
     /**
      * the {@link Field} of outter class
      */
@@ -30,7 +31,7 @@ public class AvroType {
     /**
      * the string representing the {@link Schema.Type} or {@link LogicalTypes}
      */
-    private Schema.Type type;
+    private Schema.Type schemaType;
     /**
      * the logical type
      *
@@ -38,16 +39,16 @@ public class AvroType {
      */
     private LogicalType logicalType;
     /**
-     * element type when {@link this#type} is {@link Schema.Type#ARRAY}
+     * element type when {@link this#schemaType} is {@link Schema.Type#ARRAY}
      */
     private AvroType itemType;
     /**
-     * value type when {@link this#type} is {@link Schema.Type#MAP}
+     * value type when {@link this#schemaType} is {@link Schema.Type#MAP}
      * key type is required to be {@link Schema.Type#STRING}
      */
     private AvroType valueType;
     /**
-     * symbols when {@link this#type} is {@link Schema.Type#ENUM}
+     * symbols when {@link this#schemaType} is {@link Schema.Type#ENUM}
      */
     private Set<String> symbols;
     /**
@@ -59,19 +60,19 @@ public class AvroType {
      */
     private int scale;
 
-    public AvroType(Class<?> cls) {
-        this.cls = cls;
-        this.qualifiedName = cls.getName();
+    public AvroType(Type type) {
+        this.type = type;
+        this.qualifiedName = type.getTypeName();
     }
 
     public AvroType(Field field) {
         this.field = field;
-        this.cls = field.getType();
-        this.qualifiedName = cls.getName();
+        this.type = field.getType();
+        this.qualifiedName = type.getTypeName();
     }
 
     public <R extends SchemaBuilder.FieldDefault> SchemaBuilder.FieldAssembler assemble(SchemaBuilder.TypeBuilder<R> typeBuilder) {
-        switch (type) {
+        switch (schemaType) {
             case INT: {
                 return typeBuilder.intType().noDefault();
             }
@@ -104,8 +105,8 @@ public class AvroType {
             }
             case MAP: {
                 if (valueType.getLogicalType() == null
-                        && valueType.getType() != Schema.Type.RECORD
-                        && valueType.getType() != Schema.Type.ENUM) {
+                        && valueType.getSchemaType() != Schema.Type.RECORD
+                        && valueType.getSchemaType() != Schema.Type.ENUM) {
                     return valueType.assemble(typeBuilder.map().values());
                 } else {
                     return typeBuilder.map()
@@ -115,8 +116,8 @@ public class AvroType {
             }
             case ARRAY: {
                 if (itemType.getLogicalType() == null
-                        && itemType.getType() != Schema.Type.RECORD
-                        && itemType.getType() != Schema.Type.ENUM) {
+                        && itemType.getSchemaType() != Schema.Type.RECORD
+                        && itemType.getSchemaType() != Schema.Type.ENUM) {
                     return itemType.assemble(typeBuilder.array().items());
                 } else {
                     return typeBuilder.map()
@@ -127,7 +128,7 @@ public class AvroType {
             default: {
                 //case UNION:
                 //case FIXED:
-                throw new AvroCoreException(String.format("Not support type: '%s'", type));
+                throw new AvroCoreException(String.format("Not support type: '%s'", schemaType));
             }
         }
     }
