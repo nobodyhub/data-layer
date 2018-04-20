@@ -23,7 +23,7 @@ public class PrimitiveClass {
     protected static String aString;
     @Column
     protected static ByteBuffer aByteBuffer;
-    @Column
+    @Column(nullable = false)
     protected static int aInt;
     @Column
     protected static Integer aInteger;
@@ -35,21 +35,21 @@ public class PrimitiveClass {
     protected static float afloat;
     @Column
     protected static Float aFloat;
-    @Column
+    @Column(nullable = false)
     protected static double adouble;
     @Column
     protected static Double aDouble;
     @Column
     protected static boolean aboolean;
-    @Column
+    @Column(nullable = false)
     protected static Boolean aBoolean;
     @Column
     protected static BigDecimal aBigDecimal;
-    @Column
+    @Column(nullable = false)
     protected static Date aDate;
     @Column
     protected static Timestamp aTimeStamp;
-    @Column
+    @Column(nullable = false)
     protected static UUID aUuid;
 
 }

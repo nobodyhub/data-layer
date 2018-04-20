@@ -31,7 +31,7 @@ public class AvroField {
     private final AvroType avroType;
 
     public String getQualifiedName() {
-        return field.getType().getName();
+        return avroType.getQualifiedName();
     }
 
     public AvroField(Field field) {

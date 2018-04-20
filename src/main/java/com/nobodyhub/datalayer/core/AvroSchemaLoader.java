@@ -225,6 +225,7 @@ public final class AvroSchemaLoader {
             avroType.setLogicalType(timestamp);
             schema = timestamp.addToSchema(Schema.create(Schema.Type.LONG));
         }
+        // add to schema pool
         if (schema != null) {
             schemas.put(cls.getName(), schema);
         }
