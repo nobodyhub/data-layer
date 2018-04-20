@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
  * @author yan_h
  * @since 2018-04-20.
  */
-public class AvroSchemaLoaderPrimitiveClass {
+public class AvroSchemaLoaderPrimitiveClassTest {
     @Test
     public void testLoad() {
         AvroSchemaLoader.load(PrimitiveClass.class);
