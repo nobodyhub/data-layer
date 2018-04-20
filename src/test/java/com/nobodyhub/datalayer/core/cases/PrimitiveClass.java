@@ -43,7 +43,7 @@ public class PrimitiveClass {
     protected static boolean aboolean;
     @Column(nullable = false)
     protected static Boolean aBoolean;
-    @Column
+    @Column(precision = 10)
     protected static BigDecimal aBigDecimal;
     @Column(nullable = false)
     protected static Date aDate;
