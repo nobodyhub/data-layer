@@ -45,8 +45,6 @@ public class AvroSchemaLoaderPrimitiveContainerClassTest {
                 assertEquals(null, field.getAvroType().getLogicalType());
                 assertEquals(Schema.Type.STRING, field.getAvroType().getItemType().getSchemaType());
                 assertEquals(null, field.getAvroType().getValueType());
-                assertEquals(19, field.getAvroType().getPrecision());
-                assertEquals(2, field.getAvroType().getScale());
             }
         }
     }

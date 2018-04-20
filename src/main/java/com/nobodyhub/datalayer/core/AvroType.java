@@ -51,18 +51,6 @@ public class AvroType {
      * symbols when {@link this#schemaType} is {@link Schema.Type#ENUM}
      */
     private Set<String> symbols;
-    /**
-     * precision when {@link this#logicalType} is {@link LogicalTypes#DECIMAL}
-     *
-     * @see org.hibernate.mapping.Column
-     */
-    private int precision = 19;
-    /**
-     * scale when {@link this#logicalType} is {@link LogicalTypes#DECIMAL}
-     *
-     * @see org.hibernate.mapping.Column
-     */
-    private int scale = 2;
 
     public AvroType(Type type) {
         this.type = type;
