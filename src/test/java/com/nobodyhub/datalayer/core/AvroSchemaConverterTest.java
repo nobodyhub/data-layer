@@ -32,7 +32,7 @@ public class AvroSchemaConverterTest {
 
         AvroRecord combinedPrimitiveClass = AvroSchemaConverter.parseClass(CombinedPrimitiveClass.class);
         assertEquals(CombinedPrimitiveClass.class, combinedPrimitiveClass.getClazz());
-        assertEquals("",
+        assertEquals("{\"type\":\"record\",\"name\":\"CombinedPrimitiveClass\",\"namespace\":\"com.nobodyhub.datalayer.core\",\"fields\":[{\"name\":\"recordSet\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"map\",\"values\":\"int\"}}},{\"name\":\"listOfList\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"array\",\"items\":\"string\"}}},{\"name\":\"map2List\",\"type\":[{\"type\":\"map\",\"values\":{\"type\":\"array\",\"items\":\"string\"}},\"null\"]}]}",
                 combinedPrimitiveClass.toSchema().toString(false));
 
     }
