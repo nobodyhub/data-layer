@@ -176,8 +176,12 @@ public final class AvroSchemaConverter {
     }
 
     /**
-     * Parse logical types from Java type
-     * and add to schemas set
+     * Parse logical types from Java type and add to schemas set
+     * Supported Logical Types are:
+     * - {@link LogicalTypes#DECIMAL} - {@link BigDecimal}
+     * - {@link LogicalTypes#UUID} - {@link UUID}
+     * - {@link LogicalTypes#DATE} - {@link Date}
+     * - {@link LogicalTypes#TIME_MILLIS} - {@link Timestamp}
      *
      * @param type
      * @param avroType
