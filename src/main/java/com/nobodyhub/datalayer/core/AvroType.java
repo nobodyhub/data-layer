@@ -88,9 +88,6 @@ public class AvroType {
             case BOOLEAN: {
                 return typeBuilder.booleanType().noDefault();
             }
-            case NULL: {
-                return typeBuilder.nullType().noDefault();
-            }
             case BYTES: {
                 return typeBuilder.bytesType().noDefault();
             }
@@ -128,6 +125,7 @@ public class AvroType {
             default: {
                 //case UNION:
                 //case FIXED:
+                //case NULL;
                 throw new AvroCoreException(String.format("Not support type: '%s'", schemaType));
             }
         }
