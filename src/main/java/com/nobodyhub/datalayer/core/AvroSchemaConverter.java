@@ -1,8 +1,6 @@
 package com.nobodyhub.datalayer.core;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.nobodyhub.datalayer.core.exception.AvroCoreException;
 import org.apache.avro.AvroTypeException;
 import org.apache.avro.LogicalType;
@@ -11,7 +9,6 @@ import org.apache.avro.Schema;
 import org.apache.avro.reflect.ReflectData;
 import org.apache.avro.specific.SpecificData;
 
-import javax.annotation.Nullable;
 import javax.persistence.Column;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -20,11 +17,9 @@ import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * Convert a Hibernate entity to avro schema file
@@ -161,14 +156,16 @@ public final class AvroSchemaConverter {
         } else if (type instanceof Class) {
             Class clazz = (Class) type;
             if (clazz.isEnum()) {
+                avroType.setType(Schema.Type.ENUM);
                 //enum
-                if (avroType.getField().getAnnotation(Column.class) != null) {
-                    // as class member
-                    avroType.setType(Schema.Type.ENUM);
-                } else {
-                    // as enum member
-                    avroType.setType(Schema.Type.STRING);
-                }
+//                if (avroType.getField() != null
+//                        && avroType.getField().getAnnotation(Column.class) != null) {
+//                    // as class member
+//                    avroType.setType(Schema.Type.ENUM);
+//                } else {
+//                    // as enum member
+//                    avroType.setType(Schema.Type.STRING);
+//                }
             } else {
                 // class
                 avroType.setType(Schema.Type.RECORD);
