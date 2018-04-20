@@ -106,7 +106,7 @@ public class AvroType {
                 if (valueType.getLogicalType() == null
                         && valueType.getType() != Schema.Type.RECORD
                         && valueType.getType() != Schema.Type.ENUM) {
-                    return assemble(typeBuilder.map().values());
+                    return valueType.assemble(typeBuilder.map().values());
                 } else {
                     return typeBuilder.map()
                             .values(AvroSchemaConverter.getSchema(valueType.getQualifiedName()))
@@ -117,7 +117,7 @@ public class AvroType {
                 if (itemType.getLogicalType() == null
                         && itemType.getType() != Schema.Type.RECORD
                         && itemType.getType() != Schema.Type.ENUM) {
-                    return assemble(typeBuilder.array().items());
+                    return itemType.assemble(typeBuilder.array().items());
                 } else {
                     return typeBuilder.map()
                             .values(AvroSchemaConverter.getSchema(itemType.getQualifiedName()))

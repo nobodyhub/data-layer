@@ -30,6 +30,11 @@ public class AvroSchemaConverterTest {
         assertEquals("{\"type\":\"enum\",\"name\":\"Country\",\"namespace\":\"com.nobodyhub.datalayer.core\",\"symbols\":[\"CN\",\"US\",\"JP\"]}",
                 country.toSchema().toString(false));
 
+        AvroRecord combinedPrimitiveClass = AvroSchemaConverter.parseClass(CombinedPrimitiveClass.class);
+        assertEquals(CombinedPrimitiveClass.class, combinedPrimitiveClass.getClazz());
+        assertEquals("",
+                combinedPrimitiveClass.toSchema().toString(false));
+
     }
 
     @Test
@@ -91,6 +96,15 @@ public class AvroSchemaConverterTest {
         private Date aDate;
         @Column
         private Timestamp aTimestamp;
+    }
+
+    private static class CombinedPrimitiveClass {
+        @Column(nullable = false)
+        Set<Map<String, Integer>> recordSet;
+        @Column(nullable = false)
+        List<List<String>> listOfList;
+        @Column
+        Map<String, List<String>> map2List;
     }
 
     private enum Country {
