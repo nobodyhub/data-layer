@@ -6,6 +6,7 @@ import org.apache.avro.Schema;
 import org.apache.avro.SchemaBuilder;
 
 import javax.persistence.Column;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
 /**
@@ -38,7 +39,13 @@ public class AvroField {
         this.field = field;
         this.name = field.getName();
         this.avroType = new AvroType(field);
-        this.nullable = field.getAnnotation(Column.class).nullable();
+        Column annotation = field.getAnnotation(Column.class);
+        if (annotation != null) {
+            this.nullable = annotation.nullable();
+        } else {
+            //for enum
+            this.nullable = false;
+        }
     }
 
     public SchemaBuilder.FieldAssembler<Schema> assemble(SchemaBuilder.FieldAssembler<Schema> assembler) {

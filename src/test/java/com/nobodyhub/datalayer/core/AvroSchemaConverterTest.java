@@ -20,22 +20,49 @@ import static org.junit.Assert.assertEquals;
 public class AvroSchemaConverterTest {
     @Test
     public void testParseClass() {
-        AvroRecord record = AvroSchemaConverter.parseClass(PrimitiveClass.class);
-        assertEquals(PrimitiveClass.class, record.getClazz());
-        record.toSchema();
+        AvroRecord primitiveClass = AvroSchemaConverter.parseClass(PrimitiveClass.class);
+        assertEquals(PrimitiveClass.class, primitiveClass.getClazz());
+        assertEquals("{\"type\":\"record\",\"name\":\"PrimitiveClass\",\"namespace\":\"com.nobodyhub.datalayer.core\",\"fields\":[{\"name\":\"aString\",\"type\":\"string\"},{\"name\":\"aByte\",\"type\":[\"bytes\",\"null\"]},{\"name\":\"aInt\",\"type\":\"int\"},{\"name\":\"aLong\",\"type\":[\"long\",\"null\"]},{\"name\":\"aFloat\",\"type\":\"float\"},{\"name\":\"aDouble\",\"type\":[\"double\",\"null\"]},{\"name\":\"aBoolean\",\"type\":[\"boolean\",\"null\"]},{\"name\":\"stringSet\",\"type\":[{\"type\":\"array\",\"items\":\"string\"},\"null\"]},{\"name\":\"integerList\",\"type\":{\"type\":\"array\",\"items\":\"int\"}},{\"name\":\"stringMap\",\"type\":{\"type\":\"map\",\"values\":\"double\"}},{\"name\":\"aBigDecimal\",\"type\":{\"type\":\"bytes\",\"logicalType\":\"decimal\",\"precision\":10,\"scale\":5}},{\"name\":\"aUuid\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"aDate\",\"type\":{\"type\":\"int\",\"logicalType\":\"date\"}},{\"name\":\"aTimestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}}]}",
+                primitiveClass.toSchema().toString(false));
+
+        AvroRecord country = AvroSchemaConverter.parseClass(Country.class);
+        assertEquals(Country.class, country.getClazz());
+        assertEquals("{\"type\":\"enum\",\"name\":\"Country\",\"namespace\":\"com.nobodyhub.datalayer.core\",\"symbols\":[\"CN\",\"US\",\"JP\"]}",
+                country.toSchema().toString(false));
+
     }
 
-    static class ComplexClass extends PrimitiveClass {
+    @Test
+    public void testLoad() {
+        AvroSchemaConverter.load(ComplexClass.class, TypedClass.class, PrimitiveClass.class, Country.class);
+        assertEquals(4, AvroSchemaConverter.records.size());
+        assertEquals(8, AvroSchemaConverter.schemas.size());
+        assertEquals("{\"type\":\"record\",\"name\":\"TypedClass\",\"namespace\":\"com.nobodyhub.datalayer.core\",\"fields\":[{\"name\":\"field\",\"type\":\"string\"}]}",
+                AvroSchemaConverter.schemas.get("com.nobodyhub.datalayer.core.AvroSchemaConverterTest$TypedClass").toString());
+        assertEquals("",
+                AvroSchemaConverter.schemas.get("com.nobodyhub.datalayer.core.AvroSchemaConverterTest$ComplexClass").toString());
+        assertEquals("",
+                AvroSchemaConverter.schemas.get("com.nobodyhub.datalayer.core.AvroSchemaConverterTest$PrimitiveClass").toString());
+        assertEquals("",
+                AvroSchemaConverter.schemas.get("com.nobodyhub.datalayer.core.AvroSchemaConverterTest$Country").toString());
+
+    }
+
+    private static class ComplexClass extends PrimitiveClass {
+        @Column(nullable = false)
         private PrimitiveClass aRecord;
+        @Column
         private TypedClass<String> aTypedRecord;
+        @Column(nullable = false)
         private Country countryEnum;
     }
 
-    static class TypedClass<T> {
-        private T field;
+    private static class TypedClass<T> {
+        @Column(nullable = false)
+        private String field;
     }
 
-    static class PrimitiveClass {
+    private static class PrimitiveClass {
         @Column(nullable = false)
         private String aString;
         @Column
@@ -66,7 +93,7 @@ public class AvroSchemaConverterTest {
         private Timestamp aTimestamp;
     }
 
-    static enum Country {
+    private enum Country {
         CN,
         US,
         JP

@@ -96,6 +96,12 @@ public class AvroType {
             case STRING: {
                 return typeBuilder.stringType().noDefault();
             }
+            case ENUM: {
+                return typeBuilder.type(AvroSchemaConverter.getSchema(getQualifiedName())).noDefault();
+            }
+            case RECORD: {
+                return typeBuilder.type(AvroSchemaConverter.getSchema(getQualifiedName())).noDefault();
+            }
             case MAP: {
                 if (valueType.getLogicalType() == null
                         && valueType.getType() != Schema.Type.RECORD
@@ -118,9 +124,9 @@ public class AvroType {
                             .noDefault();
                 }
             }
-            default:
-            case UNION:
-            case FIXED: {
+            default: {
+                //case UNION:
+                //case FIXED:
                 throw new AvroCoreException(String.format("Not support type: '%s'", type));
             }
         }

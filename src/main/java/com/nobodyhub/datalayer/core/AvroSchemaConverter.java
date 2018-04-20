@@ -13,7 +13,6 @@ import org.apache.avro.specific.SpecificData;
 
 import javax.annotation.Nullable;
 import javax.persistence.Column;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -51,34 +50,41 @@ public final class AvroSchemaConverter {
             if (record == null) {
                 throw new AvroCoreException(String.format("No AvroRecord Found for name: '%s'", qualifiedName));
             }
-            schemas.put(qualifiedName, record.toSchema());
+            schema = record.toSchema();
+            schemas.put(qualifiedName, schema);
         }
         return schema;
     }
 
-    public static Schema parse(Class<?>... classes) {
+    public static void load(Class<?>... classes) {
         for (Class<?> clazz : classes) {
-            AvroRecord record = parseClass(clazz);
-            records.put(record.getQualifiedName(), record);
+            parseClass(clazz);
         }
-        for(AvroRecord record: records.values()) {
+        for (AvroRecord record : records.values()) {
             schemas.put(record.getQualifiedName(), record.toSchema());
         }
-        return null;
     }
 
     protected static AvroRecord parseClass(Class<?> clazz) {
         AvroRecord record = new AvroRecord(clazz);
         fillFieldInfo(record);
+        records.put(record.getQualifiedName(), record);
         return record;
     }
 
+    /**
+     * The target field should be either:
+     * 1. Has {@link Column} annotation
+     * 2. fields of a enum
+     *
+     * @param record
+     */
     protected static void fillFieldInfo(AvroRecord record) {
         Class<?> clz = record.getClazz();
         while (clz != null) {
             for (Field field : clz.getDeclaredFields()) {
-                Annotation[] annotations = field.getAnnotationsByType(Column.class);
-                if (annotations != null && annotations.length > 0) {
+                Column annotation = field.getAnnotation(Column.class);
+                if (annotation != null || clz.isEnum()) {
                     AvroField avroField = new AvroField(field);
                     parseType(field.getGenericType(), avroField.getAvroType());
                     record.addField(avroField);
@@ -156,18 +162,19 @@ public final class AvroSchemaConverter {
             Class clazz = (Class) type;
             if (clazz.isEnum()) {
                 //enum
-                avroType.setType(Schema.Type.ENUM);
-                avroType.setSymbols(Sets.newHashSet(Arrays.stream(clazz.getDeclaredFields()).map(new Function<Field, String>() {
-                    @Nullable
-                    @Override
-                    public String apply(@Nullable Field input) {
-                        return input.getName();
-                    }
-                }).collect(Collectors.toList())));
+                if (avroType.getField().getAnnotation(Column.class) != null) {
+                    // as class member
+                    avroType.setType(Schema.Type.ENUM);
+                } else {
+                    // as enum member
+                    avroType.setType(Schema.Type.STRING);
+                }
             } else {
                 // class
                 avroType.setType(Schema.Type.RECORD);
             }
+        } else {
+            avroType.setType(Schema.Type.RECORD);
         }
     }
 

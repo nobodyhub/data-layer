@@ -114,7 +114,7 @@ public class AvroSchemaConverterParseBasicTypeTest {
         }
     }
 
-    static class TypeClass<T> {
+    private static class TypeClass<T> {
 
     }
 }
