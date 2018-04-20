@@ -93,72 +93,72 @@ public class AvroSchemaConverterParseBasicTypeTest {
         String fieldName = avroType.getField().getName();
         if (type instanceof Class
                 && CharSequence.class.isAssignableFrom((Class) type)) {
-            assertEquals(Schema.Type.STRING, avroType.getType());
+            assertEquals(Schema.Type.STRING, avroType.getSchemaType());
         } else if (type == ByteBuffer.class) {
-            assertEquals(Schema.Type.BYTES, avroType.getType());
+            assertEquals(Schema.Type.BYTES, avroType.getSchemaType());
         } else if ((type == Integer.class) || (type == Integer.TYPE)) {
-            assertEquals(Schema.Type.INT, avroType.getType());
+            assertEquals(Schema.Type.INT, avroType.getSchemaType());
         } else if ((type == Long.class) || (type == Long.TYPE)) {
-            assertEquals(Schema.Type.LONG, avroType.getType());
+            assertEquals(Schema.Type.LONG, avroType.getSchemaType());
         } else if ((type == Float.class) || (type == Float.TYPE)) {
-            assertEquals(Schema.Type.FLOAT, avroType.getType());
+            assertEquals(Schema.Type.FLOAT, avroType.getSchemaType());
         } else if ((type == Double.class) || (type == Double.TYPE)) {
-            assertEquals(Schema.Type.DOUBLE, avroType.getType());
+            assertEquals(Schema.Type.DOUBLE, avroType.getSchemaType());
         } else if ((type == Boolean.class) || (type == Boolean.TYPE)) {
-            assertEquals(Schema.Type.BOOLEAN, avroType.getType());
+            assertEquals(Schema.Type.BOOLEAN, avroType.getSchemaType());
         } else if ((type == Void.class) || (type == Void.TYPE)) {
-            assertEquals(Schema.Type.NULL, avroType.getType());
+            assertEquals(Schema.Type.NULL, avroType.getSchemaType());
         } else if (type instanceof ParameterizedType) {
             ParameterizedType ptype = (ParameterizedType) (Type) type;
             Class raw = (Class) ptype.getRawType();
             if (Collection.class.isAssignableFrom(raw)) {
-                assertEquals(Schema.Type.ARRAY, avroType.getType());
+                assertEquals(Schema.Type.ARRAY, avroType.getSchemaType());
                 if ("FIELD_SET".equals(fieldName)) {
                     assertEquals(LogicalTypes.timestampMillis(), avroType.getItemType().getLogicalType());
                 } else if ("FIELD_TREESET".equals(fieldName)) {
                     assertEquals(LogicalTypes.date(), avroType.getItemType().getLogicalType());
                 } else if ("FIELD_ENUM_LIST".equals(fieldName)) {
-                    assertEquals(Schema.Type.ENUM, avroType.getItemType().getType());
+                    assertEquals(Schema.Type.ENUM, avroType.getItemType().getSchemaType());
                 } else if ("FIELD_HASHSET".equals(fieldName)) {
                     assertEquals(LogicalTypes.decimal(19, 2), avroType.getItemType().getLogicalType());
                 } else if ("FIELD_LIST".equals(fieldName)
                         || "FIELD_ARRAYLIST".equals(fieldName)
                         || "FIELD_LINKEDLIST".equals(fieldName)) {
-                    assertEquals(Schema.Type.STRING, avroType.getItemType().getType());
+                    assertEquals(Schema.Type.STRING, avroType.getItemType().getSchemaType());
                 } else {
                     //should not reach here
                     assertTrue(false);
                 }
             } else if (Map.class.isAssignableFrom(raw)) {
-                assertEquals(Schema.Type.MAP, avroType.getType());
+                assertEquals(Schema.Type.MAP, avroType.getSchemaType());
                 if ("FIELD_MAP".equals(fieldName)) {
-                    assertEquals(Schema.Type.INT, avroType.getValueType().getType());
+                    assertEquals(Schema.Type.INT, avroType.getValueType().getSchemaType());
                 } else if ("FIELD_HASHMAP".equals(fieldName)) {
                     assertEquals(LogicalTypes.decimal(19, 2), avroType.getValueType().getLogicalType());
                 } else if ("FIELD_TREEMAP".equals(fieldName)) {
                     assertEquals(LogicalTypes.uuid(), avroType.getValueType().getLogicalType());
                 } else if ("FIELD_ENUM_MAP".equals(fieldName)) {
-                    assertEquals(Schema.Type.ENUM, avroType.getValueType().getType());
+                    assertEquals(Schema.Type.ENUM, avroType.getValueType().getSchemaType());
                 } else {
                     //should not reach here
                     assertTrue(false);
                 }
             } else {
-                assertEquals(Schema.Type.RECORD, avroType.getType());
+                assertEquals(Schema.Type.RECORD, avroType.getSchemaType());
             }
         } else if (type instanceof Class) {
             Class clazz = (Class) type;
             if (clazz.isEnum()) {
                 //enum
                 if ("FIELD_ENUM".equals(fieldName)) {
-                    assertEquals(Schema.Type.ENUM, avroType.getType());
+                    assertEquals(Schema.Type.ENUM, avroType.getSchemaType());
                 } else {
                     //should not reach here
                     assertTrue(false);
                 }
             } else {
                 // class
-                assertEquals(Schema.Type.RECORD, avroType.getType());
+                assertEquals(Schema.Type.RECORD, avroType.getSchemaType());
             }
         }
     }
