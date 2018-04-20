@@ -95,10 +95,10 @@ public class AvroType {
                 return typeBuilder.stringType().noDefault();
             }
             case ENUM: {
-                return typeBuilder.type(AvroSchemaConverter.getSchema(getQualifiedName())).noDefault();
+                return typeBuilder.type(AvroSchemaLoader.getSchema(getQualifiedName())).noDefault();
             }
             case RECORD: {
-                return typeBuilder.type(AvroSchemaConverter.getSchema(getQualifiedName())).noDefault();
+                return typeBuilder.type(AvroSchemaLoader.getSchema(getQualifiedName())).noDefault();
             }
             case MAP: {
                 if (valueType.getLogicalType() == null
@@ -107,7 +107,7 @@ public class AvroType {
                     return valueType.assemble(typeBuilder.map().values());
                 } else {
                     return typeBuilder.map()
-                            .values(AvroSchemaConverter.getSchema(valueType.getQualifiedName()))
+                            .values(AvroSchemaLoader.getSchema(valueType.getQualifiedName()))
                             .noDefault();
                 }
             }
@@ -118,7 +118,7 @@ public class AvroType {
                     return itemType.assemble(typeBuilder.array().items());
                 } else {
                     return typeBuilder.map()
-                            .values(AvroSchemaConverter.getSchema(itemType.getQualifiedName()))
+                            .values(AvroSchemaLoader.getSchema(itemType.getQualifiedName()))
                             .noDefault();
                 }
             }

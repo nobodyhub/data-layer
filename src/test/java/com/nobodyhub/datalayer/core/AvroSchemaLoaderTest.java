@@ -17,20 +17,20 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Ryan
  */
-public class AvroSchemaConverterTest {
+public class AvroSchemaLoaderTest {
     @Test
     public void testParseClass() {
-        AvroRecord primitiveClass = AvroSchemaConverter.parseClass(PrimitiveClass.class);
+        AvroRecord primitiveClass = AvroSchemaLoader.parseClass(PrimitiveClass.class);
         assertEquals(PrimitiveClass.class, primitiveClass.getClazz());
         assertEquals("{\"type\":\"record\",\"name\":\"PrimitiveClass\",\"namespace\":\"com.nobodyhub.datalayer.core\",\"fields\":[{\"name\":\"aString\",\"type\":\"string\"},{\"name\":\"aByte\",\"type\":[\"bytes\",\"null\"]},{\"name\":\"aInt\",\"type\":\"int\"},{\"name\":\"aLong\",\"type\":[\"long\",\"null\"]},{\"name\":\"aFloat\",\"type\":\"float\"},{\"name\":\"aDouble\",\"type\":[\"double\",\"null\"]},{\"name\":\"aBoolean\",\"type\":[\"boolean\",\"null\"]},{\"name\":\"stringSet\",\"type\":[{\"type\":\"array\",\"items\":\"string\"},\"null\"]},{\"name\":\"integerList\",\"type\":{\"type\":\"array\",\"items\":\"int\"}},{\"name\":\"stringMap\",\"type\":{\"type\":\"map\",\"values\":\"double\"}},{\"name\":\"aBigDecimal\",\"type\":{\"type\":\"bytes\",\"logicalType\":\"decimal\",\"precision\":10,\"scale\":5}},{\"name\":\"aUuid\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"aDate\",\"type\":{\"type\":\"int\",\"logicalType\":\"date\"}},{\"name\":\"aTimestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}}]}",
                 primitiveClass.toSchema().toString(false));
 
-        AvroRecord country = AvroSchemaConverter.parseClass(Country.class);
+        AvroRecord country = AvroSchemaLoader.parseClass(Country.class);
         assertEquals(Country.class, country.getClazz());
         assertEquals("{\"type\":\"enum\",\"name\":\"Country\",\"namespace\":\"com.nobodyhub.datalayer.core\",\"symbols\":[\"CN\",\"US\",\"JP\"]}",
                 country.toSchema().toString(false));
 
-        AvroRecord combinedPrimitiveClass = AvroSchemaConverter.parseClass(CombinedPrimitiveClass.class);
+        AvroRecord combinedPrimitiveClass = AvroSchemaLoader.parseClass(CombinedPrimitiveClass.class);
         assertEquals(CombinedPrimitiveClass.class, combinedPrimitiveClass.getClazz());
         assertEquals("{\"type\":\"record\",\"name\":\"CombinedPrimitiveClass\",\"namespace\":\"com.nobodyhub.datalayer.core\",\"fields\":[{\"name\":\"recordSet\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"map\",\"values\":\"int\"}}},{\"name\":\"listOfList\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"array\",\"items\":\"string\"}}},{\"name\":\"map2List\",\"type\":[{\"type\":\"map\",\"values\":{\"type\":\"array\",\"items\":\"string\"}},\"null\"]}]}",
                 combinedPrimitiveClass.toSchema().toString(false));
@@ -39,19 +39,19 @@ public class AvroSchemaConverterTest {
 
     @Test
     public void testLoad() {
-        AvroSchemaConverter.load(ComplexClass.class, TypedClass.class, PrimitiveClass.class, Country.class, CombinedPrimitiveClass.class);
-        assertEquals(5, AvroSchemaConverter.records.size());
-        assertEquals(9, AvroSchemaConverter.schemas.size());
+        AvroSchemaLoader.load(ComplexClass.class, TypedClass.class, PrimitiveClass.class, Country.class, CombinedPrimitiveClass.class);
+        assertEquals(5, AvroSchemaLoader.records.size());
+        assertEquals(9, AvroSchemaLoader.schemas.size());
         assertEquals("{\"type\":\"record\",\"name\":\"TypedClass\",\"namespace\":\"com.nobodyhub.datalayer.core\",\"fields\":[{\"name\":\"field\",\"type\":\"string\"}]}",
-                AvroSchemaConverter.schemas.get("com.nobodyhub.datalayer.core.AvroSchemaConverterTest$TypedClass").toString());
+                AvroSchemaLoader.schemas.get("com.nobodyhub.datalayer.core.AvroSchemaLoaderTest$TypedClass").toString());
         assertEquals("{\"type\":\"record\",\"name\":\"ComplexClass\",\"namespace\":\"com.nobodyhub.datalayer.core\",\"fields\":[{\"name\":\"aRecord\",\"type\":{\"type\":\"record\",\"name\":\"PrimitiveClass\",\"fields\":[{\"name\":\"aString\",\"type\":\"string\"},{\"name\":\"aByte\",\"type\":[\"bytes\",\"null\"]},{\"name\":\"aInt\",\"type\":\"int\"},{\"name\":\"aLong\",\"type\":[\"long\",\"null\"]},{\"name\":\"aFloat\",\"type\":\"float\"},{\"name\":\"aDouble\",\"type\":[\"double\",\"null\"]},{\"name\":\"aBoolean\",\"type\":[\"boolean\",\"null\"]},{\"name\":\"stringSet\",\"type\":[{\"type\":\"array\",\"items\":\"string\"},\"null\"]},{\"name\":\"integerList\",\"type\":{\"type\":\"array\",\"items\":\"int\"}},{\"name\":\"stringMap\",\"type\":{\"type\":\"map\",\"values\":\"double\"}},{\"name\":\"aBigDecimal\",\"type\":{\"type\":\"bytes\",\"logicalType\":\"decimal\",\"precision\":10,\"scale\":5}},{\"name\":\"aUuid\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"aDate\",\"type\":{\"type\":\"int\",\"logicalType\":\"date\"}},{\"name\":\"aTimestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}}]}},{\"name\":\"aRecordList\",\"type\":{\"type\":\"array\",\"items\":\"PrimitiveClass\"}},{\"name\":\"aRecordMap\",\"type\":[{\"type\":\"map\",\"values\":\"PrimitiveClass\"},\"null\"]},{\"name\":\"aRecordMap2List\",\"type\":[{\"type\":\"map\",\"values\":{\"type\":\"map\",\"values\":\"PrimitiveClass\"}},\"null\"]},{\"name\":\"aTypedRecord\",\"type\":{\"type\":\"record\",\"name\":\"TypedClass\",\"fields\":[{\"name\":\"field\",\"type\":\"string\"}]}},{\"name\":\"countryEnum\",\"type\":{\"type\":\"enum\",\"name\":\"Country\",\"symbols\":[\"CN\",\"US\",\"JP\"]}},{\"name\":\"aBigDecimalList\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"bytes\",\"logicalType\":\"decimal\",\"precision\":10,\"scale\":5}}},{\"name\":\"aBigDecimalMapList\",\"type\":[{\"type\":\"array\",\"items\":{\"type\":\"map\",\"values\":{\"type\":\"bytes\",\"logicalType\":\"decimal\",\"precision\":10,\"scale\":5}}},\"null\"]},{\"name\":\"aDateMap\",\"type\":{\"type\":\"map\",\"values\":{\"type\":\"int\",\"logicalType\":\"date\"}}},{\"name\":\"aString\",\"type\":\"string\"},{\"name\":\"aByte\",\"type\":[\"bytes\",\"null\"]},{\"name\":\"aInt\",\"type\":\"int\"},{\"name\":\"aLong\",\"type\":[\"long\",\"null\"]},{\"name\":\"aFloat\",\"type\":\"float\"},{\"name\":\"aDouble\",\"type\":[\"double\",\"null\"]},{\"name\":\"aBoolean\",\"type\":[\"boolean\",\"null\"]},{\"name\":\"stringSet\",\"type\":[{\"type\":\"array\",\"items\":\"string\"},\"null\"]},{\"name\":\"integerList\",\"type\":{\"type\":\"array\",\"items\":\"int\"}},{\"name\":\"stringMap\",\"type\":{\"type\":\"map\",\"values\":\"double\"}},{\"name\":\"aBigDecimal\",\"type\":{\"type\":\"bytes\",\"logicalType\":\"decimal\",\"precision\":10,\"scale\":5}},{\"name\":\"aUuid\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"aDate\",\"type\":{\"type\":\"int\",\"logicalType\":\"date\"}},{\"name\":\"aTimestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}}]}",
-                AvroSchemaConverter.schemas.get("com.nobodyhub.datalayer.core.AvroSchemaConverterTest$ComplexClass").toString());
+                AvroSchemaLoader.schemas.get("com.nobodyhub.datalayer.core.AvroSchemaLoaderTest$ComplexClass").toString());
         assertEquals("{\"type\":\"record\",\"name\":\"PrimitiveClass\",\"namespace\":\"com.nobodyhub.datalayer.core\",\"fields\":[{\"name\":\"aString\",\"type\":\"string\"},{\"name\":\"aByte\",\"type\":[\"bytes\",\"null\"]},{\"name\":\"aInt\",\"type\":\"int\"},{\"name\":\"aLong\",\"type\":[\"long\",\"null\"]},{\"name\":\"aFloat\",\"type\":\"float\"},{\"name\":\"aDouble\",\"type\":[\"double\",\"null\"]},{\"name\":\"aBoolean\",\"type\":[\"boolean\",\"null\"]},{\"name\":\"stringSet\",\"type\":[{\"type\":\"array\",\"items\":\"string\"},\"null\"]},{\"name\":\"integerList\",\"type\":{\"type\":\"array\",\"items\":\"int\"}},{\"name\":\"stringMap\",\"type\":{\"type\":\"map\",\"values\":\"double\"}},{\"name\":\"aBigDecimal\",\"type\":{\"type\":\"bytes\",\"logicalType\":\"decimal\",\"precision\":10,\"scale\":5}},{\"name\":\"aUuid\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"aDate\",\"type\":{\"type\":\"int\",\"logicalType\":\"date\"}},{\"name\":\"aTimestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}}]}",
-                AvroSchemaConverter.schemas.get("com.nobodyhub.datalayer.core.AvroSchemaConverterTest$PrimitiveClass").toString());
+                AvroSchemaLoader.schemas.get("com.nobodyhub.datalayer.core.AvroSchemaLoaderTest$PrimitiveClass").toString());
         assertEquals("{\"type\":\"enum\",\"name\":\"Country\",\"namespace\":\"com.nobodyhub.datalayer.core\",\"symbols\":[\"CN\",\"US\",\"JP\"]}",
-                AvroSchemaConverter.schemas.get("com.nobodyhub.datalayer.core.AvroSchemaConverterTest$Country").toString());
+                AvroSchemaLoader.schemas.get("com.nobodyhub.datalayer.core.AvroSchemaLoaderTest$Country").toString());
         assertEquals("{\"type\":\"record\",\"name\":\"CombinedPrimitiveClass\",\"namespace\":\"com.nobodyhub.datalayer.core\",\"fields\":[{\"name\":\"recordSet\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"map\",\"values\":\"int\"}}},{\"name\":\"listOfList\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"array\",\"items\":\"string\"}}},{\"name\":\"map2List\",\"type\":[{\"type\":\"map\",\"values\":{\"type\":\"array\",\"items\":\"string\"}},\"null\"]}]}",
-                AvroSchemaConverter.schemas.get("com.nobodyhub.datalayer.core.AvroSchemaConverterTest$CombinedPrimitiveClass").toString());
+                AvroSchemaLoader.schemas.get("com.nobodyhub.datalayer.core.AvroSchemaLoaderTest$CombinedPrimitiveClass").toString());
 
     }
 

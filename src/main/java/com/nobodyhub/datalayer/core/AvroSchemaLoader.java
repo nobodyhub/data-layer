@@ -31,11 +31,11 @@ import java.util.UUID;
  *
  * @author Ryan
  */
-public final class AvroSchemaConverter {
+public final class AvroSchemaLoader {
     public static final Map<String, Schema> schemas = Maps.newHashMap();
     public static final Map<String, AvroRecord> records = Maps.newHashMap();
 
-    private AvroSchemaConverter() {
+    private AvroSchemaLoader() {
     }
 
     public static Schema getSchema(String qualifiedName) {

@@ -78,10 +78,10 @@ public class AvroField {
                     return typeBuilder.stringType().noDefault();
                 }
                 case ENUM: {
-                    return fieldBuilder.type(AvroSchemaConverter.getSchema(getQualifiedName())).noDefault();
+                    return fieldBuilder.type(AvroSchemaLoader.getSchema(getQualifiedName())).noDefault();
                 }
                 case RECORD: {
-                    return fieldBuilder.type(AvroSchemaConverter.getSchema(getQualifiedName())).noDefault();
+                    return fieldBuilder.type(AvroSchemaLoader.getSchema(getQualifiedName())).noDefault();
                 }
                 case MAP: {
                     AvroType valueType = avroType.getValueType();
@@ -91,7 +91,7 @@ public class AvroField {
                         return valueType.assemble(typeBuilder.map().values());
                     } else {
                         return typeBuilder.map()
-                                .values(AvroSchemaConverter.getSchema(valueType.getQualifiedName()))
+                                .values(AvroSchemaLoader.getSchema(valueType.getQualifiedName()))
                                 .noDefault();
                     }
                 }
@@ -103,7 +103,7 @@ public class AvroField {
                         return itemType.assemble(typeBuilder.array().items());
                     } else {
                         return typeBuilder.array()
-                                .items(AvroSchemaConverter.getSchema(itemType.getQualifiedName()))
+                                .items(AvroSchemaLoader.getSchema(itemType.getQualifiedName()))
                                 .noDefault();
                     }
                 }
@@ -115,7 +115,7 @@ public class AvroField {
                 }
             }
         } else {
-            return fieldBuilder.type(AvroSchemaConverter.getSchema(getQualifiedName())).noDefault();
+            return fieldBuilder.type(AvroSchemaLoader.getSchema(getQualifiedName())).noDefault();
         }
     }
 

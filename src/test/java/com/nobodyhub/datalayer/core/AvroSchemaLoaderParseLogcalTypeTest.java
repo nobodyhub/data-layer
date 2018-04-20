@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
  * @author yan_h
  * @since 2018-04-19.
  */
-public class AvroSchemaConverterParseLogcalTypeTest {
+public class AvroSchemaLoaderParseLogcalTypeTest {
     @Column
     private static BigDecimal FIELD_BIGDECIMAL;
     @Column(precision = 10)
@@ -36,7 +36,7 @@ public class AvroSchemaConverterParseLogcalTypeTest {
         for (Field field : fields) {
             AvroType avroType = new AvroType(field.getType());
             avroType.setField(field);
-            AvroSchemaConverter.parseLogicalType(field.getGenericType(), avroType);
+            AvroSchemaLoader.parseLogicalType(field.getGenericType(), avroType);
             doAssert(field.getGenericType(), avroType);
         }
     }

@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
  * @author yan_h
  * @since 2018-04-19.
  */
-public class AvroSchemaConverterParseBasicTypeTest {
+public class AvroSchemaLoaderParseBasicTypeTest {
 
     @Column
     private static String FIELD_STRING;
@@ -71,7 +71,7 @@ public class AvroSchemaConverterParseBasicTypeTest {
     @Column
     private static Map<String, Schema.Type> FIELD_ENUM_MAP;
     @Column
-    private static AvroSchemaConverterParseBasicTypeTest FIELD_RECORD;
+    private static AvroSchemaLoaderParseBasicTypeTest FIELD_RECORD;
     @Column
     private static TypeClass<String> FIELD_TYPECLASS;
     @Column
@@ -84,7 +84,7 @@ public class AvroSchemaConverterParseBasicTypeTest {
         for (Field field : fields) {
             AvroType avroType = new AvroType(field.getType());
             avroType.setField(field);
-            AvroSchemaConverter.parseBasicType(field.getGenericType(), avroType);
+            AvroSchemaLoader.parseBasicType(field.getGenericType(), avroType);
             doAssert(field.getGenericType(), avroType);
         }
     }
