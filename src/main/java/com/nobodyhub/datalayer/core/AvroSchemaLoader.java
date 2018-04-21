@@ -77,7 +77,21 @@ public final class AvroSchemaLoader {
     protected static void fillFieldInfo(AvroRecord record) {
         Class<?> clz = record.getClazz();
         while (clz != null) {
-            for (Field field : clz.getDeclaredFields()) {
+            Field[] fields = null;
+            if (clz.isEnum()) {
+                /**
+                 * the accessible public fields
+                 * which excludes {@link Enum$VALUES}
+                 */
+                fields = clz.getFields();
+            } else {
+                /**
+                 * includes public, protected, default
+                 * (package) access, and private fields, but excludes inherited fields.
+                 */
+                fields = clz.getDeclaredFields();
+            }
+            for (Field field : fields) {
                 Column annotation = field.getAnnotation(Column.class);
                 if (annotation != null || clz.isEnum()) {
                     AvroField avroField = new AvroField(field);
