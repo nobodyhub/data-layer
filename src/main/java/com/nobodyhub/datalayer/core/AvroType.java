@@ -9,7 +9,6 @@ import org.apache.avro.SchemaBuilder;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import java.util.Set;
 
 /**
  * @author Ryan
@@ -47,10 +46,6 @@ public class AvroType {
      * key type is required to be {@link Schema.Type#STRING}
      */
     private AvroType valueType;
-    /**
-     * symbols when {@link this#schemaType} is {@link Schema.Type#ENUM}
-     */
-    private Set<String> symbols;
 
     public AvroType(Type type) {
         this.type = type;
