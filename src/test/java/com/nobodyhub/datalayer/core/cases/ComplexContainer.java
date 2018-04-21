@@ -14,7 +14,7 @@ import java.util.Set;
 public class ComplexContainer {
     @Column
     private List<ComplexClass> complexClassList;
-    @Column
+    @Column(nullable = false)
     private Map<String, ComplexClass> complexClassMap;
     @Column
     private Set<ComplexClass> complexClassSet;
