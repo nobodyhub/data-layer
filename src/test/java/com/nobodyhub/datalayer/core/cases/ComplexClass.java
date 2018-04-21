@@ -11,10 +11,10 @@ import javax.persistence.Column;
 public class ComplexClass {
     @Column
     private PrimitiveClass primitiveClass;
-    @Column
+    @Column(nullable = false)
     private PrimitiveContainerClass primitiveContainerClass;
     @Column
     private SimpleEnum simpleEnum;
-    @Column
+    @Column(nullable = false)
     private ComplexEnum complexEnum;
 }
