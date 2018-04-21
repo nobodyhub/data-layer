@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author yan_h
@@ -150,6 +151,9 @@ public class AvroSchemaLoaderPrimitiveContainerClassTest {
                 assertEquals(LogicalTypes.timestampMillis(), field.getAvroType().getItemType().getLogicalType());
                 assertEquals(null, field.getAvroType().getValueType());
                 break;
+            }
+            default: {
+                assertTrue("Should not come here!", false);
             }
         }
     }

@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author yan_h
@@ -200,6 +201,9 @@ public class AvroSchemaLoaderPrimitiveClassTest {
                 assertEquals(null, field.getAvroType().getItemType());
                 assertEquals(null, field.getAvroType().getValueType());
                 break;
+            }
+            default: {
+                assertTrue("Should not come here!", false);
             }
         }
     }
