@@ -1,5 +1,8 @@
 package com.nobodyhub.datalayer.core.cases;
 
+import javax.persistence.Column;
+import java.util.List;
+
 /**
  * Class inherites fields from parent class
  *
@@ -7,7 +10,10 @@ package com.nobodyhub.datalayer.core.cases;
  * @since 2018-04-20.
  */
 public class InheritedClass extends PrimitiveClass {
+    @Column
     private String anotherString;
+    @Column
     private SimpleEnum simpleEnum;
-    private ComplexClass complexClass;
+    @Column(nullable = false)
+    private List<PrimitiveClass> primitiveClassList;
 }

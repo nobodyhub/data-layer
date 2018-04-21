@@ -39,7 +39,7 @@ public class AvroSchemaLoaderPrimitiveClassTest {
         }
     }
 
-    private void checkField(AvroField field) {
+    protected void checkField(AvroField field) {
         String fieldName = field.getName();
         switch (fieldName) {
             case "aString": {
