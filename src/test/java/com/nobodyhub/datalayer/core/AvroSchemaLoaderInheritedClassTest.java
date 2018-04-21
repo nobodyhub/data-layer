@@ -1,16 +1,14 @@
 package com.nobodyhub.datalayer.core;
 
-import com.nobodyhub.datalayer.core.AvroField;
-import com.nobodyhub.datalayer.core.AvroRecord;
-import com.nobodyhub.datalayer.core.AvroSchemaLoader;
-import com.nobodyhub.datalayer.core.cases.*;
+import com.nobodyhub.datalayer.core.cases.InheritedClass;
+import com.nobodyhub.datalayer.core.cases.PrimitiveClass;
+import com.nobodyhub.datalayer.core.cases.SimpleEnum;
 import org.apache.avro.Schema;
 import org.junit.Test;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * @author Ryan

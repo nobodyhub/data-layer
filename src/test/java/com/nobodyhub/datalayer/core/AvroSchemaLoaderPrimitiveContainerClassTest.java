@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
  * @author yan_h
  * @since 2018-04-20.
  */
-public class AvroSchemaLoaderPrimitiveContainerClassTest {
+public class AvroSchemaLoaderPrimitiveContainerClassTest extends AvroSchemaLoaderTestBase {
     @Test
     public void testLoad() {
         AvroSchemaLoader.load(PrimitiveContainerClass.class);

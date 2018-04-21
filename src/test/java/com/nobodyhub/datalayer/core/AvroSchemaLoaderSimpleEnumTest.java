@@ -1,18 +1,16 @@
 package com.nobodyhub.datalayer.core;
 
-import com.nobodyhub.datalayer.core.cases.PrimitiveContainerClass;
 import com.nobodyhub.datalayer.core.cases.SimpleEnum;
 import org.apache.avro.Schema;
 import org.junit.Test;
 
-import java.util.List;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Ryan
  */
-public class AvroSchemaLoaderSimpleEnumTest {
+public class AvroSchemaLoaderSimpleEnumTest extends AvroSchemaLoaderTestBase {
     @Test
     public void testLoad() {
         AvroSchemaLoader.load(SimpleEnum.class);

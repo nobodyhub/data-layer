@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Ryan
  */
-public class AvroSchemaLoaderComplexContainerTest {
+public class AvroSchemaLoaderComplexContainerTest extends AvroSchemaLoaderTestBase {
     @Test
     public void testLoad() {
         AvroSchemaLoader.load(ComplexContainer.class,

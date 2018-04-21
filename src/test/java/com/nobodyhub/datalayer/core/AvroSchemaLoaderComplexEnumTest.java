@@ -1,8 +1,5 @@
 package com.nobodyhub.datalayer.core;
 
-import com.nobodyhub.datalayer.core.AvroField;
-import com.nobodyhub.datalayer.core.AvroRecord;
-import com.nobodyhub.datalayer.core.AvroSchemaLoader;
 import com.nobodyhub.datalayer.core.cases.ComplexEnum;
 import org.apache.avro.Schema;
 import org.junit.Test;
@@ -13,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Ryan
  */
-public class AvroSchemaLoaderComplexEnumTest {
+public class AvroSchemaLoaderComplexEnumTest extends AvroSchemaLoaderTestBase {
     @Test
     public void testLoad() {
         AvroSchemaLoader.load(ComplexEnum.class);
