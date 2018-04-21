@@ -16,7 +16,7 @@ import java.util.*;
 public class PrimitiveContainerClass {
     @Column
     private static List<String> aStringList;
-    @Column
+    @Column(nullable = false)
     private static List<ByteBuffer> aByteBufferList;
     @Column
     private static ArrayList<Boolean> aBooleanList;
