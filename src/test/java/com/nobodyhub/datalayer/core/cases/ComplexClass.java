@@ -1,5 +1,7 @@
 package com.nobodyhub.datalayer.core.cases;
 
+import com.nobodyhub.datalayer.core.cases.within.ComplexEnum;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 

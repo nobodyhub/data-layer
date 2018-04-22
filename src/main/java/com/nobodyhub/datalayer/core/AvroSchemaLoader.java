@@ -61,11 +61,13 @@ public final class AvroSchemaLoader {
                     String.format("More than 1 configurations is found, only %s will be used!", configurations.get(0)));
         }
         configuration = configurations.get(0).getAnnotation(AvroSchemaLoaderConfiguration.class);
-        //get the target classes
+        //get the target classes in base package
         Reflections targetClassReflection = new Reflections(new ConfigurationBuilder()
                 .addUrls(ClasspathHelper.forPackage(configuration.basePackage()))
                 .setScanners(new TypeAnnotationsScanner(), new SubTypesScanner(false)));
+        //filter by annotation
         Set<Class<?>> targetCls = targetClassReflection.getTypesAnnotatedWith(configuration.annotatedWith());
+        //filter by subType
         targetCls.retainAll(targetClassReflection.getSubTypesOf(configuration.subTypesOf()));
         //load target as schema
         load(targetCls.toArray(new Class<?>[0]));

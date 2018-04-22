@@ -1,6 +1,6 @@
 package com.nobodyhub.datalayer.core;
 
-import com.nobodyhub.datalayer.core.cases.ComplexEnum;
+import com.nobodyhub.datalayer.core.cases.within.ComplexEnum;
 import org.apache.avro.Schema;
 import org.junit.Test;
 
@@ -14,8 +14,8 @@ public class AvroSchemaLoaderComplexEnumTest extends AvroSchemaLoaderTestBase {
     @Test
     public void testLoad() throws ClassNotFoundException {
         AvroSchemaLoader.load(ComplexEnum.class);
-        assertEquals("{\"type\":\"enum\",\"name\":\"ComplexEnum\",\"namespace\":\"com.nobodyhub.datalayer.core.cases\",\"symbols\":[\"C1\",\"C2\",\"C3\"]}",
-                AvroSchemaLoader.schemas.get("com.nobodyhub.datalayer.core.cases.ComplexEnum").toString());
+        assertEquals("{\"type\":\"enum\",\"name\":\"ComplexEnum\",\"namespace\":\"com.nobodyhub.datalayer.core.cases.within\",\"symbols\":[\"C1\",\"C2\",\"C3\"]}",
+                AvroSchemaLoader.schemas.get("com.nobodyhub.datalayer.core.cases.within.ComplexEnum").toString());
     }
 
     @Test
@@ -23,8 +23,8 @@ public class AvroSchemaLoaderComplexEnumTest extends AvroSchemaLoaderTestBase {
         AvroRecord record = AvroSchemaLoader.parseClass(ComplexEnum.class);
         assertEquals(ComplexEnum.class, record.getClazz());
         assertEquals("ComplexEnum", record.getSimpleName());
-        assertEquals("com.nobodyhub.datalayer.core.cases.ComplexEnum", record.getQualifiedName());
-        assertEquals("com.nobodyhub.datalayer.core.cases", record.getNamespace());
+        assertEquals("com.nobodyhub.datalayer.core.cases.within.ComplexEnum", record.getQualifiedName());
+        assertEquals("com.nobodyhub.datalayer.core.cases.within", record.getNamespace());
         assertEquals(3, record.getFields().size());
         for (AvroField field : record.getFields()) {
             checkField(field);
@@ -37,7 +37,7 @@ public class AvroSchemaLoaderComplexEnumTest extends AvroSchemaLoaderTestBase {
             case "C1":
             case "C2":
             case "C3": {
-                assertEquals("com.nobodyhub.datalayer.core.cases.ComplexEnum", field.getQualifiedName());
+                assertEquals("com.nobodyhub.datalayer.core.cases.within.ComplexEnum", field.getQualifiedName());
                 assertEquals(false, field.isNullable());
                 assertEquals(ComplexEnum.class, field.getAvroType().getType());
                 assertEquals(Schema.Type.ENUM, field.getAvroType().getSchemaType());
