@@ -37,18 +37,18 @@ public class AvroSchemaLoaderTest extends AvroSchemaLoaderTestBase {
 
     @Test
     public void testScan() throws ClassNotFoundException {
-        AvroSchemaLoader.scan();
+        avroSchemaLoader.scan();
         // below 3, plus 4 logical types
-        assertEquals(12, AvroSchemaLoader.schemas.size());
-        assertEquals(true, AvroSchemaLoader.schemas.containsKey("com.nobodyhub.datalayer.core.cases.within.ComplexEnum"));
-        assertEquals(true, AvroSchemaLoader.schemas.containsKey("com.nobodyhub.datalayer.core.cases.within.InheritedClass"));
-        assertEquals(true, AvroSchemaLoader.schemas.containsKey("com.nobodyhub.datalayer.core.cases.SimpleEnum"));
-        assertEquals(true, AvroSchemaLoader.schemas.containsKey("com.nobodyhub.datalayer.core.cases.ComplexClass"));
-        assertEquals(true, AvroSchemaLoader.schemas.containsKey("com.nobodyhub.datalayer.core.cases.PrimitiveClass"));
-        assertEquals(true, AvroSchemaLoader.schemas.containsKey("com.nobodyhub.datalayer.core.cases.within.DeepContainer"));
-        assertEquals(true, AvroSchemaLoader.schemas.containsKey("com.nobodyhub.datalayer.core.cases.PrimitiveContainerClass"));
-        assertEquals(true, AvroSchemaLoader.schemas.containsKey("com.nobodyhub.datalayer.core.cases.within.ComplexContainer"));
+        assertEquals(12, avroSchemaLoader.schemas.size());
+        assertEquals(true, avroSchemaLoader.schemas.containsKey("com.nobodyhub.datalayer.core.cases.within.ComplexEnum"));
+        assertEquals(true, avroSchemaLoader.schemas.containsKey("com.nobodyhub.datalayer.core.cases.within.InheritedClass"));
+        assertEquals(true, avroSchemaLoader.schemas.containsKey("com.nobodyhub.datalayer.core.cases.SimpleEnum"));
+        assertEquals(true, avroSchemaLoader.schemas.containsKey("com.nobodyhub.datalayer.core.cases.ComplexClass"));
+        assertEquals(true, avroSchemaLoader.schemas.containsKey("com.nobodyhub.datalayer.core.cases.PrimitiveClass"));
+        assertEquals(true, avroSchemaLoader.schemas.containsKey("com.nobodyhub.datalayer.core.cases.within.DeepContainer"));
+        assertEquals(true, avroSchemaLoader.schemas.containsKey("com.nobodyhub.datalayer.core.cases.PrimitiveContainerClass"));
+        assertEquals(true, avroSchemaLoader.schemas.containsKey("com.nobodyhub.datalayer.core.cases.within.ComplexContainer"));
 
-        assertEquals(8, AvroSchemaLoader.records.size());
+        assertEquals(8, avroSchemaLoader.records.size());
     }
 }

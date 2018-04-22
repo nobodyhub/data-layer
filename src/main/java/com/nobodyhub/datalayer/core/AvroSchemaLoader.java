@@ -4,11 +4,8 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.nobodyhub.datalayer.core.annotation.AvroSchemaLoaderConfiguration;
-import org.apache.avro.AvroTypeException;
-import org.apache.avro.LogicalType;
-import org.apache.avro.LogicalTypes;
-import org.apache.avro.Schema;
-import org.apache.avro.reflect.ReflectData;
+import com.nobodyhub.datalayer.core.exception.AvroCoreException;
+import org.apache.avro.*;
 import org.apache.avro.specific.SpecificData;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
@@ -28,29 +25,22 @@ import java.util.*;
 import java.util.logging.Logger;
 
 /**
- * Convert a Hibernate entity to avro schema file
- * <p>
- * Reference:
- * - {@link ReflectData#createSchema(Type, Map)}
- * <p>
- * TODO: scan all classed in current classloader/specified package
+ * Load {@link javax.persistence.Entity} class and create Avro Schema
  *
  * @author Ryan
  */
 public final class AvroSchemaLoader {
-    private AvroSchemaLoader() {
-    }
 
-    private static Logger logger = Logger.getLogger(AvroSchemaLoader.class.getSimpleName());
-    protected static final Map<String, Schema> schemas = Maps.newHashMap();
-    protected static final Map<String, AvroRecord> records = Maps.newHashMap();
+    private Logger logger = Logger.getLogger(AvroSchemaLoader.class.getSimpleName());
+    protected final Map<String, Schema> schemas = Maps.newHashMap();
+    protected final Map<String, AvroRecord> records = Maps.newHashMap();
 
     /**
      * Scan the classloader to load classes for Avro Schemas
      *
      * @throws ClassNotFoundException
      */
-    public static void scan() throws ClassNotFoundException {
+    public void scan() throws ClassNotFoundException {
         logger.info("Start to scan classes for AvroSchema");
         //get annotation settings
         Reflections configurationReflection = new Reflections(new ConfigurationBuilder()
@@ -78,7 +68,12 @@ public final class AvroSchemaLoader {
         }
     }
 
-    protected static Schema getSchema(String qualifiedName) throws ClassNotFoundException {
+    public void clear() {
+        this.schemas.clear();
+        this.records.clear();
+    }
+
+    protected Schema getSchema(String qualifiedName) throws ClassNotFoundException {
         Schema schema = schemas.get(qualifiedName);
         if (schema == null) {
             AvroRecord record = records.get(qualifiedName);
@@ -86,22 +81,22 @@ public final class AvroSchemaLoader {
                 load(Class.forName(qualifiedName));
                 record = records.get(qualifiedName);
             }
-            schema = record.toSchema();
+            schema = record.toSchema(this);
         }
         return schema;
     }
 
-    protected static void load(Class<?>... classes) throws ClassNotFoundException {
+    protected void load(Class<?>... classes) throws ClassNotFoundException {
         List<AvroRecord> newRecords = Lists.newArrayList();
         for (Class<?> clazz : classes) {
             newRecords.add(parseClass(clazz));
         }
         for (AvroRecord record : newRecords) {
-            schemas.put(record.getQualifiedName(), record.toSchema());
+            schemas.put(record.getQualifiedName(), record.toSchema(this));
         }
     }
 
-    protected static AvroRecord parseClass(Class<?> clazz) {
+    protected AvroRecord parseClass(Class<?> clazz) {
         AvroRecord record = new AvroRecord(clazz);
         fillFieldInfo(record);
         records.put(record.getQualifiedName(), record);
@@ -115,7 +110,7 @@ public final class AvroSchemaLoader {
      *
      * @param record
      */
-    protected static void fillFieldInfo(AvroRecord record) {
+    protected void fillFieldInfo(AvroRecord record) {
         Class<?> clz = record.getClazz();
         while (clz != null) {
             Field[] fields = null;
@@ -144,7 +139,7 @@ public final class AvroSchemaLoader {
         }
     }
 
-    protected static void parseType(Type type, AvroType avroType) {
+    protected void parseType(Type type, AvroType avroType) {
         parseBasicType(type, avroType);
         parseLogicalType(type, avroType);
     }
@@ -162,7 +157,7 @@ public final class AvroSchemaLoader {
      * @return the Type for {@link Schema}
      * @see SpecificData#createSchema
      */
-    protected static void parseBasicType(Type type, AvroType avroType) {
+    protected void parseBasicType(Type type, AvroType avroType) {
         if (type instanceof Class
                 && CharSequence.class.isAssignableFrom((Class) type)) {
             avroType.setSchemaType(Schema.Type.STRING);
@@ -233,7 +228,7 @@ public final class AvroSchemaLoader {
      * @param avroType
      * @see <a href="https://avro.apache.org/docs/1.8.1/spec.html#Logical+Types">Logical Types</a>
      */
-    protected static void parseLogicalType(Type type, AvroType avroType) {
+    protected void parseLogicalType(Type type, AvroType avroType) {
         if (!(type instanceof Class)) {
             return;
         }
@@ -274,6 +269,134 @@ public final class AvroSchemaLoader {
         // add to schema pool
         if (schema != null) {
             schemas.put(cls.getName(), schema);
+        }
+    }
+
+    protected <R extends SchemaBuilder.FieldDefault> SchemaBuilder.FieldAssembler assemble(SchemaBuilder.TypeBuilder<R> typeBuilder, AvroType avroType) throws ClassNotFoundException {
+        switch (avroType.getSchemaType()) {
+            case INT: {
+                return typeBuilder.intType().noDefault();
+            }
+            case LONG: {
+                return typeBuilder.longType().noDefault();
+            }
+            case FLOAT: {
+                return typeBuilder.floatType().noDefault();
+            }
+            case DOUBLE: {
+                return typeBuilder.doubleType().noDefault();
+            }
+            case BOOLEAN: {
+                return typeBuilder.booleanType().noDefault();
+            }
+            case BYTES: {
+                return typeBuilder.bytesType().noDefault();
+            }
+            case STRING: {
+                return typeBuilder.stringType().noDefault();
+            }
+            case MAP: {
+                if (avroType.getValueType().getLogicalType() == null
+                        && avroType.getValueType().getSchemaType() != Schema.Type.RECORD
+                        && avroType.getValueType().getSchemaType() != Schema.Type.ENUM) {
+                    return assemble(typeBuilder.map().values(), avroType.getValueType());
+                } else {
+                    return typeBuilder.map()
+                            .values(getSchema(avroType.getValueType().getQualifiedName()))
+                            .noDefault();
+                }
+            }
+            case ARRAY: {
+                if (avroType.getItemType().getLogicalType() == null
+                        && avroType.getItemType().getSchemaType() != Schema.Type.RECORD
+                        && avroType.getItemType().getSchemaType() != Schema.Type.ENUM) {
+                    return assemble(typeBuilder.array().items(), avroType.getItemType());
+                } else {
+                    return typeBuilder.map()
+                            .values(getSchema(avroType.getItemType().getQualifiedName()))
+                            .noDefault();
+                }
+            }
+            default: {
+                //case UNION: can not handle
+                //case FIXED: can not handle
+                //case NULL: can not handle
+                //case RECORD: handled by AvroField#assemble
+                //case ENUM: handled by AvroField#assemble
+                throw new AvroCoreException(String.format("Not support type: '%s'", avroType.getSchemaType()));
+            }
+        }
+    }
+
+    protected SchemaBuilder.FieldAssembler<Schema> assemble(SchemaBuilder.FieldAssembler<Schema> assembler, AvroField field) throws ClassNotFoundException {
+        SchemaBuilder.FieldBuilder<Schema> fieldBuilder = assembler.name(field.getName());
+
+        if (field.getAvroType().getLogicalType() == null) {
+            SchemaBuilder.BaseFieldTypeBuilder<Schema> typeBuilder = fieldBuilder.type();
+            if (field.isNullable()) {
+                typeBuilder = ((SchemaBuilder.FieldTypeBuilder<Schema>) typeBuilder).nullable();
+            }
+            switch (field.getAvroType().getSchemaType()) {
+                case INT: {
+                    return typeBuilder.intType().noDefault();
+                }
+                case LONG: {
+                    return typeBuilder.longType().noDefault();
+                }
+                case FLOAT: {
+                    return typeBuilder.floatType().noDefault();
+                }
+                case DOUBLE: {
+                    return typeBuilder.doubleType().noDefault();
+                }
+                case BOOLEAN: {
+                    return typeBuilder.booleanType().noDefault();
+                }
+                case BYTES: {
+                    return typeBuilder.bytesType().noDefault();
+                }
+                case STRING: {
+                    return typeBuilder.stringType().noDefault();
+                }
+                case ENUM: {
+                    return fieldBuilder.type(getSchema(field.getQualifiedName())).noDefault();
+                }
+                case RECORD: {
+                    return fieldBuilder.type(getSchema(field.getQualifiedName())).noDefault();
+                }
+                case MAP: {
+                    AvroType valueType = field.getAvroType().getValueType();
+                    if (valueType.getLogicalType() == null
+                            && valueType.getSchemaType() != Schema.Type.RECORD
+                            && valueType.getSchemaType() != Schema.Type.ENUM) {
+                        return assemble(typeBuilder.map().values(), valueType);
+                    } else {
+                        return typeBuilder.map()
+                                .values(getSchema(valueType.getQualifiedName()))
+                                .noDefault();
+                    }
+                }
+                case ARRAY: {
+                    AvroType itemType = field.getAvroType().getItemType();
+                    if (itemType.getLogicalType() == null
+                            && itemType.getSchemaType() != Schema.Type.RECORD
+                            && itemType.getSchemaType() != Schema.Type.ENUM) {
+                        return assemble(typeBuilder.array().items(), itemType);
+                    } else {
+                        return typeBuilder.array()
+                                .items(getSchema(itemType.getQualifiedName()))
+                                .noDefault();
+                    }
+                }
+                default: {
+                    //case UNION:
+                    //case FIXED:
+                    //case NULL;
+                    throw new AvroCoreException(String.format("Not support type: '%s'", field.getAvroType().getSchemaType()));
+                }
+            }
+        } else {
+            return fieldBuilder.type(getSchema(field.getQualifiedName())).noDefault();
         }
     }
 }

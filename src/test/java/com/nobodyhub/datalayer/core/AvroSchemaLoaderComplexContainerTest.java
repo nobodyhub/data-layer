@@ -22,7 +22,7 @@ import static org.junit.Assert.assertTrue;
 public class AvroSchemaLoaderComplexContainerTest extends AvroSchemaLoaderTestBase {
     @Test
     public void testLoad() throws ClassNotFoundException {
-        AvroSchemaLoader.load(ComplexContainer.class,
+        avroSchemaLoader.load(ComplexContainer.class,
                 ComplexClass.class,
                 PrimitiveClass.class,
                 PrimitiveContainerClass.class,
@@ -30,12 +30,12 @@ public class AvroSchemaLoaderComplexContainerTest extends AvroSchemaLoaderTestBa
                 ComplexEnum.class
         );
         assertEquals("{\"type\":\"record\",\"name\":\"ComplexContainer\",\"namespace\":\"com.nobodyhub.datalayer.core.cases.within\",\"fields\":[{\"name\":\"complexClassList\",\"type\":[{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"ComplexClass\",\"namespace\":\"com.nobodyhub.datalayer.core.cases\",\"fields\":[{\"name\":\"primitiveClass\",\"type\":{\"type\":\"record\",\"name\":\"PrimitiveClass\",\"fields\":[{\"name\":\"aString\",\"type\":[\"string\",\"null\"]},{\"name\":\"aByteBuffer\",\"type\":[\"bytes\",\"null\"]},{\"name\":\"aInt\",\"type\":\"int\"},{\"name\":\"aInteger\",\"type\":[\"int\",\"null\"]},{\"name\":\"along\",\"type\":[\"long\",\"null\"]},{\"name\":\"aLong\",\"type\":[\"long\",\"null\"]},{\"name\":\"afloat\",\"type\":[\"float\",\"null\"]},{\"name\":\"aFloat\",\"type\":[\"float\",\"null\"]},{\"name\":\"adouble\",\"type\":\"double\"},{\"name\":\"aDouble\",\"type\":[\"double\",\"null\"]},{\"name\":\"aboolean\",\"type\":[\"boolean\",\"null\"]},{\"name\":\"aBoolean\",\"type\":\"boolean\"},{\"name\":\"aBigDecimal\",\"type\":{\"type\":\"bytes\",\"logicalType\":\"decimal\",\"precision\":19,\"scale\":2}},{\"name\":\"aDate\",\"type\":{\"type\":\"int\",\"logicalType\":\"date\"}},{\"name\":\"aTimeStamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}},{\"name\":\"aUuid\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}}]}},{\"name\":\"primitiveContainerClass\",\"type\":{\"type\":\"record\",\"name\":\"PrimitiveContainerClass\",\"fields\":[{\"name\":\"aStringList\",\"type\":[{\"type\":\"array\",\"items\":\"string\"},\"null\"]},{\"name\":\"aByteBufferList\",\"type\":{\"type\":\"array\",\"items\":\"bytes\"}},{\"name\":\"aBooleanList\",\"type\":[{\"type\":\"array\",\"items\":\"boolean\"},\"null\"]},{\"name\":\"aFloatList\",\"type\":[{\"type\":\"array\",\"items\":\"float\"},\"null\"]},{\"name\":\"aIntegerMap\",\"type\":[{\"type\":\"map\",\"values\":\"int\"},\"null\"]},{\"name\":\"aLongMap\",\"type\":[{\"type\":\"map\",\"values\":\"long\"},\"null\"]},{\"name\":\"aDoubleMap\",\"type\":[{\"type\":\"map\",\"values\":\"double\"},\"null\"]},{\"name\":\"aBigDecimalMap\",\"type\":[{\"type\":\"map\",\"values\":{\"type\":\"bytes\",\"logicalType\":\"decimal\",\"precision\":19,\"scale\":2}},\"null\"]},{\"name\":\"aUuidSet\",\"type\":[{\"type\":\"array\",\"items\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},\"null\"]},{\"name\":\"aDateSet\",\"type\":[{\"type\":\"array\",\"items\":{\"type\":\"int\",\"logicalType\":\"date\"}},\"null\"]},{\"name\":\"aTimestampSet\",\"type\":[{\"type\":\"array\",\"items\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}},\"null\"]}]}},{\"name\":\"simpleEnum\",\"type\":{\"type\":\"enum\",\"name\":\"SimpleEnum\",\"symbols\":[\"S1\",\"S2\",\"S3\"]}},{\"name\":\"complexEnum\",\"type\":{\"type\":\"enum\",\"name\":\"ComplexEnum\",\"namespace\":\"com.nobodyhub.datalayer.core.cases.within\",\"symbols\":[\"C1\",\"C2\",\"C3\"]}}]}},\"null\"]},{\"name\":\"complexClassMap\",\"type\":{\"type\":\"map\",\"values\":\"com.nobodyhub.datalayer.core.cases.ComplexClass\"}},{\"name\":\"complexClassSet\",\"type\":[{\"type\":\"array\",\"items\":\"com.nobodyhub.datalayer.core.cases.ComplexClass\"},\"null\"]}]}",
-                AvroSchemaLoader.schemas.get("com.nobodyhub.datalayer.core.cases.within.ComplexContainer").toString());
+                avroSchemaLoader.schemas.get("com.nobodyhub.datalayer.core.cases.within.ComplexContainer").toString());
     }
 
     @Test
     public void testParseClass() {
-        AvroRecord record = AvroSchemaLoader.parseClass(ComplexContainer.class);
+        AvroRecord record = avroSchemaLoader.parseClass(ComplexContainer.class);
         assertEquals(ComplexContainer.class, record.getClazz());
         assertEquals("ComplexContainer", record.getSimpleName());
         assertEquals("com.nobodyhub.datalayer.core.cases.within.ComplexContainer", record.getQualifiedName());

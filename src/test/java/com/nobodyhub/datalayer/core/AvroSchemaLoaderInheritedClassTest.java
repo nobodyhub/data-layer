@@ -16,17 +16,17 @@ import static org.junit.Assert.assertEquals;
 public class AvroSchemaLoaderInheritedClassTest extends AvroSchemaLoaderPrimitiveClassTest {
     @Test
     public void testLoad() throws ClassNotFoundException {
-        AvroSchemaLoader.load(
+        avroSchemaLoader.load(
                 InheritedClass.class,
                 PrimitiveClass.class,
                 SimpleEnum.class);
         assertEquals("{\"type\":\"record\",\"name\":\"InheritedClass\",\"namespace\":\"com.nobodyhub.datalayer.core.cases.within\",\"fields\":[{\"name\":\"anotherString\",\"type\":[\"string\",\"null\"]},{\"name\":\"simpleEnum\",\"type\":{\"type\":\"enum\",\"name\":\"SimpleEnum\",\"namespace\":\"com.nobodyhub.datalayer.core.cases\",\"symbols\":[\"S1\",\"S2\",\"S3\"]}},{\"name\":\"primitiveClassList\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"PrimitiveClass\",\"namespace\":\"com.nobodyhub.datalayer.core.cases\",\"fields\":[{\"name\":\"aString\",\"type\":[\"string\",\"null\"]},{\"name\":\"aByteBuffer\",\"type\":[\"bytes\",\"null\"]},{\"name\":\"aInt\",\"type\":\"int\"},{\"name\":\"aInteger\",\"type\":[\"int\",\"null\"]},{\"name\":\"along\",\"type\":[\"long\",\"null\"]},{\"name\":\"aLong\",\"type\":[\"long\",\"null\"]},{\"name\":\"afloat\",\"type\":[\"float\",\"null\"]},{\"name\":\"aFloat\",\"type\":[\"float\",\"null\"]},{\"name\":\"adouble\",\"type\":\"double\"},{\"name\":\"aDouble\",\"type\":[\"double\",\"null\"]},{\"name\":\"aboolean\",\"type\":[\"boolean\",\"null\"]},{\"name\":\"aBoolean\",\"type\":\"boolean\"},{\"name\":\"aBigDecimal\",\"type\":{\"type\":\"bytes\",\"logicalType\":\"decimal\",\"precision\":10,\"scale\":2}},{\"name\":\"aDate\",\"type\":{\"type\":\"int\",\"logicalType\":\"date\"}},{\"name\":\"aTimeStamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}},{\"name\":\"aUuid\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}}]}}},{\"name\":\"aString\",\"type\":[\"string\",\"null\"]},{\"name\":\"aByteBuffer\",\"type\":[\"bytes\",\"null\"]},{\"name\":\"aInt\",\"type\":\"int\"},{\"name\":\"aInteger\",\"type\":[\"int\",\"null\"]},{\"name\":\"along\",\"type\":[\"long\",\"null\"]},{\"name\":\"aLong\",\"type\":[\"long\",\"null\"]},{\"name\":\"afloat\",\"type\":[\"float\",\"null\"]},{\"name\":\"aFloat\",\"type\":[\"float\",\"null\"]},{\"name\":\"adouble\",\"type\":\"double\"},{\"name\":\"aDouble\",\"type\":[\"double\",\"null\"]},{\"name\":\"aboolean\",\"type\":[\"boolean\",\"null\"]},{\"name\":\"aBoolean\",\"type\":\"boolean\"},{\"name\":\"aBigDecimal\",\"type\":{\"type\":\"bytes\",\"logicalType\":\"decimal\",\"precision\":10,\"scale\":2}},{\"name\":\"aDate\",\"type\":{\"type\":\"int\",\"logicalType\":\"date\"}},{\"name\":\"aTimeStamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}},{\"name\":\"aUuid\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}}]}",
-                AvroSchemaLoader.schemas.get("com.nobodyhub.datalayer.core.cases.within.InheritedClass").toString());
+                avroSchemaLoader.schemas.get("com.nobodyhub.datalayer.core.cases.within.InheritedClass").toString());
     }
 
     @Test
     public void testParseClass() {
-        AvroRecord record = AvroSchemaLoader.parseClass(InheritedClass.class);
+        AvroRecord record = avroSchemaLoader.parseClass(InheritedClass.class);
         assertEquals(InheritedClass.class, record.getClazz());
         assertEquals("InheritedClass", record.getSimpleName());
         assertEquals("com.nobodyhub.datalayer.core.cases.within.InheritedClass", record.getQualifiedName());

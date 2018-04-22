@@ -49,7 +49,7 @@ public class AvroRecord {
         this.fields.add(field);
     }
 
-    public Schema toSchema() throws ClassNotFoundException {
+    public Schema toSchema(AvroSchemaLoader loader) throws ClassNotFoundException {
         if (clazz.isEnum()) {
             String[] enumFields = Arrays.stream(clazz.getFields()).map(new Function<Field, String>() {
                 @Nullable
@@ -69,7 +69,7 @@ public class AvroRecord {
                 .namespace(namespace)
                 .fields();
         for (AvroField field : fields) {
-            assembler = field.assemble(assembler);
+            assembler = loader.assemble(assembler, field);
         }
         return assembler.endRecord();
     }
