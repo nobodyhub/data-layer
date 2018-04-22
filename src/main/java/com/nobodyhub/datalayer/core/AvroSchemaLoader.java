@@ -1,6 +1,9 @@
 package com.nobodyhub.datalayer.core;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.nobodyhub.datalayer.core.annotation.AvroSchemaLoaderConfiguration;
 import com.nobodyhub.datalayer.core.exception.AvroCoreException;
 import org.apache.avro.AvroTypeException;
 import org.apache.avro.LogicalType;
@@ -8,6 +11,11 @@ import org.apache.avro.LogicalTypes;
 import org.apache.avro.Schema;
 import org.apache.avro.reflect.ReflectData;
 import org.apache.avro.specific.SpecificData;
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 
 import javax.persistence.Column;
 import java.lang.reflect.Field;
@@ -17,9 +25,9 @@ import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Convert a Hibernate entity to avro schema file
@@ -32,13 +40,39 @@ import java.util.UUID;
  * @author Ryan
  */
 public final class AvroSchemaLoader {
+    private static Logger logger = Logger.getLogger(AvroSchemaLoader.class.getSimpleName());
     public static final Map<String, Schema> schemas = Maps.newHashMap();
     public static final Map<String, AvroRecord> records = Maps.newHashMap();
+    public static AvroSchemaLoaderConfiguration configuration;
 
     private AvroSchemaLoader() {
     }
 
-    public static Schema getSchema(String qualifiedName) {
+    protected static void load() {
+        //get annotation settings
+        Reflections configurationReflection = new Reflections(new ConfigurationBuilder()
+                .addUrls(ClasspathHelper.forClassLoader())
+                .setScanners(new TypeAnnotationsScanner(), new SubTypesScanner(false)));
+        List<Class<?>> configurations = Lists.newArrayList(configurationReflection.getTypesAnnotatedWith(AvroSchemaLoaderConfiguration.class));
+        if (configurations.isEmpty()) {
+            logger.log(Level.SEVERE,
+                    String.format("Can not find configuration %s within classloader %s!", AvroSchemaLoaderConfiguration.class.getName(), Joiner.on(", ").join(ClasspathHelper.classLoaders())));
+        } else if (configurations.size() > 1) {
+            logger.log(Level.WARNING,
+                    String.format("More than 1 configurations is found, only %s will be used!", configurations.get(0)));
+        }
+        configuration = configurations.get(0).getAnnotation(AvroSchemaLoaderConfiguration.class);
+        //get the target classes
+        Reflections targetClassReflection = new Reflections(new ConfigurationBuilder()
+                .addUrls(ClasspathHelper.forPackage(configuration.basePackage()))
+                .setScanners(new TypeAnnotationsScanner(), new SubTypesScanner(false)));
+        Set<Class<?>> targetCls = targetClassReflection.getTypesAnnotatedWith(configuration.annotatedWith());
+        targetCls.retainAll(targetClassReflection.getSubTypesOf(configuration.subTypesOf()));
+        //load target as schema
+        load(targetCls.toArray(new Class<?>[0]));
+    }
+
+    protected static Schema getSchema(String qualifiedName) {
         Schema schema = schemas.get(qualifiedName);
         if (schema == null) {
             AvroRecord record = records.get(qualifiedName);
@@ -51,7 +85,7 @@ public final class AvroSchemaLoader {
         return schema;
     }
 
-    public static void load(Class<?>... classes) {
+    protected static void load(Class<?>... classes) {
         for (Class<?> clazz : classes) {
             parseClass(clazz);
         }
