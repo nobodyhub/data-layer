@@ -8,6 +8,7 @@ import org.junit.Test;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 
 import static org.junit.Assert.assertEquals;
@@ -23,8 +24,8 @@ public class AvroSchemaConverterTest {
     @Before
     public void setup() throws ClassNotFoundException {
         loader = new AvroSchemaLoader();
-        loader.scan();
-        converter = new AvroSchemaConverter(loader);
+//        loader.preload();
+        converter = new AvroSchemaConverter();
     }
 
     @Test
@@ -33,6 +34,7 @@ public class AvroSchemaConverterTest {
         avroEntity.setAString("aString");
         avroEntity.setAByteBuffer(ByteBuffer.wrap(new byte[]{1, 2, 3}));
         avroEntity.setAInt(99);
+        avroEntity.setAnotherBigDecimal(BigDecimal.TEN.setScale(2));
         DataLayerProtocol.Entity entity = converter.from(avroEntity);
         TestEntity result = converter.to(entity);
         assertEquals(avroEntity, result);
@@ -47,5 +49,9 @@ public class AvroSchemaConverterTest {
         protected ByteBuffer aByteBuffer;
         @Column(nullable = false)
         protected int aInt;
+        @Column(precision = 10, scale = 3)
+        protected BigDecimal aBigDecimal;
+        @Column(nullable = false)
+        protected BigDecimal anotherBigDecimal;
     }
 }
