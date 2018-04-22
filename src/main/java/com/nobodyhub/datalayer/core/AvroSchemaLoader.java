@@ -38,14 +38,20 @@ import java.util.logging.Logger;
  * @author Ryan
  */
 public final class AvroSchemaLoader {
-    private static Logger logger = Logger.getLogger(AvroSchemaLoader.class.getSimpleName());
-    public static final Map<String, Schema> schemas = Maps.newHashMap();
-    public static final Map<String, AvroRecord> records = Maps.newHashMap();
-
     private AvroSchemaLoader() {
     }
 
-    protected static void scan() throws ClassNotFoundException {
+    private static Logger logger = Logger.getLogger(AvroSchemaLoader.class.getSimpleName());
+    protected static final Map<String, Schema> schemas = Maps.newHashMap();
+    protected static final Map<String, AvroRecord> records = Maps.newHashMap();
+
+    /**
+     * Scan the classloader to load classes for Avro Schemas
+     *
+     * @throws ClassNotFoundException
+     */
+    public static void scan() throws ClassNotFoundException {
+        logger.info("Start to scan classes for AvroSchema");
         //get annotation settings
         Reflections configurationReflection = new Reflections(new ConfigurationBuilder()
                 .addUrls(ClasspathHelper.forClassLoader())
@@ -57,6 +63,7 @@ public final class AvroSchemaLoader {
                     Joiner.on(", ").join(ClasspathHelper.classLoaders())));
         }
         for (Class<?> configCls : configurations) {
+            logger.info(AvroSchemaLoaderConfiguration.class.getSimpleName() + " found on Class: " + configCls.getSimpleName());
             AvroSchemaLoaderConfiguration configuration = configCls.getAnnotation(AvroSchemaLoaderConfiguration.class);
             //get the target classes in base package
             Reflections targetClassReflection = new Reflections(new ConfigurationBuilder()
@@ -137,7 +144,7 @@ public final class AvroSchemaLoader {
         }
     }
 
-    public static void parseType(Type type, AvroType avroType) {
+    protected static void parseType(Type type, AvroType avroType) {
         parseBasicType(type, avroType);
         parseLogicalType(type, avroType);
     }
@@ -205,15 +212,6 @@ public final class AvroSchemaLoader {
             Class clazz = (Class) type;
             if (clazz.isEnum()) {
                 avroType.setSchemaType(Schema.Type.ENUM);
-                //enum
-//                if (avroType.getField() != null
-//                        && avroType.getField().getAnnotation(Column.class) != null) {
-//                    // as class member
-//                    avroType.setType(Schema.Type.ENUM);
-//                } else {
-//                    // as enum member
-//                    avroType.setType(Schema.Type.STRING);
-//                }
             } else {
                 // class
                 avroType.setSchemaType(Schema.Type.RECORD);
