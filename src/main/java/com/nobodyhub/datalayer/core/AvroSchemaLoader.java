@@ -4,7 +4,6 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.nobodyhub.datalayer.core.annotation.AvroSchemaLoaderConfiguration;
-import com.nobodyhub.datalayer.core.exception.AvroCoreException;
 import org.apache.avro.AvroTypeException;
 import org.apache.avro.LogicalType;
 import org.apache.avro.LogicalTypes;
@@ -48,7 +47,7 @@ public final class AvroSchemaLoader {
     private AvroSchemaLoader() {
     }
 
-    protected static void load() {
+    protected static void load() throws ClassNotFoundException {
         //get annotation settings
         Reflections configurationReflection = new Reflections(new ConfigurationBuilder()
                 .addUrls(ClasspathHelper.forClassLoader())
@@ -72,24 +71,25 @@ public final class AvroSchemaLoader {
         load(targetCls.toArray(new Class<?>[0]));
     }
 
-    protected static Schema getSchema(String qualifiedName) {
+    protected static Schema getSchema(String qualifiedName) throws ClassNotFoundException {
         Schema schema = schemas.get(qualifiedName);
         if (schema == null) {
             AvroRecord record = records.get(qualifiedName);
             if (record == null) {
-                throw new AvroCoreException(String.format("No AvroRecord Found for name: '%s'", qualifiedName));
+                load(Class.forName(qualifiedName));
+                record = records.get(qualifiedName);
             }
             schema = record.toSchema();
-            schemas.put(qualifiedName, schema);
         }
         return schema;
     }
 
-    protected static void load(Class<?>... classes) {
+    protected static void load(Class<?>... classes) throws ClassNotFoundException {
+        List<AvroRecord> newRecords = Lists.newArrayList();
         for (Class<?> clazz : classes) {
-            parseClass(clazz);
+            newRecords.add(parseClass(clazz));
         }
-        for (AvroRecord record : records.values()) {
+        for (AvroRecord record : newRecords) {
             schemas.put(record.getQualifiedName(), record.toSchema());
         }
     }
