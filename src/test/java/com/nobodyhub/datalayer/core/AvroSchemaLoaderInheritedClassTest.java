@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class AvroSchemaLoaderInheritedClassTest extends AvroSchemaLoaderPrimitiveClassTest {
     @Test
-    public void testLoad() {
+    public void testLoad() throws ClassNotFoundException {
         AvroSchemaLoader.load(
                 InheritedClass.class,
                 PrimitiveClass.class,

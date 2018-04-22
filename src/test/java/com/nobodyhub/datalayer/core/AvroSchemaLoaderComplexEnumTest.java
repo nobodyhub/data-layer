@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class AvroSchemaLoaderComplexEnumTest extends AvroSchemaLoaderTestBase {
     @Test
-    public void testLoad() {
+    public void testLoad() throws ClassNotFoundException {
         AvroSchemaLoader.load(ComplexEnum.class);
         assertEquals("{\"type\":\"enum\",\"name\":\"ComplexEnum\",\"namespace\":\"com.nobodyhub.datalayer.core.cases\",\"symbols\":[\"C1\",\"C2\",\"C3\"]}",
                 AvroSchemaLoader.schemas.get("com.nobodyhub.datalayer.core.cases.ComplexEnum").toString());

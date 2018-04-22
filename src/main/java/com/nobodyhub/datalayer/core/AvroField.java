@@ -47,7 +47,7 @@ public class AvroField {
         }
     }
 
-    public SchemaBuilder.FieldAssembler<Schema> assemble(SchemaBuilder.FieldAssembler<Schema> assembler) {
+    public SchemaBuilder.FieldAssembler<Schema> assemble(SchemaBuilder.FieldAssembler<Schema> assembler) throws ClassNotFoundException {
         SchemaBuilder.FieldBuilder<Schema> fieldBuilder = assembler.name(name);
 
         if (avroType.getLogicalType() == null) {

@@ -58,7 +58,7 @@ public class AvroType {
         this.qualifiedName = type.getTypeName();
     }
 
-    public <R extends SchemaBuilder.FieldDefault> SchemaBuilder.FieldAssembler assemble(SchemaBuilder.TypeBuilder<R> typeBuilder) {
+    public <R extends SchemaBuilder.FieldDefault> SchemaBuilder.FieldAssembler assemble(SchemaBuilder.TypeBuilder<R> typeBuilder) throws ClassNotFoundException {
         switch (schemaType) {
             case INT: {
                 return typeBuilder.intType().noDefault();

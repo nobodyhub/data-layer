@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class AvroSchemaLoaderComplexContainerTest extends AvroSchemaLoaderTestBase {
     @Test
-    public void testLoad() {
+    public void testLoad() throws ClassNotFoundException {
         AvroSchemaLoader.load(ComplexContainer.class,
                 ComplexClass.class,
                 PrimitiveClass.class,

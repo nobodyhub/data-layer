@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class AvroSchemaLoaderSimpleEnumTest extends AvroSchemaLoaderTestBase {
     @Test
-    public void testLoad() {
+    public void testLoad() throws ClassNotFoundException {
         AvroSchemaLoader.load(SimpleEnum.class);
         assertEquals("{\"type\":\"enum\",\"name\":\"SimpleEnum\",\"namespace\":\"com.nobodyhub.datalayer.core.cases\",\"symbols\":[\"S1\",\"S2\",\"S3\"]}",
                 AvroSchemaLoader.schemas.get("com.nobodyhub.datalayer.core.cases.SimpleEnum").toString());

@@ -2,7 +2,6 @@ package com.nobodyhub.datalayer.core;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import lombok.Data;
 import org.apache.avro.Schema;
 import org.apache.avro.SchemaBuilder;
@@ -11,7 +10,6 @@ import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Avro Schema
@@ -51,7 +49,7 @@ public class AvroRecord {
         this.fields.add(field);
     }
 
-    public Schema toSchema() {
+    public Schema toSchema() throws ClassNotFoundException {
         if (clazz.isEnum()) {
             String[] enumFields = Arrays.stream(clazz.getFields()).map(new Function<Field, String>() {
                 @Nullable

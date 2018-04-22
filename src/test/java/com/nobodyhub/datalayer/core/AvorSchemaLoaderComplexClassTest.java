@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class AvorSchemaLoaderComplexClassTest extends AvroSchemaLoaderTestBase {
     @Test
-    public void testLoad() {
+    public void testLoad() throws ClassNotFoundException {
         AvroSchemaLoader.load(
                 ComplexClass.class,
                 PrimitiveClass.class,
