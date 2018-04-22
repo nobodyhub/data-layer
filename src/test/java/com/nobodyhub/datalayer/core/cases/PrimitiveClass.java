@@ -20,36 +20,36 @@ import java.util.UUID;
  */
 public class PrimitiveClass {
     @Column
-    protected static String aString;
+    protected String aString;
     @Column
-    protected static ByteBuffer aByteBuffer;
+    protected ByteBuffer aByteBuffer;
     @Column(nullable = false)
-    protected static int aInt;
+    protected int aInt;
     @Column
-    protected static Integer aInteger;
+    protected Integer aInteger;
     @Column
-    protected static long along;
+    protected long along;
     @Column
-    protected static Long aLong;
+    protected Long aLong;
     @Column
-    protected static float afloat;
+    protected float afloat;
     @Column
-    protected static Float aFloat;
+    protected Float aFloat;
     @Column(nullable = false)
-    protected static double adouble;
+    protected double adouble;
     @Column
-    protected static Double aDouble;
+    protected Double aDouble;
     @Column
-    protected static boolean aboolean;
+    protected boolean aboolean;
     @Column(nullable = false)
-    protected static Boolean aBoolean;
+    protected Boolean aBoolean;
     @Column(precision = 10)
-    protected static BigDecimal aBigDecimal;
+    protected BigDecimal aBigDecimal;
     @Column(nullable = false)
-    protected static Date aDate;
+    protected Date aDate;
     @Column
-    protected static Timestamp aTimeStamp;
+    protected Timestamp aTimeStamp;
     @Column(nullable = false)
-    protected static UUID aUuid;
+    protected UUID aUuid;
 
 }

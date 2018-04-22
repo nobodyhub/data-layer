@@ -15,25 +15,25 @@ import java.util.*;
  */
 public class PrimitiveContainerClass {
     @Column
-    private static List<String> aStringList;
+    private List<String> aStringList;
     @Column(nullable = false)
-    private static List<ByteBuffer> aByteBufferList;
+    private List<ByteBuffer> aByteBufferList;
     @Column
-    private static ArrayList<Boolean> aBooleanList;
+    private ArrayList<Boolean> aBooleanList;
     @Column
-    private static LinkedList<Float> aFloatList;
+    private LinkedList<Float> aFloatList;
     @Column
-    private static Map<String, Integer> aIntegerMap;
+    private Map<String, Integer> aIntegerMap;
     @Column
-    private static Map<String, Long> aLongMap;
+    private Map<String, Long> aLongMap;
     @Column
-    private static HashMap<String, Double> aDoubleMap;
+    private HashMap<String, Double> aDoubleMap;
     @Column
-    private static TreeMap<String, BigDecimal> aBigDecimalMap;
+    private TreeMap<String, BigDecimal> aBigDecimalMap;
     @Column
-    private static Set<UUID> aUuidSet;
+    private Set<UUID> aUuidSet;
     @Column
-    private static HashSet<Date> aDateSet;
+    private HashSet<Date> aDateSet;
     @Column
-    private static TreeSet<Timestamp> aTimestampSet;
+    private TreeSet<Timestamp> aTimestampSet;
 }
