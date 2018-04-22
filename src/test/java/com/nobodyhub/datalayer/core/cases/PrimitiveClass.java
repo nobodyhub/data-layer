@@ -1,6 +1,7 @@
 package com.nobodyhub.datalayer.core.cases;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.sql.Date;
@@ -18,6 +19,7 @@ import java.util.UUID;
  * @author yan_h
  * @since 2018-04-20.
  */
+@Entity
 public class PrimitiveClass {
     @Column
     protected static String aString;

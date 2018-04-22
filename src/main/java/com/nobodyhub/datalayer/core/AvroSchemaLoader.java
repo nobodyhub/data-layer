@@ -47,7 +47,7 @@ public final class AvroSchemaLoader {
     private AvroSchemaLoader() {
     }
 
-    protected static void load() throws ClassNotFoundException {
+    protected static void scan() throws ClassNotFoundException {
         //get annotation settings
         Reflections configurationReflection = new Reflections(new ConfigurationBuilder()
                 .addUrls(ClasspathHelper.forClassLoader())

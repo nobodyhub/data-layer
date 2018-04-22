@@ -1,6 +1,7 @@
 package com.nobodyhub.datalayer.core.cases;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,6 +12,7 @@ import java.util.Set;
  * @author yan_h
  * @since 2018-04-20.
  */
+@Entity
 public class ComplexContainer {
     @Column
     private List<ComplexClass> complexClassList;

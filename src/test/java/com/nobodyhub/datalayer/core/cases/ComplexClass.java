@@ -1,6 +1,7 @@
 package com.nobodyhub.datalayer.core.cases;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 
 /**
  * Complex class whose fields are not only primitive types
@@ -8,6 +9,7 @@ import javax.persistence.Column;
  * @author yan_h
  * @since 2018-04-20.
  */
+@Entity
 public class ComplexClass {
     @Column
     private PrimitiveClass primitiveClass;

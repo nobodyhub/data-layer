@@ -19,7 +19,12 @@ import static org.junit.Assert.assertEquals;
  */
 public class AvroSchemaLoaderTest {
     @Test
-    public void testParseClass() {
+    public void testScan() throws ClassNotFoundException {
+        AvroSchemaLoader.scan();
+    }
+
+    @Test
+    public void testParseClass() throws ClassNotFoundException {
         AvroRecord primitiveClass = AvroSchemaLoader.parseClass(PrimitiveClass.class);
         assertEquals(PrimitiveClass.class, primitiveClass.getClazz());
         assertEquals("{\"type\":\"record\",\"name\":\"PrimitiveClass\",\"namespace\":\"com.nobodyhub.datalayer.core\",\"fields\":[{\"name\":\"aString\",\"type\":\"string\"},{\"name\":\"aByte\",\"type\":[\"bytes\",\"null\"]},{\"name\":\"aInt\",\"type\":\"int\"},{\"name\":\"aLong\",\"type\":[\"long\",\"null\"]},{\"name\":\"aFloat\",\"type\":\"float\"},{\"name\":\"aDouble\",\"type\":[\"double\",\"null\"]},{\"name\":\"aBoolean\",\"type\":[\"boolean\",\"null\"]},{\"name\":\"stringSet\",\"type\":[{\"type\":\"array\",\"items\":\"string\"},\"null\"]},{\"name\":\"integerList\",\"type\":{\"type\":\"array\",\"items\":\"int\"}},{\"name\":\"stringMap\",\"type\":{\"type\":\"map\",\"values\":\"double\"}},{\"name\":\"aBigDecimal\",\"type\":{\"type\":\"bytes\",\"logicalType\":\"decimal\",\"precision\":10,\"scale\":5}},{\"name\":\"aUuid\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"aDate\",\"type\":{\"type\":\"int\",\"logicalType\":\"date\"}},{\"name\":\"aTimestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}}]}",
@@ -38,7 +43,7 @@ public class AvroSchemaLoaderTest {
     }
 
     @Test
-    public void testLoad() {
+    public void testLoad() throws ClassNotFoundException {
         AvroSchemaLoader.load(ComplexClass.class, TypedClass.class, PrimitiveClass.class, Country.class, CombinedPrimitiveClass.class);
         assertEquals(5, AvroSchemaLoader.records.size());
         assertEquals(9, AvroSchemaLoader.schemas.size());
