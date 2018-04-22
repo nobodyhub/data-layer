@@ -1,5 +1,6 @@
 package com.nobodyhub.datalayer.core.cases.within;
 
+import com.nobodyhub.datalayer.core.AvroEntity;
 import com.nobodyhub.datalayer.core.cases.ComplexClass;
 import com.nobodyhub.datalayer.core.cases.SimpleEnum;
 
@@ -17,7 +18,7 @@ import java.util.Set;
  * @since 2018-04-20.
  */
 @Entity
-public class DeepContainer {
+public class DeepContainer implements AvroEntity {
     @Column
     private List<Map<String, SimpleEnum>> aSimpleEnumMapList;
     @Column

@@ -1,5 +1,7 @@
 package com.nobodyhub.datalayer.core.annotation;
 
+import com.nobodyhub.datalayer.core.AvroEntity;
+
 import javax.persistence.Entity;
 import java.lang.annotation.*;
 
@@ -22,7 +24,7 @@ public @interface AvroSchemaLoaderConfiguration {
      *
      * @return
      */
-    Class<?> subTypesOf() default Object.class;
+    Class<?> subTypesOf() default AvroEntity.class;
 
     /**
      * the required annotation of target classes
