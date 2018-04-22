@@ -20,34 +20,34 @@ public final class DataLayerServiceGrpc {
     // Static method descriptors that strictly reflect the proto.
     @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
     @java.lang.Deprecated // Use {@link #getExecuteMethod()} instead.
-    public static final io.grpc.MethodDescriptor<com.nobodyhub.datalayer.core.model.DataLayerProtocol.Request,
-            com.nobodyhub.datalayer.core.model.DataLayerProtocol.Reponse> METHOD_EXECUTE = getExecuteMethodHelper();
+    public static final io.grpc.MethodDescriptor<DataLayerProtocol.Request,
+            DataLayerProtocol.Reponse> METHOD_EXECUTE = getExecuteMethodHelper();
 
-    private static volatile io.grpc.MethodDescriptor<com.nobodyhub.datalayer.core.model.DataLayerProtocol.Request,
-            com.nobodyhub.datalayer.core.model.DataLayerProtocol.Reponse> getExecuteMethod;
+    private static volatile io.grpc.MethodDescriptor<DataLayerProtocol.Request,
+            DataLayerProtocol.Reponse> getExecuteMethod;
 
     @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-    public static io.grpc.MethodDescriptor<com.nobodyhub.datalayer.core.model.DataLayerProtocol.Request,
-            com.nobodyhub.datalayer.core.model.DataLayerProtocol.Reponse> getExecuteMethod() {
+    public static io.grpc.MethodDescriptor<DataLayerProtocol.Request,
+            DataLayerProtocol.Reponse> getExecuteMethod() {
         return getExecuteMethodHelper();
     }
 
-    private static io.grpc.MethodDescriptor<com.nobodyhub.datalayer.core.model.DataLayerProtocol.Request,
-            com.nobodyhub.datalayer.core.model.DataLayerProtocol.Reponse> getExecuteMethodHelper() {
-        io.grpc.MethodDescriptor<com.nobodyhub.datalayer.core.model.DataLayerProtocol.Request, com.nobodyhub.datalayer.core.model.DataLayerProtocol.Reponse> getExecuteMethod;
+    private static io.grpc.MethodDescriptor<DataLayerProtocol.Request,
+            DataLayerProtocol.Reponse> getExecuteMethodHelper() {
+        io.grpc.MethodDescriptor<DataLayerProtocol.Request, DataLayerProtocol.Reponse> getExecuteMethod;
         if ((getExecuteMethod = DataLayerServiceGrpc.getExecuteMethod) == null) {
             synchronized (DataLayerServiceGrpc.class) {
                 if ((getExecuteMethod = DataLayerServiceGrpc.getExecuteMethod) == null) {
                     DataLayerServiceGrpc.getExecuteMethod = getExecuteMethod =
-                            io.grpc.MethodDescriptor.<com.nobodyhub.datalayer.core.model.DataLayerProtocol.Request, com.nobodyhub.datalayer.core.model.DataLayerProtocol.Reponse>newBuilder()
+                            io.grpc.MethodDescriptor.<DataLayerProtocol.Request, DataLayerProtocol.Reponse>newBuilder()
                                     .setType(io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
                                     .setFullMethodName(generateFullMethodName(
                                             "datalayer.model.DataLayerService", "execute"))
                                     .setSampledToLocalTracing(true)
                                     .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                                            com.nobodyhub.datalayer.core.model.DataLayerProtocol.Request.getDefaultInstance()))
+                                            DataLayerProtocol.Request.getDefaultInstance()))
                                     .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                                            com.nobodyhub.datalayer.core.model.DataLayerProtocol.Reponse.getDefaultInstance()))
+                                            DataLayerProtocol.Reponse.getDefaultInstance()))
                                     .setSchemaDescriptor(new DataLayerServiceMethodDescriptorSupplier("execute"))
                                     .build();
                 }
@@ -85,8 +85,8 @@ public final class DataLayerServiceGrpc {
 
         /**
          */
-        public io.grpc.stub.StreamObserver<com.nobodyhub.datalayer.core.model.DataLayerProtocol.Request> execute(
-                io.grpc.stub.StreamObserver<com.nobodyhub.datalayer.core.model.DataLayerProtocol.Reponse> responseObserver) {
+        public io.grpc.stub.StreamObserver<DataLayerProtocol.Request> execute(
+                io.grpc.stub.StreamObserver<DataLayerProtocol.Reponse> responseObserver) {
             return asyncUnimplementedStreamingCall(getExecuteMethodHelper(), responseObserver);
         }
 
@@ -97,8 +97,8 @@ public final class DataLayerServiceGrpc {
                             getExecuteMethodHelper(),
                             asyncClientStreamingCall(
                                     new MethodHandlers<
-                                            com.nobodyhub.datalayer.core.model.DataLayerProtocol.Request,
-                                            com.nobodyhub.datalayer.core.model.DataLayerProtocol.Reponse>(
+                                            DataLayerProtocol.Request,
+                                            DataLayerProtocol.Reponse>(
                                             this, METHODID_EXECUTE)))
                     .build();
         }
@@ -124,8 +124,8 @@ public final class DataLayerServiceGrpc {
 
         /**
          */
-        public io.grpc.stub.StreamObserver<com.nobodyhub.datalayer.core.model.DataLayerProtocol.Request> execute(
-                io.grpc.stub.StreamObserver<com.nobodyhub.datalayer.core.model.DataLayerProtocol.Reponse> responseObserver) {
+        public io.grpc.stub.StreamObserver<DataLayerProtocol.Request> execute(
+                io.grpc.stub.StreamObserver<DataLayerProtocol.Reponse> responseObserver) {
             return asyncClientStreamingCall(
                     getChannel().newCall(getExecuteMethodHelper(), getCallOptions()), responseObserver);
         }
@@ -200,7 +200,7 @@ public final class DataLayerServiceGrpc {
             switch (methodId) {
                 case METHODID_EXECUTE:
                     return (io.grpc.stub.StreamObserver<Req>) serviceImpl.execute(
-                            (io.grpc.stub.StreamObserver<com.nobodyhub.datalayer.core.model.DataLayerProtocol.Reponse>) responseObserver);
+                            (io.grpc.stub.StreamObserver<DataLayerProtocol.Reponse>) responseObserver);
                 default:
                     throw new AssertionError();
             }
@@ -214,7 +214,7 @@ public final class DataLayerServiceGrpc {
 
         @java.lang.Override
         public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
-            return com.nobodyhub.datalayer.core.model.DataLayerProtocol.getDescriptor();
+            return DataLayerProtocol.getDescriptor();
         }
 
         @java.lang.Override
