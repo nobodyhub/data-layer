@@ -328,6 +328,7 @@ public final class AvroSchemaLoader {
         }
     }
 
+    @SuppressWarnings("unchecked")
     protected SchemaBuilder.FieldAssembler<Schema> assemble(SchemaBuilder.FieldAssembler<Schema> assembler, AvroField field) throws ClassNotFoundException {
         SchemaBuilder.FieldBuilder<Schema> fieldBuilder = assembler.name(field.getName());
 
