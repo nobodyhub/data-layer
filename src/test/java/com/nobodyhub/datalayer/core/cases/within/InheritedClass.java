@@ -4,6 +4,7 @@ import com.nobodyhub.datalayer.core.cases.PrimitiveClass;
 import com.nobodyhub.datalayer.core.cases.SimpleEnum;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import java.util.List;
 
 /**
@@ -12,6 +13,7 @@ import java.util.List;
  * @author yan_h
  * @since 2018-04-20.
  */
+@Entity
 public class InheritedClass extends PrimitiveClass {
     @Column
     private String anotherString;

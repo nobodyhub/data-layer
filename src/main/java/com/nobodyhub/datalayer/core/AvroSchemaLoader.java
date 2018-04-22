@@ -25,7 +25,6 @@ import java.nio.ByteBuffer;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -42,7 +41,6 @@ public final class AvroSchemaLoader {
     private static Logger logger = Logger.getLogger(AvroSchemaLoader.class.getSimpleName());
     public static final Map<String, Schema> schemas = Maps.newHashMap();
     public static final Map<String, AvroRecord> records = Maps.newHashMap();
-    public static AvroSchemaLoaderConfiguration configuration;
 
     private AvroSchemaLoader() {
     }
@@ -54,23 +52,23 @@ public final class AvroSchemaLoader {
                 .setScanners(new TypeAnnotationsScanner(), new SubTypesScanner(false)));
         List<Class<?>> configurations = Lists.newArrayList(configurationReflection.getTypesAnnotatedWith(AvroSchemaLoaderConfiguration.class));
         if (configurations.isEmpty()) {
-            logger.log(Level.SEVERE,
-                    String.format("Can not find configuration %s within classloader %s!", AvroSchemaLoaderConfiguration.class.getName(), Joiner.on(", ").join(ClasspathHelper.classLoaders())));
-        } else if (configurations.size() > 1) {
-            logger.log(Level.WARNING,
-                    String.format("More than 1 configurations is found, only %s will be used!", configurations.get(0)));
+            throw new RuntimeException(String.format("Can not find configuration %s within classloaders %s!",
+                    AvroSchemaLoaderConfiguration.class.getName(),
+                    Joiner.on(", ").join(ClasspathHelper.classLoaders())));
         }
-        configuration = configurations.get(0).getAnnotation(AvroSchemaLoaderConfiguration.class);
-        //get the target classes in base package
-        Reflections targetClassReflection = new Reflections(new ConfigurationBuilder()
-                .addUrls(ClasspathHelper.forPackage(configuration.basePackage()))
-                .setScanners(new TypeAnnotationsScanner(), new SubTypesScanner(false)));
-        //filter by annotation
-        Set<Class<?>> targetCls = targetClassReflection.getTypesAnnotatedWith(configuration.annotatedWith());
-        //filter by subType
-        targetCls.retainAll(targetClassReflection.getSubTypesOf(configuration.subTypesOf()));
-        //load target as schema
-        load(targetCls.toArray(new Class<?>[0]));
+        for (Class<?> configCls : configurations) {
+            AvroSchemaLoaderConfiguration configuration = configCls.getAnnotation(AvroSchemaLoaderConfiguration.class);
+            //get the target classes in base package
+            Reflections targetClassReflection = new Reflections(new ConfigurationBuilder()
+                    .addUrls(ClasspathHelper.forPackage(configuration.basePackage()))
+                    .setScanners(new TypeAnnotationsScanner(), new SubTypesScanner(false)));
+            //filter by annotation
+            Set<Class<?>> targetCls = targetClassReflection.getTypesAnnotatedWith(configuration.annotatedWith());
+            //filter by subType
+            targetCls.retainAll(targetClassReflection.getSubTypesOf(configuration.subTypesOf()));
+            //load target as schema
+            load(targetCls.toArray(new Class<?>[0]));
+        }
     }
 
     protected static Schema getSchema(String qualifiedName) throws ClassNotFoundException {
