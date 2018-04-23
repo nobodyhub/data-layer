@@ -8,7 +8,8 @@ A database service invoked through gRPC
 1. Use [Avro](http://avro.apache.org/) to encode/decode the table Entity
 1. Use [gRPC](https://grpc.io/) + [Protocol buffers](https://developers.google.com/protocol-buffers/) to manage the data transfer
 1. Use [gRPC streaming](https://grpc.io/docs/guides/concepts.html#server-streaming-rpc) to manage the DB transactions
-1. Auto-scan the package and build schema for necessary classes
+1. Preload schema for necessary classes
+1. Provide HTTP interface for health check
 
 
 ## Why use Avro to encode/decode
