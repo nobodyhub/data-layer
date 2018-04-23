@@ -7,26 +7,54 @@ package datalayer.model;
 
 enum OpType {
     CREATE = 0;
-    RRED = 1;
+    READ = 1;
     UPDATE = 2;
     DELETE = 3;
 }
-
+/*
+ * corresponds to a Java Persistence Entity
+ */
 message Entity {
     string entityClass = 1;
     bytes entity = 2;
 }
 
+/*
+ * Response of the DB operation
+ */
 message Response {
     int32 errorCode = 1;
     Entity entity = 2;
 }
 
-message Request {
+/*
+ * Request to make a series of operations
+ * 1. all operations will be executed in sequence in order of received.
+ * 2. operation sent in the same stream will be executed in the same transaction
+ * 3. if the last operation is a OpType.READ, the result of it will be send back via Response.Entity
+ */
+message ExecuteRequest {
     OpType opType = 1;
     Entity entity = 2;
 }
 
+/*
+ *Request to query info
+ */
+message QueryRequest {
+    string entityClass = 1;
+    map<string, string> conditions = 2;
+}
+
 service DataLayerService {
-    rpc execute (stream Request) returns (Response);
+    /*
+     * Execute a series of operation in the same transaction
+     * and return result of the last one if it is of OpType.READ.
+     */
+    rpc execute (stream ExecuteRequest) returns (Response);
+
+    /*
+     * Query information with given conditions on particular entity
+     */
+    rpc query (QueryRequest) returns (Response);
 }
