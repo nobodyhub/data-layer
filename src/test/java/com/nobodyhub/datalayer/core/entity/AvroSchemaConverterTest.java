@@ -19,15 +19,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class AvroSchemaConverterTest {
 
-    private AvroSchemaLoader loader;
-    private AvroSchemaConverter converter;
-
-    @Before
-    public void setup() throws ClassNotFoundException {
-        loader = new AvroSchemaLoader();
-//        loader.preload();
-        converter = new AvroSchemaConverter();
-    }
+    private AvroSchemaConverter converter = new AvroSchemaConverter();
 
     @Test
     public void test() throws IOException, ClassNotFoundException {
