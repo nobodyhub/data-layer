@@ -1,11 +1,14 @@
 package com.nobodyhub.datalayer.core.db;
 
+import com.nobodyhub.datalayer.core.db.criteria.RestrictionSet;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
 
-import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Ryan
@@ -18,16 +21,34 @@ public class EntityRepository {
     /**
      * Query the result of type <code>entityClass</code> by given criteria
      *
-     * @param entityClass
-     * @param condition
+     * @param entityClass    the Class of the entity
+     * @param nMaxResults    max results to be returned
+     * @param restrictions   restrictions for query
+     * @param orders         order clause, created by {@link Order#asc(String)} or {@link Order#desc(String)}
+     * @param projectionList projections, aggregation and grouping, created by {@link Projections#projectionList()}
      * @param <T>
      * @return
+     * @see <a href="http://docs.jboss.org/hibernate/core/3.5/reference/en/html/querycriteria.html#querycriteria-projection">Criteria Queries</a>
+     * @see <a href="https://en.wikipedia.org/wiki/Disjunctive_normal_form">DNF</a>
      */
-    public <T> List<T> query(Class<T> entityClass, Map<String, String> condition) {
-        //TODO: add more criteria
-        CriteriaQuery<T> query = sessionFactory.getCurrentSession().getCriteriaBuilder()
-                .createQuery(entityClass);
-        return sessionFactory.getCurrentSession().createQuery(query).getResultList();
+    public <T> List<T> query(Class<T> entityClass, int nMaxResults, RestrictionSet restrictions, List<Order> orders, ProjectionList projectionList) {
+        //TODO: use getCriteriaBuilder
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(entityClass);
+        // max results
+        if (nMaxResults > 0) {
+            criteria.setMaxResults(nMaxResults);
+        }
+        //restriction
+        if (restrictions != null) {
+            restrictions.toCriteria(criteria);
+        }
+        //order
+        if (orders != null && !orders.isEmpty()) {
+            for (Order order : orders) {
+                criteria.addOrder(order);
+            }
+        }
+        return criteria.list();
     }
 
     /**
