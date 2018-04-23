@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_package = "com.nobodyhub.datalayer.core.model";
+option java_package = "com.nobodyhub.datalayer.core.service.model";
 option java_outer_classname = "DataLayerProtocol";
 
 package datalayer.model;
@@ -17,7 +17,7 @@ message Entity {
     bytes entity = 2;
 }
 
-message Reponse {
+message Response {
     int32 errorCode = 1;
     Entity entity = 2;
 }
@@ -28,5 +28,5 @@ message Request {
 }
 
 service DataLayerService {
-    rpc execute (stream Request) returns (Reponse);
+    rpc execute (stream Request) returns (Response);
 }
