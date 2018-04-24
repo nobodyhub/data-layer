@@ -29,7 +29,7 @@ message Response {
 
 /*
  * Request to make a series of operations
- * 1. all operations will be executed in sequence in order of received.
+ * 1. all operations will be executed in sequence in order of received
  * 2. operation sent in the same stream will be executed in the same transaction
  * 3. if the last operation is a OpType.READ/CREATE, the result of it will be send back via Response.Entity
  */
@@ -40,8 +40,6 @@ message ExecuteRequest {
 
 /*
  * Request to query info, the select contents are deciede by the entityClass
- * @see: http://docs.jboss.org/hibernate/core/3.5/reference/en/html/querycriteria.html
- * TODO: define separated message type for different criteria components, like where, groupby, orderby
  */
 message QueryRequest {
     string entityClass = 1;
