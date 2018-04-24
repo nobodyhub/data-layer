@@ -17,3 +17,6 @@ Compared to other de/serialize tool, like Jackson, Thrift, Protocal Buffers, Avr
 1. Dynamic schema: give a high-level freedom to manage the schema programatically
 1. Human-readable schema in JSON: easy for error checking
 1. No need to declare IDs: ID fields does not have much benefits in de/serialize but introduce cost in versionning.
+
+## Hints
+1. The entity should be defined according to the business requirement.
