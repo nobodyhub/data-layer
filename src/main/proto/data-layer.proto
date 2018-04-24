@@ -46,9 +46,9 @@ message ExecuteRequest {
 message QueryRequest {
     string entityClass = 1;
     int64 maxResult = 2;
-    repeated bytes restrictions = 3;
+    bytes restrictionSet = 3;
     repeated bytes orders = 4;
-    bytes projectionList = 5;
+    repeated bytes projects = 5;
 }
 
 service DataLayerService {
