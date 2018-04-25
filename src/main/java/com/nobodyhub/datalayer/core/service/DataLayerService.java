@@ -64,7 +64,6 @@ public class DataLayerService extends DataLayerServiceGrpc.DataLayerServiceImplB
                         .setEntity(entity)
                         .build());
             }
-            responseObserver.onCompleted();
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
             responseObserver.onNext(DataLayerProtocol.Response.newBuilder()
