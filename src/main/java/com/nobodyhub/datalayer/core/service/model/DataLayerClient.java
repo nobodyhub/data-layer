@@ -3,10 +3,13 @@ package com.nobodyhub.datalayer.core.service.model;
 import com.google.common.collect.Lists;
 import com.nobodyhub.datalayer.core.entity.AvroSchemaConverter;
 import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -20,11 +23,27 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class DataLayerClient implements AutoCloseable {
 
+    @Value("${datalayer.server.host}")
+    private String host;
+
+    @Value("${datalayer.server.port}")
+    private int port;
+
     @Autowired
     private AvroSchemaConverter converter;
+
     private ManagedChannel channel;
-    private DataLayerServiceGrpc.DataLayerServiceStub asynStub;
+    private DataLayerServiceGrpc.DataLayerServiceStub asyncStub;
     private DataLayerServiceGrpc.DataLayerServiceBlockingStub blockingStub;
+
+
+    @PostConstruct
+    public void setup() {
+        ManagedChannelBuilder<?> channelBuilder = ManagedChannelBuilder.forAddress(host, port).usePlaintext();
+        this.channel = channelBuilder.build();
+        this.asyncStub = DataLayerServiceGrpc.newStub(channel);
+        this.blockingStub = DataLayerServiceGrpc.newBlockingStub(channel);
+    }
 
     public <T> ResponseData<T> execute(List<ExecuteRequestData<T>> operations) throws IOException, ClassNotFoundException, InterruptedException {
         final CountDownLatch finishLatch = new CountDownLatch(1);
@@ -55,7 +74,7 @@ public class DataLayerClient implements AutoCloseable {
                 finishLatch.countDown();
             }
         };
-        StreamObserver<DataLayerProtocol.ExecuteRequest> request = asynStub.execute(response);
+        StreamObserver<DataLayerProtocol.ExecuteRequest> request = asyncStub.execute(response);
         for (ExecuteRequestData<T> operation : operations) {
             DataLayerProtocol.ExecuteRequest reqOp = DataLayerProtocol.ExecuteRequest.newBuilder()
                     .setOpType(operation.getOpType())
@@ -81,6 +100,7 @@ public class DataLayerClient implements AutoCloseable {
                 DataLayerProtocol.Response response = iter.next();
                 data.add(converter.to(response.getEntity()));
             }
+            responseData.setStatus(DataLayerProtocol.StatusCode.OK);
             responseData.setEntity(data);
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
