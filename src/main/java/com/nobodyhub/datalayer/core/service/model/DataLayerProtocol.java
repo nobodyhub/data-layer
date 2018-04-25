@@ -15,108 +15,108 @@ public final class DataLayerProtocol {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
 
+  /**
+   * Protobuf enum {@code datalayer.model.StatusCode}
+   */
+  public enum StatusCode
+          implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * Protobuf enum {@code datalayer.model.ErrCode}
+     * <code>OK = 0;</code>
      */
-    public enum ErrCode
-            implements com.google.protobuf.ProtocolMessageEnum {
-        /**
-         * <code>OK = 0;</code>
-         */
-        OK(0),
-        /**
-         * <code>ERROR = 1;</code>
-         */
-        ERROR(1),
-        UNRECOGNIZED(-1),;
+    OK(0),
+    /**
+     * <code>ERROR = 1;</code>
+     */
+    ERROR(1),
+    UNRECOGNIZED(-1),;
 
-        /**
-         * <code>OK = 0;</code>
-         */
-        public static final int OK_VALUE = 0;
-        /**
-         * <code>ERROR = 1;</code>
-         */
-        public static final int ERROR_VALUE = 1;
+    /**
+     * <code>OK = 0;</code>
+     */
+    public static final int OK_VALUE = 0;
+    /**
+     * <code>ERROR = 1;</code>
+     */
+    public static final int ERROR_VALUE = 1;
 
 
-        public final int getNumber() {
-            if (this == UNRECOGNIZED) {
-                throw new java.lang.IllegalArgumentException(
-                        "Can't get the number of an unknown enum value.");
-            }
-            return value;
-        }
-
-        /**
-         * @deprecated Use {@link #forNumber(int)} instead.
-         */
-        @java.lang.Deprecated
-        public static ErrCode valueOf(int value) {
-            return forNumber(value);
-        }
-
-        public static ErrCode forNumber(int value) {
-            switch (value) {
-                case 0:
-                    return OK;
-                case 1:
-                    return ERROR;
-                default:
-                    return null;
-            }
-        }
-
-        public static com.google.protobuf.Internal.EnumLiteMap<ErrCode>
-        internalGetValueMap() {
-            return internalValueMap;
-        }
-
-        private static final com.google.protobuf.Internal.EnumLiteMap<
-                ErrCode> internalValueMap =
-                new com.google.protobuf.Internal.EnumLiteMap<ErrCode>() {
-                    public ErrCode findValueByNumber(int number) {
-                        return ErrCode.forNumber(number);
-                    }
-                };
-
-        public final com.google.protobuf.Descriptors.EnumValueDescriptor
-        getValueDescriptor() {
-            return getDescriptor().getValues().get(ordinal());
-        }
-
-        public final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptorForType() {
-            return getDescriptor();
-        }
-
-        public static final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptor() {
-            return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.getDescriptor().getEnumTypes().get(0);
-        }
-
-        private static final ErrCode[] VALUES = values();
-
-        public static ErrCode valueOf(
-                com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-            if (desc.getType() != getDescriptor()) {
-                throw new java.lang.IllegalArgumentException(
-                        "EnumValueDescriptor is not for this type.");
-            }
-            if (desc.getIndex() == -1) {
-                return UNRECOGNIZED;
-            }
-            return VALUES[desc.getIndex()];
-        }
-
-        private final int value;
-
-        private ErrCode(int value) {
-            this.value = value;
-        }
-
-        // @@protoc_insertion_point(enum_scope:datalayer.model.ErrCode)
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+                "Can't get the number of an unknown enum value.");
+      }
+      return value;
     }
+
+    /**
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static StatusCode valueOf(int value) {
+      return forNumber(value);
+    }
+
+    public static StatusCode forNumber(int value) {
+      switch (value) {
+        case 0:
+          return OK;
+        case 1:
+          return ERROR;
+        default:
+          return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<StatusCode>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+            StatusCode> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<StatusCode>() {
+              public StatusCode findValueByNumber(int number) {
+                return StatusCode.forNumber(number);
+              }
+            };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(ordinal());
+    }
+
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final StatusCode[] VALUES = values();
+
+    public static StatusCode valueOf(
+            com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+                "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private StatusCode(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:datalayer.model.StatusCode)
+  }
 
   /**
    * Protobuf enum {@code datalayer.model.OpType}
@@ -139,10 +139,10 @@ public final class DataLayerProtocol {
      * <code>DELETE = 3;</code>
      */
     DELETE(3),
-      /**
-       * <code>PERSIST = 4;</code>
-       */
-      PERSIST(4),
+    /**
+     * <code>PERSIST = 4;</code>
+     */
+    PERSIST(4),
     UNRECOGNIZED(-1),
     ;
 
@@ -162,10 +162,10 @@ public final class DataLayerProtocol {
      * <code>DELETE = 3;</code>
      */
     public static final int DELETE_VALUE = 3;
-      /**
-       * <code>PERSIST = 4;</code>
-       */
-      public static final int PERSIST_VALUE = 4;
+    /**
+     * <code>PERSIST = 4;</code>
+     */
+    public static final int PERSIST_VALUE = 4;
 
 
     public final int getNumber() {
@@ -186,11 +186,13 @@ public final class DataLayerProtocol {
 
     public static OpType forNumber(int value) {
       switch (value) {
-        case 0: return CREATE;
-        case 1: return READ;
+        case 0:
+          return CREATE;
+        case 1:
+          return READ;
         case 2:
-            return UPDATE;
-          case 3: return DELETE;
+          return UPDATE;
+        case 3: return DELETE;
         case 4: return PERSIST;
         default: return null;
       }
@@ -218,7 +220,7 @@ public final class DataLayerProtocol {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
     getDescriptor() {
-        return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.getDescriptor().getEnumTypes().get(1);
+      return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.getDescriptor().getEnumTypes().get(1);
     }
 
     private static final OpType[] VALUES = values();
@@ -847,31 +849,31 @@ public final class DataLayerProtocol {
       // @@protoc_insertion_point(interface_extends:datalayer.model.Response)
           com.google.protobuf.MessageOrBuilder {
 
-      /**
-       * <code>.datalayer.model.ErrCode errCode = 1;</code>
-       */
-      int getErrCodeValue();
+    /**
+     * <code>.datalayer.model.StatusCode errCode = 1;</code>
+     */
+    int getErrCodeValue();
 
-      /**
-       * <code>.datalayer.model.ErrCode errCode = 1;</code>
-       */
-      com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ErrCode getErrCode();
+    /**
+     * <code>.datalayer.model.StatusCode errCode = 1;</code>
+     */
+    com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.StatusCode getErrCode();
 
-      /**
-       * <code>string message = 2;</code>
-       */
-      java.lang.String getMessage();
+    /**
+     * <code>string message = 2;</code>
+     */
+    java.lang.String getMessage();
 
-      /**
-       * <code>string message = 2;</code>
-       */
-      com.google.protobuf.ByteString
-      getMessageBytes();
+    /**
+     * <code>string message = 2;</code>
+     */
+    com.google.protobuf.ByteString
+    getMessageBytes();
 
-      /**
+    /**
      * <code>.datalayer.model.Entity entity = 3;</code>
-       */
-      boolean hasEntity();
+     */
+    boolean hasEntity();
     /**
      * <code>.datalayer.model.Entity entity = 3;</code>
      */
@@ -895,7 +897,7 @@ public final class DataLayerProtocol {
   private static final long serialVersionUID = 0L;
     // Use Response.newBuilder() to construct.
     private Response(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-        super(builder);
+      super(builder);
     }
     private Response() {
       errCode_ = 0;
@@ -931,18 +933,18 @@ public final class DataLayerProtocol {
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
-                break;
+              break;
             }
-              case 8: {
-                  int rawValue = input.readEnum();
+            case 8: {
+              int rawValue = input.readEnum();
 
               errCode_ = rawValue;
-                  break;
-              }
-              case 18: {
-                  java.lang.String s = input.readStringRequireUtf8();
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-                  message_ = s;
+              message_ = s;
               break;
             }
             case 26: {
@@ -982,62 +984,62 @@ public final class DataLayerProtocol {
               com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response.class, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response.Builder.class);
     }
 
-      public static final int ERRCODE_FIELD_NUMBER = 1;
-      private int errCode_;
+    public static final int ERRCODE_FIELD_NUMBER = 1;
+    private int errCode_;
 
-      /**
-       * <code>.datalayer.model.ErrCode errCode = 1;</code>
-       */
-      public int getErrCodeValue() {
-          return errCode_;
+    /**
+     * <code>.datalayer.model.StatusCode errCode = 1;</code>
+     */
+    public int getErrCodeValue() {
+      return errCode_;
+    }
+
+    /**
+     * <code>.datalayer.model.StatusCode errCode = 1;</code>
+     */
+    public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.StatusCode getErrCode() {
+      com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.StatusCode result = com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.StatusCode.valueOf(errCode_);
+      return result == null ? com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.StatusCode.UNRECOGNIZED : result;
+    }
+
+    public static final int MESSAGE_FIELD_NUMBER = 2;
+    private volatile java.lang.Object message_;
+
+    /**
+     * <code>string message = 2;</code>
+     */
+    public java.lang.String getMessage() {
+      java.lang.Object ref = message_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        message_ = s;
+        return s;
       }
+    }
 
-      /**
-       * <code>.datalayer.model.ErrCode errCode = 1;</code>
-       */
-      public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ErrCode getErrCode() {
-          com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ErrCode result = com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ErrCode.valueOf(errCode_);
-          return result == null ? com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ErrCode.UNRECOGNIZED : result;
-      }
-
-      public static final int MESSAGE_FIELD_NUMBER = 2;
-      private volatile java.lang.Object message_;
-
-      /**
-       * <code>string message = 2;</code>
-       */
-      public java.lang.String getMessage() {
-          java.lang.Object ref = message_;
-          if (ref instanceof java.lang.String) {
-              return (java.lang.String) ref;
-          } else {
-              com.google.protobuf.ByteString bs =
-                      (com.google.protobuf.ByteString) ref;
-              java.lang.String s = bs.toStringUtf8();
-              message_ = s;
-              return s;
-          }
-      }
-
-      /**
-       * <code>string message = 2;</code>
-       */
-      public com.google.protobuf.ByteString
-      getMessageBytes() {
-          java.lang.Object ref = message_;
-          if (ref instanceof java.lang.String) {
-              com.google.protobuf.ByteString b =
-                      com.google.protobuf.ByteString.copyFromUtf8(
-                              (java.lang.String) ref);
-              message_ = b;
-              return b;
-          } else {
-              return (com.google.protobuf.ByteString) ref;
+    /**
+     * <code>string message = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+    getMessageBytes() {
+      java.lang.Object ref = message_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b =
+                com.google.protobuf.ByteString.copyFromUtf8(
+                        (java.lang.String) ref);
+        message_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
       }
     }
 
     public static final int ENTITY_FIELD_NUMBER = 3;
-      private com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity entity_;
+    private com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity entity_;
     /**
      * <code>.datalayer.model.Entity entity = 3;</code>
      */
@@ -1069,10 +1071,10 @@ public final class DataLayerProtocol {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
             throws java.io.IOException {
-        if (errCode_ != com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ErrCode.OK.getNumber()) {
-            output.writeEnum(1, errCode_);
-        }
-        if (!getMessageBytes().isEmpty()) {
+      if (errCode_ != com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.StatusCode.OK.getNumber()) {
+        output.writeEnum(1, errCode_);
+      }
+      if (!getMessageBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, message_);
       }
       if (entity_ != null) {
@@ -1082,18 +1084,18 @@ public final class DataLayerProtocol {
     }
 
     public int getSerializedSize() {
-        int size = memoizedSize;
-        if (size != -1) return size;
+      int size = memoizedSize;
+      if (size != -1) return size;
 
-        size = 0;
-        if (errCode_ != com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ErrCode.OK.getNumber()) {
-            size += com.google.protobuf.CodedOutputStream
-                    .computeEnumSize(1, errCode_);
-        }
-        if (!getMessageBytes().isEmpty()) {
+      size = 0;
+      if (errCode_ != com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.StatusCode.OK.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+                .computeEnumSize(1, errCode_);
+      }
+      if (!getMessageBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, message_);
-        }
-        if (entity_ != null) {
+      }
+      if (entity_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, getEntity());
       }
@@ -1112,8 +1114,8 @@ public final class DataLayerProtocol {
       }
       com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response other = (com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response) obj;
 
-        boolean result = true;
-        result = result && errCode_ == other.errCode_;
+      boolean result = true;
+      result = result && errCode_ == other.errCode_;
       result = result && getMessage()
           .equals(other.getMessage());
       result = result && (hasEntity() == other.hasEntity());
@@ -1130,10 +1132,10 @@ public final class DataLayerProtocol {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
       }
-        int hash = 41;
-        hash = (19 * hash) + getDescriptor().hashCode();
-        hash = (37 * hash) + ERRCODE_FIELD_NUMBER;
-        hash = (53 * hash) + errCode_;
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ERRCODE_FIELD_NUMBER;
+      hash = (53 * hash) + errCode_;
       hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
       hash = (53 * hash) + getMessage().hashCode();
       if (hasEntity()) {
@@ -1353,10 +1355,10 @@ public final class DataLayerProtocol {
 
       public Builder mergeFrom(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response other) {
         if (other == com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response.getDefaultInstance())
-            return this;
-          if (other.errCode_ != 0) {
-              setErrCodeValue(other.getErrCodeValue());
-          }
+          return this;
+        if (other.errCode_ != 0) {
+          setErrCodeValue(other.getErrCodeValue());
+        }
         if (!other.getMessage().isEmpty()) {
           message_ = other.message_;
           onChanged();
@@ -1385,123 +1387,123 @@ public final class DataLayerProtocol {
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
-              mergeFrom(parsedMessage);
+            mergeFrom(parsedMessage);
           }
         }
-          return this;
-      }
-
-        private int errCode_ = 0;
-
-        /**
-         * <code>.datalayer.model.ErrCode errCode = 1;</code>
-         */
-        public int getErrCodeValue() {
-            return errCode_;
-        }
-
-        /**
-         * <code>.datalayer.model.ErrCode errCode = 1;</code>
-         */
-        public Builder setErrCodeValue(int value) {
-            errCode_ = value;
-            onChanged();
-            return this;
-        }
-
-        /**
-         * <code>.datalayer.model.ErrCode errCode = 1;</code>
-         */
-        public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ErrCode getErrCode() {
-            com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ErrCode result = com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ErrCode.valueOf(errCode_);
-            return result == null ? com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ErrCode.UNRECOGNIZED : result;
-        }
-
-        /**
-         * <code>.datalayer.model.ErrCode errCode = 1;</code>
-         */
-        public Builder setErrCode(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ErrCode value) {
-            if (value == null) {
-                throw new NullPointerException();
-            }
-
-            errCode_ = value.getNumber();
-            onChanged();
-            return this;
-        }
-
-        /**
-         * <code>.datalayer.model.ErrCode errCode = 1;</code>
-         */
-        public Builder clearErrCode() {
-
-            errCode_ = 0;
-            onChanged();
-            return this;
-        }
-
-        private java.lang.Object message_ = "";
-
-        /**
-         * <code>string message = 2;</code>
-         */
-        public java.lang.String getMessage() {
-            java.lang.Object ref = message_;
-            if (!(ref instanceof java.lang.String)) {
-                com.google.protobuf.ByteString bs =
-                        (com.google.protobuf.ByteString) ref;
-                java.lang.String s = bs.toStringUtf8();
-                message_ = s;
-                return s;
-            } else {
-                return (java.lang.String) ref;
-            }
-        }
-
-        /**
-         * <code>string message = 2;</code>
-         */
-        public com.google.protobuf.ByteString
-        getMessageBytes() {
-            java.lang.Object ref = message_;
-            if (ref instanceof String) {
-                com.google.protobuf.ByteString b =
-                        com.google.protobuf.ByteString.copyFromUtf8(
-                                (java.lang.String) ref);
-                message_ = b;
-                return b;
-            } else {
-                return (com.google.protobuf.ByteString) ref;
-            }
-        }
-
-        /**
-         * <code>string message = 2;</code>
-         */
-        public Builder setMessage(
-                java.lang.String value) {
-            if (value == null) {
-                throw new NullPointerException();
-            }
-
-            message_ = value;
-            onChanged();
         return this;
       }
+
+      private int errCode_ = 0;
+
+      /**
+       * <code>.datalayer.model.StatusCode errCode = 1;</code>
+       */
+      public int getErrCodeValue() {
+        return errCode_;
+      }
+
+      /**
+       * <code>.datalayer.model.StatusCode errCode = 1;</code>
+       */
+      public Builder setErrCodeValue(int value) {
+        errCode_ = value;
+        onChanged();
+        return this;
+      }
+
+      /**
+       * <code>.datalayer.model.StatusCode errCode = 1;</code>
+       */
+      public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.StatusCode getErrCode() {
+        com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.StatusCode result = com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.StatusCode.valueOf(errCode_);
+        return result == null ? com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.StatusCode.UNRECOGNIZED : result;
+      }
+
+      /**
+       * <code>.datalayer.model.StatusCode errCode = 1;</code>
+       */
+      public Builder setErrCode(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.StatusCode value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+
+        errCode_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+
+      /**
+       * <code>.datalayer.model.StatusCode errCode = 1;</code>
+       */
+      public Builder clearErrCode() {
+
+        errCode_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object message_ = "";
+
+      /**
+       * <code>string message = 2;</code>
+       */
+      public java.lang.String getMessage() {
+        java.lang.Object ref = message_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+                  (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          message_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+
+      /**
+       * <code>string message = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+      getMessageBytes() {
+        java.lang.Object ref = message_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b =
+                  com.google.protobuf.ByteString.copyFromUtf8(
+                          (java.lang.String) ref);
+          message_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      /**
+       * <code>string message = 2;</code>
+       */
+      public Builder setMessage(
+              java.lang.String value) {
+        if (value == null) {
+          throw new NullPointerException();
+  }
+
+        message_ = value;
+        onChanged();
+        return this;
+      }
+
       /**
        * <code>string message = 2;</code>
        */
       public Builder clearMessage() {
 
-          message_ = getDefaultInstance().getMessage();
-          onChanged();
-          return this;
+        message_ = getDefaultInstance().getMessage();
+        onChanged();
+        return this;
       }
-
-        /**
-         * <code>string message = 2;</code>
-         */
-        public Builder setMessageBytes(
+      /**
+       * <code>string message = 2;</code>
+       */
+      public Builder setMessageBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
@@ -1516,9 +1518,8 @@ public final class DataLayerProtocol {
       private com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity entity_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.Builder, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.EntityOrBuilder> entityBuilder_;
-
-        /**
-         * <code>.datalayer.model.Entity entity = 3;</code>
+      /**
+       * <code>.datalayer.model.Entity entity = 3;</code>
        */
       public boolean hasEntity() {
         return entityBuilder_ != null || entity_ != null;
@@ -1541,7 +1542,7 @@ public final class DataLayerProtocol {
           if (value == null) {
             throw new NullPointerException();
           }
-            entity_ = value;
+          entity_ = value;
           onChanged();
         } else {
           entityBuilder_.setMessage(value);
@@ -1549,14 +1550,15 @@ public final class DataLayerProtocol {
 
         return this;
       }
+
       /**
        * <code>.datalayer.model.Entity entity = 3;</code>
        */
       public Builder setEntity(
-          com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.Builder builderForValue) {
+              com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.Builder builderForValue) {
         if (entityBuilder_ == null) {
-            entity_ = builderForValue.build();
-            onChanged();
+          entity_ = builderForValue.build();
+          onChanged();
         } else {
           entityBuilder_.setMessage(builderForValue.build());
         }
@@ -1570,9 +1572,9 @@ public final class DataLayerProtocol {
         if (entityBuilder_ == null) {
           if (entity_ != null) {
             entity_ =
-              com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.newBuilder(entity_).mergeFrom(value).buildPartial();
+                    com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.newBuilder(entity_).mergeFrom(value).buildPartial();
           } else {
-              entity_ = value;
+            entity_ = value;
           }
           onChanged();
         } else {
@@ -1581,13 +1583,14 @@ public final class DataLayerProtocol {
 
         return this;
       }
+
       /**
        * <code>.datalayer.model.Entity entity = 3;</code>
        */
       public Builder clearEntity() {
         if (entityBuilder_ == null) {
-            entity_ = null;
-            onChanged();
+          entity_ = null;
+          onChanged();
         } else {
           entity_ = null;
           entityBuilder_ = null;
@@ -1610,7 +1613,7 @@ public final class DataLayerProtocol {
         if (entityBuilder_ != null) {
           return entityBuilder_.getMessageOrBuilder();
         } else {
-            return entity_ == null ?
+          return entity_ == null ?
               com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.getDefaultInstance() : entity_;
         }
       }
@@ -2369,28 +2372,27 @@ public final class DataLayerProtocol {
 
   public interface QueryRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:datalayer.model.QueryRequest)
-      com.google.protobuf.MessageOrBuilder {
+          com.google.protobuf.MessageOrBuilder {
 
     /**
      * <code>string entityClass = 1;</code>
      */
     java.lang.String getEntityClass();
 
-      /**
-       * <code>string entityClass = 1;</code>
-       */
-      com.google.protobuf.ByteString
-      getEntityClassBytes();
+    /**
+     * <code>string entityClass = 1;</code>
+     */
+    com.google.protobuf.ByteString
+    getEntityClassBytes();
 
-      /**
-       * <code>.datalayer.model.Entity criteria = 2;</code>
-       */
-      boolean hasCriteria();
-
-      /**
-       * <code>.datalayer.model.Entity criteria = 2;</code>
-       */
-      com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity getCriteria();
+    /**
+     * <code>.datalayer.model.Entity criteria = 2;</code>
+     */
+    boolean hasCriteria();
+    /**
+     * <code>.datalayer.model.Entity criteria = 2;</code>
+     */
+    com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity getCriteria();
     /**
      * <code>.datalayer.model.Entity criteria = 2;</code>
      */
@@ -2442,23 +2444,23 @@ public final class DataLayerProtocol {
               break;
             default: {
               if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
+                      input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
-                break;
+              break;
             }
-              case 10: {
-                  java.lang.String s = input.readStringRequireUtf8();
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-                  entityClass_ = s;
-                  break;
+              entityClass_ = s;
+              break;
+            }
+            case 18: {
+              com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.Builder subBuilder = null;
+              if (criteria_ != null) {
+                subBuilder = criteria_.toBuilder();
               }
-              case 18: {
-                  com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.Builder subBuilder = null;
-                  if (criteria_ != null) {
-                      subBuilder = criteria_.toBuilder();
-                  }
-                  criteria_ = input.readMessage(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.parser(), extensionRegistry);
+              criteria_ = input.readMessage(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(criteria_);
                 criteria_ = subBuilder.buildPartial();
@@ -2511,37 +2513,36 @@ public final class DataLayerProtocol {
      * <code>string entityClass = 1;</code>
      */
     public com.google.protobuf.ByteString
-        getEntityClassBytes() {
+    getEntityClassBytes() {
       java.lang.Object ref = entityClass_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-          entityClass_ = b;
-          return b;
+        com.google.protobuf.ByteString b =
+                com.google.protobuf.ByteString.copyFromUtf8(
+                        (java.lang.String) ref);
+        entityClass_ = b;
+        return b;
       } else {
-          return (com.google.protobuf.ByteString) ref;
+        return (com.google.protobuf.ByteString) ref;
       }
     }
 
-      public static final int CRITERIA_FIELD_NUMBER = 2;
-      private com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity criteria_;
+    public static final int CRITERIA_FIELD_NUMBER = 2;
+    private com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity criteria_;
 
-      /**
-       * <code>.datalayer.model.Entity criteria = 2;</code>
-       */
-      public boolean hasCriteria() {
-          return criteria_ != null;
-      }
+    /**
+     * <code>.datalayer.model.Entity criteria = 2;</code>
+     */
+    public boolean hasCriteria() {
+      return criteria_ != null;
+    }
 
-      /**
-       * <code>.datalayer.model.Entity criteria = 2;</code>
-       */
-      public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity getCriteria() {
-          return criteria_ == null ? com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.getDefaultInstance() : criteria_;
-      }
-
-      /**
+    /**
+     * <code>.datalayer.model.Entity criteria = 2;</code>
+     */
+    public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity getCriteria() {
+      return criteria_ == null ? com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.getDefaultInstance() : criteria_;
+    }
+    /**
      * <code>.datalayer.model.Entity criteria = 2;</code>
      */
     public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.EntityOrBuilder getCriteriaOrBuilder() {
@@ -2559,8 +2560,8 @@ public final class DataLayerProtocol {
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-            throws java.io.IOException {
-        if (!getEntityClassBytes().isEmpty()) {
+                        throws java.io.IOException {
+      if (!getEntityClassBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, entityClass_);
       }
       if (criteria_ != null) {
@@ -2571,11 +2572,11 @@ public final class DataLayerProtocol {
 
     public int getSerializedSize() {
       int size = memoizedSize;
-        if (size != -1) return size;
+      if (size != -1) return size;
 
       size = 0;
       if (!getEntityClassBytes().isEmpty()) {
-          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, entityClass_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, entityClass_);
       }
       if (criteria_ != null) {
         size += com.google.protobuf.CodedOutputStream
@@ -2596,9 +2597,9 @@ public final class DataLayerProtocol {
       }
       com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest other = (com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest) obj;
 
-        boolean result = true;
-        result = result && getEntityClass()
-                .equals(other.getEntityClass());
+      boolean result = true;
+      result = result && getEntityClass()
+          .equals(other.getEntityClass());
       result = result && (hasCriteria() == other.hasCriteria());
       if (hasCriteria()) {
         result = result && getCriteria()
@@ -2613,9 +2614,9 @@ public final class DataLayerProtocol {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
       }
-        int hash = 41;
-        hash = (19 * hash) + getDescriptor().hashCode();
-        hash = (37 * hash) + ENTITYCLASS_FIELD_NUMBER;
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ENTITYCLASS_FIELD_NUMBER;
       hash = (53 * hash) + getEntityClass().hashCode();
       if (hasCriteria()) {
         hash = (37 * hash) + CRITERIA_FIELD_NUMBER;
@@ -2743,17 +2744,16 @@ public final class DataLayerProtocol {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+              com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessageV3
-                  .alwaysUseFieldBuilders) {
-          }
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
       }
-
-        public Builder clear() {
+      public Builder clear() {
         super.clear();
         entityClass_ = "";
 
@@ -2784,7 +2784,7 @@ public final class DataLayerProtocol {
       }
 
       public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest buildPartial() {
-          com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest result = new com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest(this);
+        com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest result = new com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest(this);
         result.entityClass_ = entityClass_;
         if (criteriaBuilder_ == null) {
           result.criteria_ = criteria_;
@@ -2821,9 +2821,10 @@ public final class DataLayerProtocol {
           java.lang.Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
+
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest) {
-          return mergeFrom((com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest)other);
+          return mergeFrom((com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest) other);
         } else {
           super.mergeFrom(other);
           return this;
@@ -2831,8 +2832,7 @@ public final class DataLayerProtocol {
       }
 
       public Builder mergeFrom(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest other) {
-        if (other == com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest.getDefaultInstance())
-            return this;
+        if (other == com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest.getDefaultInstance()) return this;
         if (!other.getEntityClass().isEmpty()) {
           entityClass_ = other.entityClass_;
           onChanged();
@@ -2916,144 +2916,145 @@ public final class DataLayerProtocol {
        * <code>string entityClass = 1;</code>
        */
       public Builder clearEntityClass() {
-        
+
         entityClass_ = getDefaultInstance().getEntityClass();
         onChanged();
         return this;
       }
+
       /**
        * <code>string entityClass = 1;</code>
        */
       public Builder setEntityClassBytes(
-          com.google.protobuf.ByteString value) {
-          if (value == null) {
-              throw new NullPointerException();
-          }
-          checkByteStringIsUtf8(value);
+              com.google.protobuf.ByteString value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        checkByteStringIsUtf8(value);
 
-          entityClass_ = value;
-          onChanged();
-          return this;
+        entityClass_ = value;
+        onChanged();
+        return this;
       }
 
-        private com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity criteria_ = null;
-        private com.google.protobuf.SingleFieldBuilderV3<
-                com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.Builder, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.EntityOrBuilder> criteriaBuilder_;
+      private com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity criteria_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+              com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.Builder, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.EntityOrBuilder> criteriaBuilder_;
 
-        /**
-         * <code>.datalayer.model.Entity criteria = 2;</code>
-         */
-        public boolean hasCriteria() {
-            return criteriaBuilder_ != null || criteria_ != null;
-        }
-
-        /**
-         * <code>.datalayer.model.Entity criteria = 2;</code>
-         */
-        public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity getCriteria() {
-            if (criteriaBuilder_ == null) {
-                return criteria_ == null ? com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.getDefaultInstance() : criteria_;
-            } else {
-                return criteriaBuilder_.getMessage();
-            }
-        }
-
-        /**
-         * <code>.datalayer.model.Entity criteria = 2;</code>
-         */
-        public Builder setCriteria(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity value) {
-            if (criteriaBuilder_ == null) {
-          if (value == null) {
-              throw new NullPointerException();
-          }
-                criteria_ = value;
-                onChanged();
-            } else {
-                criteriaBuilder_.setMessage(value);
-            }
-
-            return this;
-        }
-
-        /**
-         * <code>.datalayer.model.Entity criteria = 2;</code>
-         */
-        public Builder setCriteria(
-                com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.Builder builderForValue) {
-            if (criteriaBuilder_ == null) {
-                criteria_ = builderForValue.build();
-                onChanged();
-            } else {
-                criteriaBuilder_.setMessage(builderForValue.build());
-            }
-
-            return this;
-        }
-
-        /**
-         * <code>.datalayer.model.Entity criteria = 2;</code>
-         */
-        public Builder mergeCriteria(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity value) {
-            if (criteriaBuilder_ == null) {
-                if (criteria_ != null) {
-                    criteria_ =
-                            com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.newBuilder(criteria_).mergeFrom(value).buildPartial();
-                } else {
-                    criteria_ = value;
-                }
-                onChanged();
-            } else {
-                criteriaBuilder_.mergeFrom(value);
-            }
-
-            return this;
-        }
-
-        /**
-         * <code>.datalayer.model.Entity criteria = 2;</code>
+      /**
+       * <code>.datalayer.model.Entity criteria = 2;</code>
        */
-        public Builder clearCriteria() {
-            if (criteriaBuilder_ == null) {
-                criteria_ = null;
-                onChanged();
-            } else {
-                criteria_ = null;
-                criteriaBuilder_ = null;
-            }
+      public boolean hasCriteria() {
+        return criteriaBuilder_ != null || criteria_ != null;
+      }
 
-            return this;
+      /**
+       * <code>.datalayer.model.Entity criteria = 2;</code>
+       */
+      public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity getCriteria() {
+        if (criteriaBuilder_ == null) {
+          return criteria_ == null ? com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.getDefaultInstance() : criteria_;
+        } else {
+          return criteriaBuilder_.getMessage();
+        }
+      }
+
+      /**
+       * <code>.datalayer.model.Entity criteria = 2;</code>
+       */
+      public Builder setCriteria(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity value) {
+        if (criteriaBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          criteria_ = value;
+          onChanged();
+        } else {
+          criteriaBuilder_.setMessage(value);
         }
 
-        /**
-         * <code>.datalayer.model.Entity criteria = 2;</code>
-         */
-        public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.Builder getCriteriaBuilder() {
+        return this;
+      }
 
-            onChanged();
-            return getCriteriaFieldBuilder().getBuilder();
+      /**
+       * <code>.datalayer.model.Entity criteria = 2;</code>
+       */
+      public Builder setCriteria(
+              com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.Builder builderForValue) {
+        if (criteriaBuilder_ == null) {
+          criteria_ = builderForValue.build();
+          onChanged();
+        } else {
+          criteriaBuilder_.setMessage(builderForValue.build());
         }
 
-        /**
-         * <code>.datalayer.model.Entity criteria = 2;</code>
-         */
-        public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.EntityOrBuilder getCriteriaOrBuilder() {
-            if (criteriaBuilder_ != null) {
-                return criteriaBuilder_.getMessageOrBuilder();
-            } else {
-                return criteria_ == null ?
-                        com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.getDefaultInstance() : criteria_;
-            }
+        return this;
+      }
+
+      /**
+       * <code>.datalayer.model.Entity criteria = 2;</code>
+       */
+      public Builder mergeCriteria(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity value) {
+        if (criteriaBuilder_ == null) {
+          if (criteria_ != null) {
+            criteria_ =
+                    com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.newBuilder(criteria_).mergeFrom(value).buildPartial();
+          } else {
+            criteria_ = value;
+          }
+          onChanged();
+        } else {
+          criteriaBuilder_.mergeFrom(value);
         }
 
-        /**
-         * <code>.datalayer.model.Entity criteria = 2;</code>
-         */
-        private com.google.protobuf.SingleFieldBuilderV3<
-                com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.Builder, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.EntityOrBuilder>
-        getCriteriaFieldBuilder() {
-            if (criteriaBuilder_ == null) {
-                criteriaBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-                        com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.Builder, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.EntityOrBuilder>(
+        return this;
+      }
+
+      /**
+       * <code>.datalayer.model.Entity criteria = 2;</code>
+       */
+      public Builder clearCriteria() {
+        if (criteriaBuilder_ == null) {
+          criteria_ = null;
+          onChanged();
+        } else {
+          criteria_ = null;
+          criteriaBuilder_ = null;
+        }
+
+        return this;
+      }
+
+      /**
+       * <code>.datalayer.model.Entity criteria = 2;</code>
+       */
+      public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.Builder getCriteriaBuilder() {
+
+        onChanged();
+        return getCriteriaFieldBuilder().getBuilder();
+      }
+
+      /**
+       * <code>.datalayer.model.Entity criteria = 2;</code>
+       */
+      public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.EntityOrBuilder getCriteriaOrBuilder() {
+        if (criteriaBuilder_ != null) {
+          return criteriaBuilder_.getMessageOrBuilder();
+        } else {
+          return criteria_ == null ?
+                  com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.getDefaultInstance() : criteria_;
+        }
+      }
+
+      /**
+       * <code>.datalayer.model.Entity criteria = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+              com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.Builder, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.EntityOrBuilder>
+      getCriteriaFieldBuilder() {
+        if (criteriaBuilder_ == null) {
+          criteriaBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+                  com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Entity.Builder, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.EntityOrBuilder>(
                   getCriteria(),
                   getParentForChildren(),
                   isClean());
@@ -3111,53 +3112,54 @@ public final class DataLayerProtocol {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_datalayer_model_Entity_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_datalayer_model_Entity_fieldAccessorTable;
+          internal_static_datalayer_model_Entity_descriptor;
+  private static final
+  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internal_static_datalayer_model_Entity_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_datalayer_model_Response_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_datalayer_model_Response_fieldAccessorTable;
+  private static final
+  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internal_static_datalayer_model_Response_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_datalayer_model_ExecuteRequest_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_datalayer_model_ExecuteRequest_fieldAccessorTable;
+  private static final
+  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internal_static_datalayer_model_ExecuteRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_datalayer_model_QueryRequest_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_datalayer_model_QueryRequest_fieldAccessorTable;
+  private static final
+  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internal_static_datalayer_model_QueryRequest_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
-      getDescriptor() {
+  getDescriptor() {
     return descriptor;
   }
+
   private static com.google.protobuf.Descriptors.FileDescriptor
           descriptor;
 
-    static {
-        java.lang.String[] descriptorData = {
-                "\n\020data-layer.proto\022\017datalayer.model\"-\n\006E" +
-                        "ntity\022\023\n\013entityClass\030\001 \001(\t\022\016\n\006entity\030\002 \001" +
-                        "(\014\"o\n\010Response\022)\n\007errCode\030\001 \001(\0162\030.datala" +
-                        "yer.model.ErrCode\022\017\n\007message\030\002 \001(\t\022\'\n\006en" +
-                        "tity\030\003 \001(\0132\027.datalayer.model.Entity\"b\n\016E" +
-                        "xecuteRequest\022\'\n\006opType\030\001 \001(\0162\027.datalaye" +
-                        "r.model.OpType\022\'\n\006entity\030\002 \001(\0132\027.datalay" +
-                        "er.model.Entity\"N\n\014QueryRequest\022\023\n\013entit" +
-                        "yClass\030\001 \001(\t\022)\n\010criteria\030\002 \001(\0132\027.datalay" +
-                        "er.model.Entity*\034\n\007ErrCode\022\006\n\002OK\020\000\022\t\n\005ER" +
-                        "ROR\020\001*C\n\006OpType\022\n\n\006CREATE\020\000\022\010\n\004READ\020\001\022\n\n" +
-                        "\006UPDATE\020\002\022\n\n\006DELETE\020\003\022\013\n\007PERSIST\020\0042\240\001\n\020D" +
-                        "ataLayerService\022G\n\007execute\022\037.datalayer.m" +
-      "odel.ExecuteRequest\032\031.datalayer.model.Re" +
-      "sponse(\001\022C\n\005query\022\035.datalayer.model.Quer" +
-      "yRequest\032\031.datalayer.model.Response0\001B?\n" +
-      "*com.nobodyhub.datalayer.core.service.mo" +
-      "delB\021DataLayerProtocolb\006proto3"
+  static {
+    java.lang.String[] descriptorData = {
+            "\n\020data-layer.proto\022\017datalayer.model\"-\n\006E" +
+                    "ntity\022\023\n\013entityClass\030\001 \001(\t\022\016\n\006entity\030\002 \001" +
+                    "(\014\"r\n\010Response\022,\n\007errCode\030\001 \001(\0162\033.datala" +
+                    "yer.model.StatusCode\022\017\n\007message\030\002 \001(\t\022\'\n" +
+                    "\006entity\030\003 \001(\0132\027.datalayer.model.Entity\"b" +
+                    "\n\016ExecuteRequest\022\'\n\006opType\030\001 \001(\0162\027.datal" +
+                    "ayer.model.OpType\022\'\n\006entity\030\002 \001(\0132\027.data" +
+                    "layer.model.Entity\"N\n\014QueryRequest\022\023\n\013en" +
+                    "tityClass\030\001 \001(\t\022)\n\010criteria\030\002 \001(\0132\027.data" +
+                    "layer.model.Entity*\037\n\nStatusCode\022\006\n\002OK\020\000" +
+                    "\022\t\n\005ERROR\020\001*C\n\006OpType\022\n\n\006CREATE\020\000\022\010\n\004REA" +
+                    "D\020\001\022\n\n\006UPDATE\020\002\022\n\n\006DELETE\020\003\022\013\n\007PERSIST\020\004" +
+                    "2\240\001\n\020DataLayerService\022G\n\007execute\022\037.datal" +
+                    "ayer.model.ExecuteRequest\032\031.datalayer.mo" +
+                    "del.Response(\001\022C\n\005query\022\035.datalayer.mode" +
+                    "l.QueryRequest\032\031.datalayer.model.Respons" +
+                    "e0\001B?\n*com.nobodyhub.datalayer.core.serv" +
+                    "ice.modelB\021DataLayerProtocolb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

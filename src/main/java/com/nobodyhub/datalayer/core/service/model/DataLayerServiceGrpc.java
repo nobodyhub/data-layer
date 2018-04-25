@@ -86,7 +86,7 @@ public final class DataLayerServiceGrpc {
         if ((getQueryMethod = DataLayerServiceGrpc.getQueryMethod) == null) {
           DataLayerServiceGrpc.getQueryMethod = getQueryMethod = 
               io.grpc.MethodDescriptor.<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+                      .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
               .setFullMethodName(generateFullMethodName(
                   "datalayer.model.DataLayerService", "query"))
               .setSampledToLocalTracing(true)
@@ -161,7 +161,7 @@ public final class DataLayerServiceGrpc {
                   this, METHODID_EXECUTE)))
           .addMethod(
             getQueryMethodHelper(),
-            asyncUnaryCall(
+                  asyncServerStreamingCall(
               new MethodHandlers<
                 com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest,
                 com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response>(
@@ -207,7 +207,7 @@ public final class DataLayerServiceGrpc {
      */
     public void query(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest request,
         io.grpc.stub.StreamObserver<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response> responseObserver) {
-      asyncUnaryCall(
+      asyncServerStreamingCall(
           getChannel().newCall(getQueryMethodHelper(), getCallOptions()), request, responseObserver);
     }
   }
@@ -235,8 +235,9 @@ public final class DataLayerServiceGrpc {
      * Query information with given conditions on particular entity to work with HQL
      * </pre>
      */
-    public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response query(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest request) {
-      return blockingUnaryCall(
+    public java.util.Iterator<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response> query(
+            com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest request) {
+      return blockingServerStreamingCall(
           getChannel(), getQueryMethodHelper(), getCallOptions(), request);
     }
   }
@@ -257,17 +258,6 @@ public final class DataLayerServiceGrpc {
     protected DataLayerServiceFutureStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       return new DataLayerServiceFutureStub(channel, callOptions);
-    }
-
-    /**
-     * <pre>
-     * Query information with given conditions on particular entity to work with HQL
-     * </pre>
-     */
-    public com.google.common.util.concurrent.ListenableFuture<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response> query(
-        com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getQueryMethodHelper(), getCallOptions()), request);
     }
   }
 

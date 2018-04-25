@@ -5,7 +5,7 @@ option java_outer_classname = "DataLayerProtocol";
 
 package datalayer.model;
 
-enum ErrCode {
+enum StatusCode {
     OK = 0;
     ERROR = 1;
 }
@@ -29,7 +29,7 @@ message Entity {
  * Response of the DB operation
  */
 message Response {
-    ErrCode errCode = 1;
+    StatusCode errCode = 1;
     string message = 2;
     Entity entity = 3;
 }
