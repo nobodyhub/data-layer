@@ -8,10 +8,10 @@ import javax.persistence.*;
 /**
  * @author Ryan
  */
-@Entity
-@Table
 @Data
 @ToString
+@Entity
+@Table(name = "User")
 public class User {
     @Id
     @Column
