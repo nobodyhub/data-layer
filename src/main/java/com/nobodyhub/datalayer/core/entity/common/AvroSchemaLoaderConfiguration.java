@@ -22,12 +22,12 @@ public @interface AvroSchemaLoaderConfiguration {
      *
      * @return
      */
-    Class<?> subTypesOf() default AvroEntity.class;
+//    Class<?> subTypesOf() default AvroEntity.class;
 
     /**
      * the required annotation of target classes
      *
      * @return
      */
-    Class<? extends Annotation> annotatedWith() default Entity.class;
+//    Class<? extends Annotation> annotatedWith() default Entity.class;
 }

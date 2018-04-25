@@ -46,10 +46,11 @@ public final class AvroSchemaLoader {
             Reflections targetClassReflection = new Reflections(new ConfigurationBuilder()
                     .addUrls(ClasspathHelper.forPackage(configuration.basePackage()))
                     .setScanners(new TypeAnnotationsScanner(), new SubTypesScanner(false)));
+            Set<Class<?>> targetCls = targetClassReflection.getSubTypesOf(Object.class);
             //filter by annotation
-            Set<Class<?>> targetCls = targetClassReflection.getTypesAnnotatedWith(configuration.annotatedWith());
+//            Set<Class<?>> targetCls = targetClassReflection.getTypesAnnotatedWith(configuration.annotatedWith());
             //filter by subType
-            targetCls.retainAll(targetClassReflection.getSubTypesOf(configuration.subTypesOf()));
+//            targetCls.retainAll(targetClassReflection.getSubTypesOf(configuration.subTypesOf()));
             //load target as schema
             load(targetCls.toArray(new Class<?>[0]));
         }
