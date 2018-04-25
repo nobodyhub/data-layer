@@ -13,7 +13,7 @@ import java.util.List;
  * @since 2018-04-23.
  */
 @Data
-public class Restriction<T> {
+public class Restriction {
     /**
      * type of restriction
      */
@@ -25,11 +25,11 @@ public class Restriction<T> {
     /**
      * the Type of field
      */
-    private Class<T> fieldCls;
+    private Class fieldCls;
     /**
      * a list of oprands, the meaning depends on the {@link this#type}
      */
-    private List<T> operands;
+    private List<Object> operands;
     /**
      * only for {@link RestrictionOpType#LIKE} or {@link RestrictionOpType#ILIKE}
      */
@@ -38,17 +38,17 @@ public class Restriction<T> {
     public Criterion toRestriction() {
         switch (type) {
             case EQ: {
-                return Restrictions.eq(fieldName, operands.get(0));
+                return Restrictions.eq(fieldName, fieldCls.cast(operands.get(0)));
             }
             case LIKE: {
                 if (matchMode != null && fieldCls == String.class) {
                     return Restrictions.like(fieldName, String.class.cast(operands.get(0)), matchMode);
                 } else {
-                    return Restrictions.like(fieldName, operands.get(0));
+                    return Restrictions.like(fieldName, fieldCls.cast(operands.get(0)));
                 }
             }
             case BEWTEEN: {
-                return Restrictions.between(fieldName, operands.get(0), operands.get(1));
+                return Restrictions.between(fieldName, fieldCls.cast(operands.get(0)), fieldCls.cast(operands.get(1)));
             }
             case IN: {
                 return Restrictions.in(fieldName, operands.toArray());
