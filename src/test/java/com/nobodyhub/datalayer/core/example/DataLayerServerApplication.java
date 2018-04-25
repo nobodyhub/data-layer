@@ -14,9 +14,9 @@ import org.springframework.context.annotation.Import;
  */
 @SpringBootApplication
 @Import(RepositoryConfig.class)
-public class SampleApplication {
+public class DataLayerServerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SampleApplication.class, args);
+        SpringApplication.run(DataLayerServerApplication.class, args);
     }
 
     @Bean
