@@ -1,10 +1,12 @@
 package com.nobodyhub.datalayer.core.db;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.nobodyhub.datalayer.core.entity.common.AvroSchemaLoaderConfiguration;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -17,6 +19,7 @@ import java.util.Properties;
  * @author Ryan
  */
 @Configuration
+@ComponentScan("com.nobodyhub.datalayer.core")
 public class RepositoryConfig {
 
     @Value("${jdbc.driverClassName}")
