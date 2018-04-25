@@ -20,6 +20,7 @@ import java.util.Properties;
  */
 @Configuration
 @ComponentScan("com.nobodyhub.datalayer.core")
+@AvroSchemaLoaderConfiguration(basePackages = "com.nobodyhub.datalayer.core")
 public class RepositoryConfig {
 
     @Value("${jdbc.driverClassName}")

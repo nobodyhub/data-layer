@@ -15,7 +15,7 @@ public @interface AvroSchemaLoaderConfiguration {
      *
      * @return
      */
-    String basePackage() default "";
+    String[] basePackages() default {};
 
     /**
      * the parent class of target classes
