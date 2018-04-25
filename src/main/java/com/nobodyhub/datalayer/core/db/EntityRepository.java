@@ -2,7 +2,6 @@ package com.nobodyhub.datalayer.core.db;
 
 import com.nobodyhub.datalayer.core.db.criteria.Projection;
 import com.nobodyhub.datalayer.core.db.criteria.RestrictionSet;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
@@ -16,12 +15,11 @@ import java.util.List;
 /**
  * @author Ryan
  */
-@RequiredArgsConstructor
 @Component
 public class EntityRepository {
 
     @Autowired
-    private final SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     /**
      * Query the result of type <code>entityClass</code> by given criteria
@@ -31,13 +29,12 @@ public class EntityRepository {
      * @param restrictions restrictions for query
      * @param orders       order clause, created by {@link Order#asc(String)} or {@link Order#desc(String)}
      * @param projections  projections, aggregation and grouping, created by {@link Projections#projectionList()}
-     * @param <T>
      * @return
      * @see <a href="http://docs.jboss.org/hibernate/core/3.5/reference/en/html/querycriteria.html#querycriteria-projection">Criteria Queries</a>
      * @see <a href="https://en.wikipedia.org/wiki/Disjunctive_normal_form">DNF</a>
      */
     @SuppressWarnings("unchecked")
-    public <T> List<T> query(Class<T> entityClass, int nMaxResults, RestrictionSet restrictions, List<Order> orders, List<Projection> projections) {
+    public List query(Class entityClass, int nMaxResults, RestrictionSet restrictions, List<Order> orders, List<Projection> projections) {
         //TODO: use getCriteriaBuilder
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(entityClass);
         // max results
@@ -70,8 +67,9 @@ public class EntityRepository {
      * @param entity
      * @param <T>
      */
-    public <T> void update(T entity) {
+    public <T> T update(T entity) {
         sessionFactory.getCurrentSession().update(entity);
+        return entity;
     }
 
     /**
@@ -80,8 +78,9 @@ public class EntityRepository {
      * @param entity
      * @param <T>
      */
-    public <T> void remove(T entity) {
+    public <T> T remove(T entity) {
         sessionFactory.getCurrentSession().remove(entity);
+        return entity;
     }
 
     /**
@@ -102,7 +101,8 @@ public class EntityRepository {
      * @param entity
      * @param <T>
      */
-    public <T> void persist(T entity) {
+    public <T> T persist(T entity) {
         sessionFactory.getCurrentSession().saveOrUpdate(entity);
+        return entity;
     }
 }
