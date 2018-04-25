@@ -54,7 +54,7 @@ public class DataLayerClient implements AutoCloseable {
         StreamObserver<DataLayerProtocol.Response> response = new StreamObserver<DataLayerProtocol.Response>() {
             @Override
             public void onNext(DataLayerProtocol.Response response) {
-                responseData.setStatus(response.getErrCode());
+                responseData.setStatus(response.getStatusCode());
                 responseData.setMessage(response.getMessage());
                 try {
                     responseData.setEntity(converter.to(response.getEntity()));

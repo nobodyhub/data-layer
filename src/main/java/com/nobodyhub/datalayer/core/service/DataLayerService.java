@@ -33,7 +33,7 @@ public class DataLayerService extends DataLayerServiceGrpc.DataLayerServiceImplB
             @Override
             public void onError(Throwable t) {
                 responseObserver.onNext(DataLayerProtocol.Response.newBuilder()
-                        .setErrCode(DataLayerProtocol.StatusCode.ERROR)
+                        .setStatusCode(DataLayerProtocol.StatusCode.ERROR)
                         .setMessage(t.getMessage())
                         .build());
                 responseObserver.onCompleted();
@@ -43,7 +43,7 @@ public class DataLayerService extends DataLayerServiceGrpc.DataLayerServiceImplB
             public void onCompleted() {
                 try {
                     responseObserver.onNext(DataLayerProtocol.Response.newBuilder()
-                            .setErrCode(DataLayerProtocol.StatusCode.OK)
+                            .setStatusCode(DataLayerProtocol.StatusCode.OK)
                             .setEntity(service.execute(operations))
                             .build());
                     responseObserver.onCompleted();
@@ -60,14 +60,14 @@ public class DataLayerService extends DataLayerServiceGrpc.DataLayerServiceImplB
             List<DataLayerProtocol.Entity> entities = service.query(Class.forName(request.getEntityClass()), request.getCriteria());
             for (DataLayerProtocol.Entity entity : entities) {
                 responseObserver.onNext(DataLayerProtocol.Response.newBuilder()
-                        .setErrCode(DataLayerProtocol.StatusCode.OK)
+                        .setStatusCode(DataLayerProtocol.StatusCode.OK)
                         .setEntity(entity)
                         .build());
             }
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
             responseObserver.onNext(DataLayerProtocol.Response.newBuilder()
-                    .setErrCode(DataLayerProtocol.StatusCode.ERROR)
+                    .setStatusCode(DataLayerProtocol.StatusCode.ERROR)
                     .setMessage(e.getMessage())
                     .build());
         } finally {
