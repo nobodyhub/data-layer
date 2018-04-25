@@ -23,7 +23,7 @@ public class AvroSchemaConverter {
     public <T> DataLayerProtocol.Entity from(T avroEntity) throws ClassNotFoundException, IOException {
         Class clz = avroEntity.getClass();
         String qualifiedClassName = clz.getName();
-        Schema schema = AvroData.get().getSchema(Class.forName(qualifiedClassName));
+        Schema schema = AvroData.get().getSchema(clz);
 
         AvroDatumWriter<T> datumWriter = new AvroDatumWriter<>(schema);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
