@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_package = "com.nobodyhub.datalayer.core.service.model";
+option java_package = "com.nobodyhub.datalayer.core.proto";
 option java_outer_classname = "DataLayerProtocol";
 
 package datalayer.model;
@@ -29,7 +29,7 @@ message Entity {
  * Response of the DB operation
  */
 message Response {
-    StatusCode errCode = 1;
+    StatusCode statusCode = 1;
     string message = 2;
     Entity entity = 3;
 }
