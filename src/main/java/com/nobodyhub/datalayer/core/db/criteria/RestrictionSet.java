@@ -2,6 +2,7 @@ package com.nobodyhub.datalayer.core.db.criteria;
 
 import com.google.common.collect.Lists;
 import com.nobodyhub.datalayer.core.exception.AvroCoreException;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Conjunction;
@@ -16,6 +17,7 @@ import java.util.Set;
  * @since 2018-04-23.
  */
 @RequiredArgsConstructor
+@Data
 public class RestrictionSet {
     /**
      * the junction type of restriction set, decideing how to eval the restrictions

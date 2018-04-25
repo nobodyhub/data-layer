@@ -1,6 +1,7 @@
 package com.nobodyhub.datalayer.core.db.criteria;
 
 import com.nobodyhub.datalayer.core.exception.AvroCoreException;
+import lombok.Data;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
@@ -11,6 +12,7 @@ import java.util.List;
  * @author yan_h
  * @since 2018-04-23.
  */
+@Data
 public class Restriction<T> {
     /**
      * type of restriction
