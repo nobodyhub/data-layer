@@ -5,11 +5,17 @@ option java_outer_classname = "DataLayerProtocol";
 
 package datalayer.model;
 
+enum ErrCode {
+    OK = 0;
+    ERROR = 1;
+}
+
 enum OpType {
     CREATE = 0;
     READ = 1;
     UPDATE = 2;
     DELETE = 3;
+    PERSIST = 4;
 }
 /*
  * corresponds to a Java Persistence Entity
@@ -23,8 +29,9 @@ message Entity {
  * Response of the DB operation
  */
 message Response {
-    int32 errorCode = 1;
-    Entity entity = 2;
+    ErrCode errCode = 1;
+    string message = 2;
+    Entity entity = 3;
 }
 
 /*
@@ -43,10 +50,7 @@ message ExecuteRequest {
  */
 message QueryRequest {
     string entityClass = 1;
-    int64 maxResult = 2;
-    bytes restrictionSet = 3;
-    repeated bytes orders = 4;
-    repeated bytes projects = 5;
+    Entity criteria = 2;
 }
 
 service DataLayerService {
@@ -59,5 +63,5 @@ service DataLayerService {
     /*
      * Query information with given conditions on particular entity to work with HQL
      */
-    rpc query (QueryRequest) returns (Response);
+    rpc query (QueryRequest) returns (stream Response);
 }
