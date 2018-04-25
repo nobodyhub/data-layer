@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Data
 public class Criteria {
-    private int maxResult;
+    private int maxResult = -1;
     private RestrictionSet restrictionSet;
     private List<Order> orders;
     private List<Projection> projections;
