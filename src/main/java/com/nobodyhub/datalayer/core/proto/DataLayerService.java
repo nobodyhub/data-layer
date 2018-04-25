@@ -1,9 +1,7 @@
 package com.nobodyhub.datalayer.core.proto;
 
 import com.google.common.collect.Lists;
-import com.nobodyhub.datalayer.core.db.EntityService;
-import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
-import com.nobodyhub.datalayer.core.proto.DataLayerServiceGrpc;
+import com.nobodyhub.datalayer.core.service.repository.DataService;
 import io.grpc.stub.StreamObserver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,7 +16,7 @@ import java.util.List;
 public class DataLayerService extends DataLayerServiceGrpc.DataLayerServiceImplBase {
 
     @Autowired
-    private EntityService service;
+    private DataService service;
 
     @Override
     public StreamObserver<DataLayerProtocol.ExecuteRequest> execute(StreamObserver<DataLayerProtocol.Response> responseObserver) {

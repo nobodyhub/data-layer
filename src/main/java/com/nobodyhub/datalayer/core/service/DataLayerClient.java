@@ -1,7 +1,7 @@
 package com.nobodyhub.datalayer.core.service;
 
 import com.google.common.collect.Lists;
-import com.nobodyhub.datalayer.core.entity.AvroSchemaConverter;
+import com.nobodyhub.datalayer.core.service.util.AvroSchemaConverter;
 import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
 import com.nobodyhub.datalayer.core.proto.DataLayerServiceGrpc;
 import com.nobodyhub.datalayer.core.service.data.ExecuteRequestData;

@@ -1,6 +1,6 @@
 package com.nobodyhub.datalayer.core.service.data;
 
-import com.nobodyhub.datalayer.core.db.criteria.Criteria;
+import com.nobodyhub.datalayer.core.service.repository.criteria.Criteria;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
