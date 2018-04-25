@@ -2,6 +2,7 @@ package com.nobodyhub.datalayer.core.service;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +20,12 @@ public class DataLayerServer {
     private int port;
     private Server server;
 
+    @Autowired
+    private DataLayerService dataLayerService;
+
     @PostConstruct
     public void setup() throws IOException {
-        this.server = ServerBuilder.forPort(port).addService(new DataLayerService()).build();
+        this.server = ServerBuilder.forPort(port).addService(dataLayerService).build();
         start();
     }
 
