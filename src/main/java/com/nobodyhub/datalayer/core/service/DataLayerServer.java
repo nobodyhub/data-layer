@@ -1,5 +1,6 @@
 package com.nobodyhub.datalayer.core.service;
 
+import com.nobodyhub.datalayer.core.proto.DataLayerService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;

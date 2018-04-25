@@ -1,9 +1,9 @@
 package com.nobodyhub.datalayer.core.example;
 
-import com.nobodyhub.datalayer.core.service.model.DataLayerClient;
+import com.nobodyhub.datalayer.core.service.DataLayerClient;
 import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
-import com.nobodyhub.datalayer.core.service.model.QueryRequestData;
-import com.nobodyhub.datalayer.core.service.model.ResponseData;
+import com.nobodyhub.datalayer.core.service.data.QueryRequestData;
+import com.nobodyhub.datalayer.core.service.data.ResponseData;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

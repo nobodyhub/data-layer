@@ -1,4 +1,4 @@
-package com.nobodyhub.datalayer.core.service.model;
+package com.nobodyhub.datalayer.core.service.data;
 
 import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
 import lombok.Data;

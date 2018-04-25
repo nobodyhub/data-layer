@@ -1,9 +1,12 @@
-package com.nobodyhub.datalayer.core.service.model;
+package com.nobodyhub.datalayer.core.service;
 
 import com.google.common.collect.Lists;
 import com.nobodyhub.datalayer.core.entity.AvroSchemaConverter;
 import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
 import com.nobodyhub.datalayer.core.proto.DataLayerServiceGrpc;
+import com.nobodyhub.datalayer.core.service.data.ExecuteRequestData;
+import com.nobodyhub.datalayer.core.service.data.QueryRequestData;
+import com.nobodyhub.datalayer.core.service.data.ResponseData;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
@@ -40,7 +43,7 @@ public class DataLayerClient implements AutoCloseable {
 
 
     @PostConstruct
-    public void setup() {
+    private void setup() {
         ManagedChannelBuilder<?> channelBuilder = ManagedChannelBuilder.forAddress(host, port).usePlaintext();
         this.channel = channelBuilder.build();
         this.asyncStub = DataLayerServiceGrpc.newStub(channel);

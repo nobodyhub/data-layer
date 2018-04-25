@@ -1,4 +1,4 @@
-package com.nobodyhub.datalayer.core.service;
+package com.nobodyhub.datalayer.core.proto;
 
 import com.google.common.collect.Lists;
 import com.nobodyhub.datalayer.core.db.EntityService;
