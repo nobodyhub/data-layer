@@ -33,7 +33,7 @@ public class DataLayerService extends DataLayerServiceGrpc.DataLayerServiceImplB
             @Override
             public void onError(Throwable t) {
                 responseObserver.onNext(DataLayerProtocol.Response.newBuilder()
-                        .setErrCode(DataLayerProtocol.ErrCode.ERROR)
+                        .setErrCode(DataLayerProtocol.StatusCode.ERROR)
                         .setMessage(t.getMessage())
                         .build());
                 responseObserver.onCompleted();
@@ -43,18 +43,12 @@ public class DataLayerService extends DataLayerServiceGrpc.DataLayerServiceImplB
             public void onCompleted() {
                 try {
                     responseObserver.onNext(DataLayerProtocol.Response.newBuilder()
-                            .setErrCode(DataLayerProtocol.ErrCode.OK)
+                            .setErrCode(DataLayerProtocol.StatusCode.OK)
                             .setEntity(service.execute(operations))
                             .build());
                     responseObserver.onCompleted();
                 } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
-                    responseObserver.onNext(DataLayerProtocol.Response.newBuilder()
-                            .setErrCode(DataLayerProtocol.ErrCode.ERROR)
-                            .setMessage(e.getMessage())
-                            .build());
-                } finally {
-                    responseObserver.onCompleted();
+                    onError(e);
                 }
             }
         };
@@ -66,7 +60,7 @@ public class DataLayerService extends DataLayerServiceGrpc.DataLayerServiceImplB
             List<DataLayerProtocol.Entity> entities = service.query(Class.forName(request.getEntityClass()), request.getCriteria());
             for (DataLayerProtocol.Entity entity : entities) {
                 responseObserver.onNext(DataLayerProtocol.Response.newBuilder()
-                        .setErrCode(DataLayerProtocol.ErrCode.OK)
+                        .setErrCode(DataLayerProtocol.StatusCode.OK)
                         .setEntity(entity)
                         .build());
             }
@@ -74,7 +68,7 @@ public class DataLayerService extends DataLayerServiceGrpc.DataLayerServiceImplB
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
             responseObserver.onNext(DataLayerProtocol.Response.newBuilder()
-                    .setErrCode(DataLayerProtocol.ErrCode.ERROR)
+                    .setErrCode(DataLayerProtocol.StatusCode.ERROR)
                     .setMessage(e.getMessage())
                     .build());
         } finally {
