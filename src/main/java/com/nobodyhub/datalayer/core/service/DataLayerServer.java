@@ -20,8 +20,9 @@ public class DataLayerServer {
     private Server server;
 
     @PostConstruct
-    public void setup() {
+    public void setup() throws IOException {
         this.server = ServerBuilder.forPort(port).addService(new DataLayerService()).build();
+        start();
     }
 
     public void start() throws IOException {
