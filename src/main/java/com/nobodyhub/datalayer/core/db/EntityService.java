@@ -49,10 +49,6 @@ public class EntityService {
                     obj = repository.create(converter.to(request.getEntity()));
                     break;
                 }
-                case READ: {
-                    obj = repository.create(converter.to(request.getEntity()));
-                    break;
-                }
                 case UPDATE: {
                     obj = repository.create(converter.to(request.getEntity()));
                     break;
