@@ -32,6 +32,7 @@ public class EntityRepository {
      * @see <a href="http://docs.jboss.org/hibernate/core/3.5/reference/en/html/querycriteria.html#querycriteria-projection">Criteria Queries</a>
      * @see <a href="https://en.wikipedia.org/wiki/Disjunctive_normal_form">DNF</a>
      */
+    @SuppressWarnings("unchecked")
     public <T> List<T> query(Class<T> entityClass, int nMaxResults, RestrictionSet restrictions, List<Order> orders, List<Projection> projections) {
         //TODO: use getCriteriaBuilder
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(entityClass);
