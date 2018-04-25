@@ -25,7 +25,7 @@ public class EntityService {
 
     @Transactional(rollbackFor = Exception.class)
     public List<DataLayerProtocol.Entity> query(Class entityClass, DataLayerProtocol.Entity entity) throws ClassNotFoundException, IOException {
-        Criteria criteria = converter.to(entity);
+        Criteria criteria = converter.decode(entity);
         List rstList = repository.query(entityClass,
                 criteria.getMaxResult(),
                 criteria.getRestrictionSet(),
@@ -34,7 +34,7 @@ public class EntityService {
 
         List<DataLayerProtocol.Entity> entityList = Lists.newArrayList();
         for (Object ele : rstList) {
-            entityList.add(converter.from(ele));
+            entityList.add(converter.encode(ele));
         }
         return entityList;
     }
@@ -46,19 +46,19 @@ public class EntityService {
         for (DataLayerProtocol.ExecuteRequest request : operations) {
             switch (request.getOpType()) {
                 case CREATE: {
-                    obj = repository.create(converter.to(request.getEntity()));
+                    obj = repository.create(converter.decode(request.getEntity()));
                     break;
                 }
                 case UPDATE: {
-                    obj = repository.create(converter.to(request.getEntity()));
+                    obj = repository.create(converter.decode(request.getEntity()));
                     break;
                 }
                 case DELETE: {
-                    obj = repository.create(converter.to(request.getEntity()));
+                    obj = repository.create(converter.decode(request.getEntity()));
                     break;
                 }
                 case PERSIST: {
-                    obj = repository.persist(converter.to(request.getEntity()));
+                    obj = repository.persist(converter.decode(request.getEntity()));
                     break;
                 }
                 default: {
@@ -66,6 +66,6 @@ public class EntityService {
                 }
             }
         }
-        return converter.from(obj);
+        return converter.encode(obj);
     }
 }

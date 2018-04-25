@@ -27,8 +27,8 @@ public class AvroSchemaConverterTest {
         avroEntity.setAByteBuffer(ByteBuffer.wrap(new byte[]{1, 2, 3}));
         avroEntity.setAInt(99);
         avroEntity.setAnotherBigDecimal(BigDecimal.TEN.setScale(2));
-        DataLayerProtocol.Entity entity = converter.from(avroEntity);
-        TestEntity result = converter.to(entity);
+        DataLayerProtocol.Entity entity = converter.encode(avroEntity);
+        TestEntity result = converter.decode(entity);
         assertEquals(avroEntity, result);
     }
 

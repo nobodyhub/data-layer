@@ -60,7 +60,7 @@ public class DataLayerClient implements AutoCloseable {
                 responseData.setStatus(response.getStatusCode());
                 responseData.setMessage(response.getMessage());
                 try {
-                    responseData.setEntity(converter.to(response.getEntity()));
+                    responseData.setEntity(converter.decode(response.getEntity()));
                 } catch (ClassNotFoundException | IOException e) {
                     e.printStackTrace();
                     onError(e);
@@ -83,7 +83,7 @@ public class DataLayerClient implements AutoCloseable {
         for (ExecuteRequestData<T> operation : operations) {
             DataLayerProtocol.ExecuteRequest reqOp = DataLayerProtocol.ExecuteRequest.newBuilder()
                     .setOpType(operation.getOpType())
-                    .setEntity(converter.from(operation.getEntity()))
+                    .setEntity(converter.encode(operation.getEntity()))
                     .build();
             request.onNext(reqOp);
         }
@@ -98,12 +98,12 @@ public class DataLayerClient implements AutoCloseable {
         try {
             DataLayerProtocol.QueryRequest request = DataLayerProtocol.QueryRequest.newBuilder()
                     .setEntityClass(query.getCls().getName())
-                    .setCriteria(converter.from(query.getCriteria()))
+                    .setCriteria(converter.encode(query.getCriteria()))
                     .build();
             Iterator<DataLayerProtocol.Response> iter = blockingStub.query(request);
             while (iter.hasNext()) {
                 DataLayerProtocol.Response response = iter.next();
-                data.add(converter.to(response.getEntity()));
+                data.add(converter.decode(response.getEntity()));
             }
             responseData.setStatus(DataLayerProtocol.StatusCode.OK);
             responseData.setEntity(data);

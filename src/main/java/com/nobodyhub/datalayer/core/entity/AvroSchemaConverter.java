@@ -19,7 +19,7 @@ import java.io.IOException;
 @Component
 public class AvroSchemaConverter {
 
-    public <T> DataLayerProtocol.Entity from(T avroEntity) throws ClassNotFoundException, IOException {
+    public <T> DataLayerProtocol.Entity encode(T avroEntity) throws IOException {
         Class clz = avroEntity.getClass();
         String qualifiedClassName = clz.getName();
         Schema schema = AvroData.get().getSchema(clz);
@@ -34,7 +34,7 @@ public class AvroSchemaConverter {
                 .build();
     }
 
-    public <T> T to(DataLayerProtocol.Entity entity) throws ClassNotFoundException, IOException {
+    public <T> T decode(DataLayerProtocol.Entity entity) throws ClassNotFoundException, IOException {
         String qualifiedClassName = entity.getEntityClass();
         Schema reflectSchema = AvroData.get().getSchema(Class.forName(qualifiedClassName));
         AvroDatumReader<T> datumReflectReader = new AvroDatumReader<>(reflectSchema);

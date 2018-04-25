@@ -17,8 +17,8 @@ public class AvroVoidEntityTest {
     @Test
     public void test() throws IOException, ClassNotFoundException {
         AvroVoidEntity avroEntity = AvroVoidEntity.get();
-        DataLayerProtocol.Entity entity = converter.from(avroEntity);
-        AvroVoidEntity result = converter.to(entity);
+        DataLayerProtocol.Entity entity = converter.encode(avroEntity);
+        AvroVoidEntity result = converter.decode(entity);
         assertEquals(avroEntity, result);
     }
 }
