@@ -29,32 +29,32 @@ public final class DataLayerServiceGrpc {
   // Static method descriptors that strictly reflect the proto.
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   @java.lang.Deprecated // Use {@link #getExecuteMethod()} instead. 
-  public static final io.grpc.MethodDescriptor<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request,
+  public static final io.grpc.MethodDescriptor<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest,
       com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response> METHOD_EXECUTE = getExecuteMethodHelper();
 
-  private static volatile io.grpc.MethodDescriptor<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request,
+  private static volatile io.grpc.MethodDescriptor<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest,
       com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response> getExecuteMethod;
 
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static io.grpc.MethodDescriptor<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request,
+  public static io.grpc.MethodDescriptor<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest,
       com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response> getExecuteMethod() {
     return getExecuteMethodHelper();
   }
 
-  private static io.grpc.MethodDescriptor<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request,
+  private static io.grpc.MethodDescriptor<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest,
       com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response> getExecuteMethodHelper() {
-    io.grpc.MethodDescriptor<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response> getExecuteMethod;
+    io.grpc.MethodDescriptor<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response> getExecuteMethod;
     if ((getExecuteMethod = DataLayerServiceGrpc.getExecuteMethod) == null) {
       synchronized (DataLayerServiceGrpc.class) {
         if ((getExecuteMethod = DataLayerServiceGrpc.getExecuteMethod) == null) {
           DataLayerServiceGrpc.getExecuteMethod = getExecuteMethod = 
-              io.grpc.MethodDescriptor.<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response>newBuilder()
+              io.grpc.MethodDescriptor.<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
               .setFullMethodName(generateFullMethodName(
                   "datalayer.model.DataLayerService", "execute"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request.getDefaultInstance()))
+                  com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response.getDefaultInstance()))
                   .setSchemaDescriptor(new DataLayerServiceMethodDescriptorSupplier("execute"))
@@ -63,6 +63,43 @@ public final class DataLayerServiceGrpc {
         }
      }
      return getExecuteMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getQueryMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest,
+      com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response> METHOD_QUERY = getQueryMethodHelper();
+
+  private static volatile io.grpc.MethodDescriptor<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest,
+      com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response> getQueryMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest,
+      com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response> getQueryMethod() {
+    return getQueryMethodHelper();
+  }
+
+  private static io.grpc.MethodDescriptor<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest,
+      com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response> getQueryMethodHelper() {
+    io.grpc.MethodDescriptor<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response> getQueryMethod;
+    if ((getQueryMethod = DataLayerServiceGrpc.getQueryMethod) == null) {
+      synchronized (DataLayerServiceGrpc.class) {
+        if ((getQueryMethod = DataLayerServiceGrpc.getQueryMethod) == null) {
+          DataLayerServiceGrpc.getQueryMethod = getQueryMethod = 
+              io.grpc.MethodDescriptor.<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "datalayer.model.DataLayerService", "query"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response.getDefaultInstance()))
+                  .setSchemaDescriptor(new DataLayerServiceMethodDescriptorSupplier("query"))
+                  .build();
+          }
+        }
+     }
+     return getQueryMethod;
   }
 
   /**
@@ -93,10 +130,24 @@ public final class DataLayerServiceGrpc {
   public static abstract class DataLayerServiceImplBase implements io.grpc.BindableService {
 
     /**
+     * <pre>
+     * Execute a series of operation in the same transaction
+     * and return result of the last one if it is of OpType.READ/CREATE.
+     * </pre>
      */
-    public io.grpc.stub.StreamObserver<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request> execute(
+    public io.grpc.stub.StreamObserver<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest> execute(
         io.grpc.stub.StreamObserver<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response> responseObserver) {
       return asyncUnimplementedStreamingCall(getExecuteMethodHelper(), responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Query information with given conditions on particular entity to work with HQL
+     * </pre>
+     */
+    public void query(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest request,
+        io.grpc.stub.StreamObserver<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response> responseObserver) {
+      asyncUnimplementedUnaryCall(getQueryMethodHelper(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
@@ -105,9 +156,16 @@ public final class DataLayerServiceGrpc {
             getExecuteMethodHelper(),
             asyncClientStreamingCall(
               new MethodHandlers<
-                com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request,
+                com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest,
                 com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response>(
                   this, METHODID_EXECUTE)))
+          .addMethod(
+            getQueryMethodHelper(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest,
+                com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response>(
+                  this, METHODID_QUERY)))
           .build();
     }
   }
@@ -131,11 +189,26 @@ public final class DataLayerServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Execute a series of operation in the same transaction
+     * and return result of the last one if it is of OpType.READ/CREATE.
+     * </pre>
      */
-    public io.grpc.stub.StreamObserver<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request> execute(
+    public io.grpc.stub.StreamObserver<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest> execute(
         io.grpc.stub.StreamObserver<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response> responseObserver) {
       return asyncClientStreamingCall(
           getChannel().newCall(getExecuteMethodHelper(), getCallOptions()), responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Query information with given conditions on particular entity to work with HQL
+     * </pre>
+     */
+    public void query(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest request,
+        io.grpc.stub.StreamObserver<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getQueryMethodHelper(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -156,6 +229,16 @@ public final class DataLayerServiceGrpc {
         io.grpc.CallOptions callOptions) {
       return new DataLayerServiceBlockingStub(channel, callOptions);
     }
+
+    /**
+     * <pre>
+     * Query information with given conditions on particular entity to work with HQL
+     * </pre>
+     */
+    public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response query(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getQueryMethodHelper(), getCallOptions(), request);
+    }
   }
 
   /**
@@ -175,9 +258,21 @@ public final class DataLayerServiceGrpc {
         io.grpc.CallOptions callOptions) {
       return new DataLayerServiceFutureStub(channel, callOptions);
     }
+
+    /**
+     * <pre>
+     * Query information with given conditions on particular entity to work with HQL
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response> query(
+        com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getQueryMethodHelper(), getCallOptions()), request);
+    }
   }
 
-  private static final int METHODID_EXECUTE = 0;
+  private static final int METHODID_QUERY = 0;
+  private static final int METHODID_EXECUTE = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -196,6 +291,10 @@ public final class DataLayerServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
+        case METHODID_QUERY:
+          serviceImpl.query((com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest) request,
+              (io.grpc.stub.StreamObserver<com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Response>) responseObserver);
+          break;
         default:
           throw new AssertionError();
       }
@@ -261,6 +360,7 @@ public final class DataLayerServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new DataLayerServiceFileDescriptorSupplier())
               .addMethod(getExecuteMethodHelper())
+              .addMethod(getQueryMethodHelper())
               .build();
         }
       }

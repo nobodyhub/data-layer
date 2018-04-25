@@ -24,9 +24,9 @@ public final class DataLayerProtocol {
      */
     CREATE(0),
     /**
-     * <code>RRED = 1;</code>
+     * <code>READ = 1;</code>
      */
-    RRED(1),
+    READ(1),
     /**
      * <code>UPDATE = 2;</code>
      */
@@ -43,9 +43,9 @@ public final class DataLayerProtocol {
      */
     public static final int CREATE_VALUE = 0;
     /**
-     * <code>RRED = 1;</code>
+     * <code>READ = 1;</code>
      */
-    public static final int RRED_VALUE = 1;
+    public static final int READ_VALUE = 1;
     /**
      * <code>UPDATE = 2;</code>
      */
@@ -75,7 +75,7 @@ public final class DataLayerProtocol {
     public static OpType forNumber(int value) {
       switch (value) {
         case 0: return CREATE;
-        case 1: return RRED;
+        case 1: return READ;
         case 2: return UPDATE;
         case 3: return DELETE;
         default: return null;
@@ -150,6 +150,10 @@ public final class DataLayerProtocol {
     com.google.protobuf.ByteString getEntity();
   }
   /**
+   * <pre>
+   * corresponds to a Java Persistence Entity
+   * </pre>
+   *
    * Protobuf type {@code datalayer.model.Entity}
    */
   public  static final class Entity extends
@@ -437,6 +441,10 @@ public final class DataLayerProtocol {
       return builder;
     }
     /**
+     * <pre>
+     * corresponds to a Java Persistence Entity
+     * </pre>
+     *
      * Protobuf type {@code datalayer.model.Entity}
      */
     public static final class Builder extends
@@ -744,6 +752,10 @@ public final class DataLayerProtocol {
     com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.EntityOrBuilder getEntityOrBuilder();
   }
   /**
+   * <pre>
+   * Response of the DB operation
+   * </pre>
+   *
    * Protobuf type {@code datalayer.model.Response}
    */
   public  static final class Response extends
@@ -1030,6 +1042,10 @@ public final class DataLayerProtocol {
       return builder;
     }
     /**
+     * <pre>
+     * Response of the DB operation
+     * </pre>
+     *
      * Protobuf type {@code datalayer.model.Response}
      */
     public static final class Builder extends
@@ -1366,8 +1382,8 @@ public final class DataLayerProtocol {
 
   }
 
-  public interface RequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:datalayer.model.Request)
+  public interface ExecuteRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:datalayer.model.ExecuteRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -1393,18 +1409,25 @@ public final class DataLayerProtocol {
     com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.EntityOrBuilder getEntityOrBuilder();
   }
   /**
-   * Protobuf type {@code datalayer.model.Request}
+   * <pre>
+   * Request to make a series of operations
+   * 1. all operations will be executed in sequence in order of received
+   * 2. operation sent in the same stream will be executed in the same transaction
+   * 3. if the last operation is a OpType.READ/CREATE, the result of it will be send back via Response.Entity
+   * </pre>
+   *
+   * Protobuf type {@code datalayer.model.ExecuteRequest}
    */
-  public  static final class Request extends
+  public  static final class ExecuteRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:datalayer.model.Request)
-      RequestOrBuilder {
+      // @@protoc_insertion_point(message_implements:datalayer.model.ExecuteRequest)
+      ExecuteRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use Request.newBuilder() to construct.
-    private Request(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use ExecuteRequest.newBuilder() to construct.
+    private ExecuteRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private Request() {
+    private ExecuteRequest() {
       opType_ = 0;
     }
 
@@ -1413,7 +1436,7 @@ public final class DataLayerProtocol {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private Request(
+    private ExecuteRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1472,14 +1495,14 @@ public final class DataLayerProtocol {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.internal_static_datalayer_model_Request_descriptor;
+      return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.internal_static_datalayer_model_ExecuteRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.internal_static_datalayer_model_Request_fieldAccessorTable
+      return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.internal_static_datalayer_model_ExecuteRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request.class, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request.Builder.class);
+              com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest.class, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest.Builder.class);
     }
 
     public static final int OPTYPE_FIELD_NUMBER = 1;
@@ -1563,10 +1586,10 @@ public final class DataLayerProtocol {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request)) {
+      if (!(obj instanceof com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest)) {
         return super.equals(obj);
       }
-      com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request other = (com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request) obj;
+      com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest other = (com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest) obj;
 
       boolean result = true;
       result = result && opType_ == other.opType_;
@@ -1597,69 +1620,69 @@ public final class DataLayerProtocol {
       return hash;
     }
 
-    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request parseFrom(
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request parseFrom(
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request parseFrom(
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request parseFrom(
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request parseFrom(byte[] data)
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request parseFrom(
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request parseFrom(java.io.InputStream input)
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request parseFrom(
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request parseDelimitedFrom(java.io.InputStream input)
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request parseDelimitedFrom(
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request parseFrom(
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request parseFrom(
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -1671,7 +1694,7 @@ public final class DataLayerProtocol {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request prototype) {
+    public static Builder newBuilder(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -1686,25 +1709,32 @@ public final class DataLayerProtocol {
       return builder;
     }
     /**
-     * Protobuf type {@code datalayer.model.Request}
+     * <pre>
+     * Request to make a series of operations
+     * 1. all operations will be executed in sequence in order of received
+     * 2. operation sent in the same stream will be executed in the same transaction
+     * 3. if the last operation is a OpType.READ/CREATE, the result of it will be send back via Response.Entity
+     * </pre>
+     *
+     * Protobuf type {@code datalayer.model.ExecuteRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:datalayer.model.Request)
-        com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.RequestOrBuilder {
+        // @@protoc_insertion_point(builder_implements:datalayer.model.ExecuteRequest)
+        com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.internal_static_datalayer_model_Request_descriptor;
+        return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.internal_static_datalayer_model_ExecuteRequest_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.internal_static_datalayer_model_Request_fieldAccessorTable
+        return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.internal_static_datalayer_model_ExecuteRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request.class, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request.Builder.class);
+                com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest.class, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest.Builder.class);
       }
 
-      // Construct using com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request.newBuilder()
+      // Construct using com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1734,23 +1764,23 @@ public final class DataLayerProtocol {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.internal_static_datalayer_model_Request_descriptor;
+        return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.internal_static_datalayer_model_ExecuteRequest_descriptor;
       }
 
-      public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request getDefaultInstanceForType() {
-        return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request.getDefaultInstance();
+      public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest getDefaultInstanceForType() {
+        return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest.getDefaultInstance();
       }
 
-      public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request build() {
-        com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request result = buildPartial();
+      public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest build() {
+        com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request buildPartial() {
-        com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request result = new com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request(this);
+      public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest buildPartial() {
+        com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest result = new com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest(this);
         result.opType_ = opType_;
         if (entityBuilder_ == null) {
           result.entity_ = entity_;
@@ -1788,16 +1818,16 @@ public final class DataLayerProtocol {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request) {
-          return mergeFrom((com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request)other);
+        if (other instanceof com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest) {
+          return mergeFrom((com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request other) {
-        if (other == com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest other) {
+        if (other == com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest.getDefaultInstance()) return this;
         if (other.opType_ != 0) {
           setOpTypeValue(other.getOpTypeValue());
         }
@@ -1817,11 +1847,11 @@ public final class DataLayerProtocol {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request parsedMessage = null;
+        com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request) e.getUnfinishedMessage();
+          parsedMessage = (com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -2002,39 +2032,1015 @@ public final class DataLayerProtocol {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:datalayer.model.Request)
+      // @@protoc_insertion_point(builder_scope:datalayer.model.ExecuteRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:datalayer.model.Request)
-    private static final com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:datalayer.model.ExecuteRequest)
+    private static final com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request();
+      DEFAULT_INSTANCE = new com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest();
     }
 
-    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request getDefaultInstance() {
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<Request>
-        PARSER = new com.google.protobuf.AbstractParser<Request>() {
-      public Request parsePartialFrom(
+    private static final com.google.protobuf.Parser<ExecuteRequest>
+        PARSER = new com.google.protobuf.AbstractParser<ExecuteRequest>() {
+      public ExecuteRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Request(input, extensionRegistry);
+        return new ExecuteRequest(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<Request> parser() {
+    public static com.google.protobuf.Parser<ExecuteRequest> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<Request> getParserForType() {
+    public com.google.protobuf.Parser<ExecuteRequest> getParserForType() {
       return PARSER;
     }
 
-    public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.Request getDefaultInstanceForType() {
+    public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.ExecuteRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface QueryRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:datalayer.model.QueryRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string entityClass = 1;</code>
+     */
+    java.lang.String getEntityClass();
+    /**
+     * <code>string entityClass = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getEntityClassBytes();
+
+    /**
+     * <code>int64 maxResult = 2;</code>
+     */
+    long getMaxResult();
+
+    /**
+     * <code>bytes restrictionSet = 3;</code>
+     */
+    com.google.protobuf.ByteString getRestrictionSet();
+
+    /**
+     * <code>repeated bytes orders = 4;</code>
+     */
+    java.util.List<com.google.protobuf.ByteString> getOrdersList();
+    /**
+     * <code>repeated bytes orders = 4;</code>
+     */
+    int getOrdersCount();
+    /**
+     * <code>repeated bytes orders = 4;</code>
+     */
+    com.google.protobuf.ByteString getOrders(int index);
+
+    /**
+     * <code>repeated bytes projects = 5;</code>
+     */
+    java.util.List<com.google.protobuf.ByteString> getProjectsList();
+    /**
+     * <code>repeated bytes projects = 5;</code>
+     */
+    int getProjectsCount();
+    /**
+     * <code>repeated bytes projects = 5;</code>
+     */
+    com.google.protobuf.ByteString getProjects(int index);
+  }
+  /**
+   * <pre>
+   * Request to query info, the select contents are deciede by the entityClass
+   * </pre>
+   *
+   * Protobuf type {@code datalayer.model.QueryRequest}
+   */
+  public  static final class QueryRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:datalayer.model.QueryRequest)
+      QueryRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use QueryRequest.newBuilder() to construct.
+    private QueryRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private QueryRequest() {
+      entityClass_ = "";
+      maxResult_ = 0L;
+      restrictionSet_ = com.google.protobuf.ByteString.EMPTY;
+      orders_ = java.util.Collections.emptyList();
+      projects_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private QueryRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              entityClass_ = s;
+              break;
+            }
+            case 16: {
+
+              maxResult_ = input.readInt64();
+              break;
+            }
+            case 26: {
+
+              restrictionSet_ = input.readBytes();
+              break;
+            }
+            case 34: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                orders_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              orders_.add(input.readBytes());
+              break;
+            }
+            case 42: {
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+                projects_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
+                mutable_bitField0_ |= 0x00000010;
+              }
+              projects_.add(input.readBytes());
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          orders_ = java.util.Collections.unmodifiableList(orders_);
+        }
+        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+          projects_ = java.util.Collections.unmodifiableList(projects_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.internal_static_datalayer_model_QueryRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.internal_static_datalayer_model_QueryRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest.class, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int ENTITYCLASS_FIELD_NUMBER = 1;
+    private volatile java.lang.Object entityClass_;
+    /**
+     * <code>string entityClass = 1;</code>
+     */
+    public java.lang.String getEntityClass() {
+      java.lang.Object ref = entityClass_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        entityClass_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string entityClass = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getEntityClassBytes() {
+      java.lang.Object ref = entityClass_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        entityClass_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int MAXRESULT_FIELD_NUMBER = 2;
+    private long maxResult_;
+    /**
+     * <code>int64 maxResult = 2;</code>
+     */
+    public long getMaxResult() {
+      return maxResult_;
+    }
+
+    public static final int RESTRICTIONSET_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString restrictionSet_;
+    /**
+     * <code>bytes restrictionSet = 3;</code>
+     */
+    public com.google.protobuf.ByteString getRestrictionSet() {
+      return restrictionSet_;
+    }
+
+    public static final int ORDERS_FIELD_NUMBER = 4;
+    private java.util.List<com.google.protobuf.ByteString> orders_;
+    /**
+     * <code>repeated bytes orders = 4;</code>
+     */
+    public java.util.List<com.google.protobuf.ByteString>
+        getOrdersList() {
+      return orders_;
+    }
+    /**
+     * <code>repeated bytes orders = 4;</code>
+     */
+    public int getOrdersCount() {
+      return orders_.size();
+    }
+    /**
+     * <code>repeated bytes orders = 4;</code>
+     */
+    public com.google.protobuf.ByteString getOrders(int index) {
+      return orders_.get(index);
+    }
+
+    public static final int PROJECTS_FIELD_NUMBER = 5;
+    private java.util.List<com.google.protobuf.ByteString> projects_;
+    /**
+     * <code>repeated bytes projects = 5;</code>
+     */
+    public java.util.List<com.google.protobuf.ByteString>
+        getProjectsList() {
+      return projects_;
+    }
+    /**
+     * <code>repeated bytes projects = 5;</code>
+     */
+    public int getProjectsCount() {
+      return projects_.size();
+    }
+    /**
+     * <code>repeated bytes projects = 5;</code>
+     */
+    public com.google.protobuf.ByteString getProjects(int index) {
+      return projects_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getEntityClassBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, entityClass_);
+      }
+      if (maxResult_ != 0L) {
+        output.writeInt64(2, maxResult_);
+      }
+      if (!restrictionSet_.isEmpty()) {
+        output.writeBytes(3, restrictionSet_);
+      }
+      for (int i = 0; i < orders_.size(); i++) {
+        output.writeBytes(4, orders_.get(i));
+      }
+      for (int i = 0; i < projects_.size(); i++) {
+        output.writeBytes(5, projects_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getEntityClassBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, entityClass_);
+      }
+      if (maxResult_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(2, maxResult_);
+      }
+      if (!restrictionSet_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, restrictionSet_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < orders_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(orders_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getOrdersList().size();
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < projects_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(projects_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getProjectsList().size();
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest)) {
+        return super.equals(obj);
+      }
+      com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest other = (com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest) obj;
+
+      boolean result = true;
+      result = result && getEntityClass()
+          .equals(other.getEntityClass());
+      result = result && (getMaxResult()
+          == other.getMaxResult());
+      result = result && getRestrictionSet()
+          .equals(other.getRestrictionSet());
+      result = result && getOrdersList()
+          .equals(other.getOrdersList());
+      result = result && getProjectsList()
+          .equals(other.getProjectsList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ENTITYCLASS_FIELD_NUMBER;
+      hash = (53 * hash) + getEntityClass().hashCode();
+      hash = (37 * hash) + MAXRESULT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getMaxResult());
+      hash = (37 * hash) + RESTRICTIONSET_FIELD_NUMBER;
+      hash = (53 * hash) + getRestrictionSet().hashCode();
+      if (getOrdersCount() > 0) {
+        hash = (37 * hash) + ORDERS_FIELD_NUMBER;
+        hash = (53 * hash) + getOrdersList().hashCode();
+      }
+      if (getProjectsCount() > 0) {
+        hash = (37 * hash) + PROJECTS_FIELD_NUMBER;
+        hash = (53 * hash) + getProjectsList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Request to query info, the select contents are deciede by the entityClass
+     * </pre>
+     *
+     * Protobuf type {@code datalayer.model.QueryRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:datalayer.model.QueryRequest)
+        com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.internal_static_datalayer_model_QueryRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.internal_static_datalayer_model_QueryRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest.class, com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest.Builder.class);
+      }
+
+      // Construct using com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        entityClass_ = "";
+
+        maxResult_ = 0L;
+
+        restrictionSet_ = com.google.protobuf.ByteString.EMPTY;
+
+        orders_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000008);
+        projects_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.internal_static_datalayer_model_QueryRequest_descriptor;
+      }
+
+      public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest getDefaultInstanceForType() {
+        return com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest.getDefaultInstance();
+      }
+
+      public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest build() {
+        com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest buildPartial() {
+        com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest result = new com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        result.entityClass_ = entityClass_;
+        result.maxResult_ = maxResult_;
+        result.restrictionSet_ = restrictionSet_;
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          orders_ = java.util.Collections.unmodifiableList(orders_);
+          bitField0_ = (bitField0_ & ~0x00000008);
+        }
+        result.orders_ = orders_;
+        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          projects_ = java.util.Collections.unmodifiableList(projects_);
+          bitField0_ = (bitField0_ & ~0x00000010);
+        }
+        result.projects_ = projects_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest) {
+          return mergeFrom((com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest other) {
+        if (other == com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest.getDefaultInstance()) return this;
+        if (!other.getEntityClass().isEmpty()) {
+          entityClass_ = other.entityClass_;
+          onChanged();
+        }
+        if (other.getMaxResult() != 0L) {
+          setMaxResult(other.getMaxResult());
+        }
+        if (other.getRestrictionSet() != com.google.protobuf.ByteString.EMPTY) {
+          setRestrictionSet(other.getRestrictionSet());
+        }
+        if (!other.orders_.isEmpty()) {
+          if (orders_.isEmpty()) {
+            orders_ = other.orders_;
+            bitField0_ = (bitField0_ & ~0x00000008);
+          } else {
+            ensureOrdersIsMutable();
+            orders_.addAll(other.orders_);
+          }
+          onChanged();
+        }
+        if (!other.projects_.isEmpty()) {
+          if (projects_.isEmpty()) {
+            projects_ = other.projects_;
+            bitField0_ = (bitField0_ & ~0x00000010);
+          } else {
+            ensureProjectsIsMutable();
+            projects_.addAll(other.projects_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object entityClass_ = "";
+      /**
+       * <code>string entityClass = 1;</code>
+       */
+      public java.lang.String getEntityClass() {
+        java.lang.Object ref = entityClass_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          entityClass_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string entityClass = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getEntityClassBytes() {
+        java.lang.Object ref = entityClass_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          entityClass_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string entityClass = 1;</code>
+       */
+      public Builder setEntityClass(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        entityClass_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string entityClass = 1;</code>
+       */
+      public Builder clearEntityClass() {
+        
+        entityClass_ = getDefaultInstance().getEntityClass();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string entityClass = 1;</code>
+       */
+      public Builder setEntityClassBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        entityClass_ = value;
+        onChanged();
+        return this;
+      }
+
+      private long maxResult_ ;
+      /**
+       * <code>int64 maxResult = 2;</code>
+       */
+      public long getMaxResult() {
+        return maxResult_;
+      }
+      /**
+       * <code>int64 maxResult = 2;</code>
+       */
+      public Builder setMaxResult(long value) {
+        
+        maxResult_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 maxResult = 2;</code>
+       */
+      public Builder clearMaxResult() {
+        
+        maxResult_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString restrictionSet_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>bytes restrictionSet = 3;</code>
+       */
+      public com.google.protobuf.ByteString getRestrictionSet() {
+        return restrictionSet_;
+      }
+      /**
+       * <code>bytes restrictionSet = 3;</code>
+       */
+      public Builder setRestrictionSet(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        restrictionSet_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bytes restrictionSet = 3;</code>
+       */
+      public Builder clearRestrictionSet() {
+        
+        restrictionSet_ = getDefaultInstance().getRestrictionSet();
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<com.google.protobuf.ByteString> orders_ = java.util.Collections.emptyList();
+      private void ensureOrdersIsMutable() {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+          orders_ = new java.util.ArrayList<com.google.protobuf.ByteString>(orders_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+      /**
+       * <code>repeated bytes orders = 4;</code>
+       */
+      public java.util.List<com.google.protobuf.ByteString>
+          getOrdersList() {
+        return java.util.Collections.unmodifiableList(orders_);
+      }
+      /**
+       * <code>repeated bytes orders = 4;</code>
+       */
+      public int getOrdersCount() {
+        return orders_.size();
+      }
+      /**
+       * <code>repeated bytes orders = 4;</code>
+       */
+      public com.google.protobuf.ByteString getOrders(int index) {
+        return orders_.get(index);
+      }
+      /**
+       * <code>repeated bytes orders = 4;</code>
+       */
+      public Builder setOrders(
+          int index, com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureOrdersIsMutable();
+        orders_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bytes orders = 4;</code>
+       */
+      public Builder addOrders(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureOrdersIsMutable();
+        orders_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bytes orders = 4;</code>
+       */
+      public Builder addAllOrders(
+          java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
+        ensureOrdersIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, orders_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bytes orders = 4;</code>
+       */
+      public Builder clearOrders() {
+        orders_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000008);
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<com.google.protobuf.ByteString> projects_ = java.util.Collections.emptyList();
+      private void ensureProjectsIsMutable() {
+        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+          projects_ = new java.util.ArrayList<com.google.protobuf.ByteString>(projects_);
+          bitField0_ |= 0x00000010;
+         }
+      }
+      /**
+       * <code>repeated bytes projects = 5;</code>
+       */
+      public java.util.List<com.google.protobuf.ByteString>
+          getProjectsList() {
+        return java.util.Collections.unmodifiableList(projects_);
+      }
+      /**
+       * <code>repeated bytes projects = 5;</code>
+       */
+      public int getProjectsCount() {
+        return projects_.size();
+      }
+      /**
+       * <code>repeated bytes projects = 5;</code>
+       */
+      public com.google.protobuf.ByteString getProjects(int index) {
+        return projects_.get(index);
+      }
+      /**
+       * <code>repeated bytes projects = 5;</code>
+       */
+      public Builder setProjects(
+          int index, com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureProjectsIsMutable();
+        projects_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bytes projects = 5;</code>
+       */
+      public Builder addProjects(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureProjectsIsMutable();
+        projects_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bytes projects = 5;</code>
+       */
+      public Builder addAllProjects(
+          java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
+        ensureProjectsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, projects_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bytes projects = 5;</code>
+       */
+      public Builder clearProjects() {
+        projects_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000010);
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:datalayer.model.QueryRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:datalayer.model.QueryRequest)
+    private static final com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest();
+    }
+
+    public static com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<QueryRequest>
+        PARSER = new com.google.protobuf.AbstractParser<QueryRequest>() {
+      public QueryRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new QueryRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<QueryRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<QueryRequest> getParserForType() {
+      return PARSER;
+    }
+
+    public com.nobodyhub.datalayer.core.service.model.DataLayerProtocol.QueryRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -2051,10 +3057,15 @@ public final class DataLayerProtocol {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_datalayer_model_Response_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_datalayer_model_Request_descriptor;
+    internal_static_datalayer_model_ExecuteRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_datalayer_model_Request_fieldAccessorTable;
+      internal_static_datalayer_model_ExecuteRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_datalayer_model_QueryRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_datalayer_model_QueryRequest_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2067,15 +3078,20 @@ public final class DataLayerProtocol {
       "\n\020data-layer.proto\022\017datalayer.model\"-\n\006E" +
       "ntity\022\023\n\013entityClass\030\001 \001(\t\022\016\n\006entity\030\002 \001" +
       "(\014\"F\n\010Response\022\021\n\terrorCode\030\001 \001(\005\022\'\n\006ent" +
-      "ity\030\002 \001(\0132\027.datalayer.model.Entity\"[\n\007Re" +
-      "quest\022\'\n\006opType\030\001 \001(\0162\027.datalayer.model." +
-      "OpType\022\'\n\006entity\030\002 \001(\0132\027.datalayer.model" +
-      ".Entity*6\n\006OpType\022\n\n\006CREATE\020\000\022\010\n\004RRED\020\001\022" +
-      "\n\n\006UPDATE\020\002\022\n\n\006DELETE\020\0032T\n\020DataLayerServ" +
-      "ice\022@\n\007execute\022\030.datalayer.model.Request" +
-      "\032\031.datalayer.model.Response(\001B?\n*com.nob" +
-      "odyhub.datalayer.core.service.modelB\021Dat" +
-      "aLayerProtocolb\006proto3"
+      "ity\030\002 \001(\0132\027.datalayer.model.Entity\"b\n\016Ex" +
+      "ecuteRequest\022\'\n\006opType\030\001 \001(\0162\027.datalayer" +
+      ".model.OpType\022\'\n\006entity\030\002 \001(\0132\027.datalaye" +
+      "r.model.Entity\"p\n\014QueryRequest\022\023\n\013entity" +
+      "Class\030\001 \001(\t\022\021\n\tmaxResult\030\002 \001(\003\022\026\n\016restri" +
+      "ctionSet\030\003 \001(\014\022\016\n\006orders\030\004 \003(\014\022\020\n\010projec" +
+      "ts\030\005 \003(\014*6\n\006OpType\022\n\n\006CREATE\020\000\022\010\n\004READ\020\001" +
+      "\022\n\n\006UPDATE\020\002\022\n\n\006DELETE\020\0032\236\001\n\020DataLayerSe" +
+      "rvice\022G\n\007execute\022\037.datalayer.model.Execu" +
+      "teRequest\032\031.datalayer.model.Response(\001\022A" +
+      "\n\005query\022\035.datalayer.model.QueryRequest\032\031" +
+      ".datalayer.model.ResponseB?\n*com.nobodyh" +
+      "ub.datalayer.core.service.modelB\021DataLay" +
+      "erProtocolb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2101,12 +3117,18 @@ public final class DataLayerProtocol {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_datalayer_model_Response_descriptor,
         new java.lang.String[] { "ErrorCode", "Entity", });
-    internal_static_datalayer_model_Request_descriptor =
+    internal_static_datalayer_model_ExecuteRequest_descriptor =
       getDescriptor().getMessageTypes().get(2);
-    internal_static_datalayer_model_Request_fieldAccessorTable = new
+    internal_static_datalayer_model_ExecuteRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_datalayer_model_Request_descriptor,
+        internal_static_datalayer_model_ExecuteRequest_descriptor,
         new java.lang.String[] { "OpType", "Entity", });
+    internal_static_datalayer_model_QueryRequest_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_datalayer_model_QueryRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_datalayer_model_QueryRequest_descriptor,
+        new java.lang.String[] { "EntityClass", "MaxResult", "RestrictionSet", "Orders", "Projects", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -15,12 +15,12 @@ public class DataLayerService extends DataLayerServiceGrpc.DataLayerServiceImplB
     private AvroSchemaConverter converter;
 
     @Override
-    public StreamObserver<DataLayerProtocol.Request> execute(StreamObserver<DataLayerProtocol.Response> responseObserver) {
-        return new StreamObserver<DataLayerProtocol.Request>() {
+    public StreamObserver<DataLayerProtocol.ExecuteRequest> execute(StreamObserver<DataLayerProtocol.Response> responseObserver) {
+        return new StreamObserver<DataLayerProtocol.ExecuteRequest>() {
             EntityTransaction transaction = new EntityTransaction(converter);
 
             @Override
-            public void onNext(DataLayerProtocol.Request value) {
+            public void onNext(DataLayerProtocol.ExecuteRequest value) {
                 //TODO: temporary save DB operations and execute/commit onCompleted
                 transaction.addRequest(value);
             }

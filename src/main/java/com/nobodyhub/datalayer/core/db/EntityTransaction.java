@@ -15,9 +15,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EntityTransaction {
     private final AvroSchemaConverter converter;
-    private final List<DataLayerProtocol.Request> requests = Lists.newArrayList();
+    private final List<DataLayerProtocol.ExecuteRequest> requests = Lists.newArrayList();
 
-    public void addRequest(DataLayerProtocol.Request request) {
+    public void addRequest(DataLayerProtocol.ExecuteRequest request) {
         requests.add(request);
     }
 
