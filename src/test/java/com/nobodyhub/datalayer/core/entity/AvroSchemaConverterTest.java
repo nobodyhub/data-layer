@@ -1,9 +1,8 @@
 package com.nobodyhub.datalayer.core.entity;
 
 import com.nobodyhub.datalayer.core.entity.common.AvroEntity;
-import com.nobodyhub.datalayer.core.service.model.DataLayerProtocol;
+import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
 import lombok.Data;
-import org.junit.Before;
 import org.junit.Test;
 
 import javax.persistence.Column;

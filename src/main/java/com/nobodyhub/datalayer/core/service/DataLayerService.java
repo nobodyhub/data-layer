@@ -2,8 +2,8 @@ package com.nobodyhub.datalayer.core.service;
 
 import com.google.common.collect.Lists;
 import com.nobodyhub.datalayer.core.db.EntityService;
-import com.nobodyhub.datalayer.core.service.model.DataLayerProtocol;
-import com.nobodyhub.datalayer.core.service.model.DataLayerServiceGrpc;
+import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
+import com.nobodyhub.datalayer.core.proto.DataLayerServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

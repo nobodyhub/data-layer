@@ -1,5 +1,6 @@
 package com.nobodyhub.datalayer.core.service.model;
 
+import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
 import lombok.Data;
 
 /**

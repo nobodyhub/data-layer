@@ -2,6 +2,8 @@ package com.nobodyhub.datalayer.core.service.model;
 
 import com.google.common.collect.Lists;
 import com.nobodyhub.datalayer.core.entity.AvroSchemaConverter;
+import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
+import com.nobodyhub.datalayer.core.proto.DataLayerServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;

@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.nobodyhub.datalayer.core.db.criteria.Criteria;
 import com.nobodyhub.datalayer.core.entity.AvroSchemaConverter;
 import com.nobodyhub.datalayer.core.exception.AvroCoreException;
-import com.nobodyhub.datalayer.core.service.model.DataLayerProtocol;
+import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

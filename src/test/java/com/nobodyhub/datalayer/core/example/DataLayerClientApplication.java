@@ -1,7 +1,7 @@
 package com.nobodyhub.datalayer.core.example;
 
 import com.nobodyhub.datalayer.core.service.model.DataLayerClient;
-import com.nobodyhub.datalayer.core.service.model.DataLayerProtocol;
+import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
 import com.nobodyhub.datalayer.core.service.model.QueryRequestData;
 import com.nobodyhub.datalayer.core.service.model.ResponseData;
 import org.junit.Test;

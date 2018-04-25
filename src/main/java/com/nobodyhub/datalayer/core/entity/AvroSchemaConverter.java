@@ -1,11 +1,10 @@
 package com.nobodyhub.datalayer.core.entity;
 
 import com.google.protobuf.ByteString;
-import com.nobodyhub.datalayer.core.entity.common.AvroEntity;
 import com.nobodyhub.datalayer.core.entity.data.AvroData;
 import com.nobodyhub.datalayer.core.entity.data.AvroDatumReader;
 import com.nobodyhub.datalayer.core.entity.data.AvroDatumWriter;
-import com.nobodyhub.datalayer.core.service.model.DataLayerProtocol;
+import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
 import org.apache.avro.Schema;
 import org.apache.avro.io.DecoderFactory;
 import org.apache.avro.io.EncoderFactory;
