@@ -33,7 +33,7 @@ public class DataLayerClient implements AutoCloseable {
         StreamObserver<DataLayerProtocol.Response> response = new StreamObserver<DataLayerProtocol.Response>() {
             @Override
             public void onNext(DataLayerProtocol.Response response) {
-                responseData.setErrCode(response.getErrCode());
+                responseData.setStatus(response.getErrCode());
                 responseData.setMessage(response.getMessage());
                 try {
                     responseData.setEntity(converter.to(response.getEntity()));
@@ -45,7 +45,7 @@ public class DataLayerClient implements AutoCloseable {
 
             @Override
             public void onError(Throwable t) {
-                responseData.setErrCode(DataLayerProtocol.StatusCode.ERROR);
+                responseData.setStatus(DataLayerProtocol.StatusCode.ERROR);
                 responseData.setMessage(t.getMessage());
                 finishLatch.countDown();
             }
@@ -84,7 +84,7 @@ public class DataLayerClient implements AutoCloseable {
             responseData.setEntity(data);
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
-            responseData.setErrCode(DataLayerProtocol.StatusCode.ERROR);
+            responseData.setStatus(DataLayerProtocol.StatusCode.ERROR);
             responseData.setMessage(e.getMessage());
         }
         return responseData;

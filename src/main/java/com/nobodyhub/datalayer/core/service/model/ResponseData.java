@@ -8,11 +8,11 @@ import lombok.Data;
  */
 @Data
 public class ResponseData<T> {
-    private DataLayerProtocol.StatusCode errCode;
+    private DataLayerProtocol.StatusCode status;
     private String message;
     private T entity;
 
     public boolean hasError() {
-        return !DataLayerProtocol.StatusCode.OK.equals(errCode);
+        return !DataLayerProtocol.StatusCode.OK.equals(status);
     }
 }
