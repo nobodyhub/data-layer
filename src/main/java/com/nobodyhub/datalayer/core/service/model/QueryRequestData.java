@@ -12,5 +12,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class QueryRequestData<T> {
     private final Class<T> cls;
-    private Criteria criteria;
+    private Criteria criteria = new Criteria();
 }
