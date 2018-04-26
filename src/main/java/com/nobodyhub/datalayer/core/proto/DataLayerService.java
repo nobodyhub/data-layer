@@ -3,6 +3,7 @@ package com.nobodyhub.datalayer.core.proto;
 import com.google.common.collect.Lists;
 import com.nobodyhub.datalayer.core.service.repository.DataService;
 import io.grpc.stub.StreamObserver;
+import org.hibernate.SessionFactory;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,7 +13,11 @@ import java.util.List;
  */
 public class DataLayerService extends DataLayerServiceGrpc.DataLayerServiceImplBase {
 
-    private DataService service;
+    private final DataService service;
+
+    public DataLayerService(SessionFactory sessionFactory) {
+        service = new DataService(sessionFactory);
+    }
 
     @Override
     public StreamObserver<DataLayerProtocol.ExecuteRequest> execute(StreamObserver<DataLayerProtocol.Response> responseObserver) {

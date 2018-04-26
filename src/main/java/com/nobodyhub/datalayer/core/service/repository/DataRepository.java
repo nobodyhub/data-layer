@@ -2,6 +2,7 @@ package com.nobodyhub.datalayer.core.service.repository;
 
 import com.nobodyhub.datalayer.core.service.repository.criteria.Projection;
 import com.nobodyhub.datalayer.core.service.repository.criteria.RestrictionSet;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
@@ -13,9 +14,10 @@ import java.util.List;
 /**
  * @author Ryan
  */
+@RequiredArgsConstructor
 public class DataRepository {
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     /**
      * Query the result of type <code>entityClass</code> by given criteria

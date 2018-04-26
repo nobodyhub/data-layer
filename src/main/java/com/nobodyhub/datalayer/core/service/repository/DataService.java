@@ -5,6 +5,7 @@ import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
 import com.nobodyhub.datalayer.core.service.exception.AvroCoreException;
 import com.nobodyhub.datalayer.core.service.repository.criteria.Criteria;
 import com.nobodyhub.datalayer.core.service.util.AvroSchemaConverter;
+import org.hibernate.SessionFactory;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,7 +15,11 @@ import java.util.List;
  * @since 2018-04-25.
  */
 public class DataService {
-    private DataRepository repository;
+    private final DataRepository repository;
+
+    public DataService(SessionFactory sessionFactory) {
+        this.repository = new DataRepository(sessionFactory);
+    }
 
     public List<DataLayerProtocol.Entity> query(Class entityClass, DataLayerProtocol.Entity entity) throws ClassNotFoundException, IOException {
         Criteria criteria = AvroSchemaConverter.decode(entity);
