@@ -1,11 +1,10 @@
 package com.nobodyhub.datalayer.core.service.util.cases.within;
 
+import com.nobodyhub.datalayer.core.service.common.AvroEntity;
 import com.nobodyhub.datalayer.core.service.util.cases.ComplexClass;
 import com.nobodyhub.datalayer.core.service.util.cases.SimpleEnum;
-import com.nobodyhub.datalayer.core.service.common.AvroEntity;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,6 @@ import java.util.Set;
  * @author yan_h
  * @since 2018-04-20.
  */
-@Entity
 public class DeepContainer implements AvroEntity {
     @Column
     private List<Map<String, SimpleEnum>> aSimpleEnumMapList;

@@ -6,6 +6,7 @@ import com.nobodyhub.datalayer.core.proto.DataLayerService;
 import com.nobodyhub.datalayer.core.service.common.AvroEntity;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import lombok.Getter;
 import org.hibernate.c3p0.internal.C3P0ConnectionProvider;
 import org.hibernate.cfg.Configuration;
 import org.reflections.Reflections;
@@ -25,9 +26,11 @@ import java.util.Set;
  */
 public class DataLayerServer {
 
+    @Getter
     private final int port;
     private final Server server;
 
+    @Getter
     private final DataLayerService dataLayerService;
 
     public DataLayerServer(int port) {
@@ -36,11 +39,10 @@ public class DataLayerServer {
 
     public DataLayerServer(int port, Properties hibernateProps) {
         this.port = port;
-        Properties props = getHibernateProps(hibernateProps);
-        this.dataLayerService = new DataLayerService(
-                new Configuration().setProperties(props).buildSessionFactory());
+        Configuration configuration = configuration(hibernateProps);
+        preload(configuration);
+        this.dataLayerService = new DataLayerService(configuration.buildSessionFactory());
         this.server = ServerBuilder.forPort(port).addService(dataLayerService).build();
-        preload();
     }
 
     protected Properties getHibernateProps(Properties userDefined) {
@@ -61,13 +63,24 @@ public class DataLayerServer {
         return props;
     }
 
-    protected void preload() {
+    public Configuration configuration(Properties hibernateProps) {
+        Properties props = getHibernateProps(hibernateProps);
+        return new Configuration().setProperties(props);
+    }
+
+    protected void preload(Configuration configuration) {
         Reflections configurationReflection = new Reflections(new ConfigurationBuilder()
                 .addUrls(ClasspathHelper.forClassLoader())
                 .setScanners(new TypeAnnotationsScanner(), new SubTypesScanner(false)));
-        Set<Class<?>> targetCls = Sets.newHashSet((configurationReflection.getSubTypesOf(AvroEntity.class)));
-        targetCls.addAll(configurationReflection.getTypesAnnotatedWith(Entity.class));
-        for (Class cls : targetCls) {
+        Set<Class<?>> schemaCls = Sets.newHashSet((configurationReflection.getSubTypesOf(AvroEntity.class)));
+        Set<Class<?>> entityCls = configurationReflection.getTypesAnnotatedWith(Entity.class);
+        //add @Entity class to Hibernate
+        for (Class<?> cls : entityCls) {
+            configuration.addAnnotatedClass(cls);
+        }
+        //load avor schema for AvroEntity
+        schemaCls.addAll(entityCls);
+        for (Class cls : schemaCls) {
             AvroData.get().getSchema(cls);
         }
     }

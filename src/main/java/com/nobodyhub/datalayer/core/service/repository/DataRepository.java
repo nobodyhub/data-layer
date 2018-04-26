@@ -2,9 +2,8 @@ package com.nobodyhub.datalayer.core.service.repository;
 
 import com.nobodyhub.datalayer.core.service.repository.criteria.Projection;
 import com.nobodyhub.datalayer.core.service.repository.criteria.RestrictionSet;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.Criteria;
-import org.hibernate.SessionFactory;
+import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
@@ -14,14 +13,12 @@ import java.util.List;
 /**
  * @author Ryan
  */
-@RequiredArgsConstructor
 public class DataRepository {
-
-    private final SessionFactory sessionFactory;
 
     /**
      * Query the result of type <code>entityClass</code> by given criteria
      *
+     * @param session      DB Session
      * @param entityClass  the Class of the entity
      * @param nMaxResults  max results to be returned
      * @param restrictions restrictions for query
@@ -32,9 +29,9 @@ public class DataRepository {
      * @see <a href="https://en.wikipedia.org/wiki/Disjunctive_normal_form">DNF</a>
      */
     @SuppressWarnings("unchecked")
-    public List query(Class entityClass, int nMaxResults, RestrictionSet restrictions, List<Order> orders, List<Projection> projections) {
+    public List query(Session session, Class entityClass, int nMaxResults, RestrictionSet restrictions, List<Order> orders, List<Projection> projections) {
         //TODO: use getCriteriaBuilder
-        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(entityClass);
+        Criteria criteria = session.createCriteria(entityClass);
         // max results
         if (nMaxResults > 0) {
             criteria.setMaxResults(nMaxResults);
@@ -65,8 +62,8 @@ public class DataRepository {
      * @param entity
      * @param <T>
      */
-    public <T> T update(T entity) {
-        sessionFactory.getCurrentSession().update(entity);
+    public <T> T update(Session session, T entity) {
+        session.update(entity);
         return entity;
     }
 
@@ -76,8 +73,8 @@ public class DataRepository {
      * @param entity
      * @param <T>
      */
-    public <T> T remove(T entity) {
-        sessionFactory.getCurrentSession().remove(entity);
+    public <T> T remove(Session session, T entity) {
+        session.remove(entity);
         return entity;
     }
 
@@ -88,8 +85,8 @@ public class DataRepository {
      * @param <T>
      * @return
      */
-    public <T> T create(T entity) {
-        sessionFactory.getCurrentSession().save(entity);
+    public <T> T create(Session session, T entity) {
+        session.save(entity);
         return entity;
     }
 
@@ -99,8 +96,8 @@ public class DataRepository {
      * @param entity
      * @param <T>
      */
-    public <T> T persist(T entity) {
-        sessionFactory.getCurrentSession().saveOrUpdate(entity);
+    public <T> T persist(Session session, T entity) {
+        session.saveOrUpdate(entity);
         return entity;
     }
 }

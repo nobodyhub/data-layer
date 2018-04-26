@@ -6,7 +6,6 @@ import lombok.Data;
 import org.junit.Test;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.ByteBuffer;
@@ -30,7 +29,7 @@ public class AvroSchemaConverterTest {
         assertEquals(avroEntity, result);
     }
 
-    @Entity
+
     @Data
     private static class TestEntity implements AvroEntity {
         @Column
