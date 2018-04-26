@@ -1,13 +1,10 @@
 package com.nobodyhub.datalayer.core.service.repository;
 
 import com.google.common.collect.Lists;
+import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
+import com.nobodyhub.datalayer.core.service.exception.AvroCoreException;
 import com.nobodyhub.datalayer.core.service.repository.criteria.Criteria;
 import com.nobodyhub.datalayer.core.service.util.AvroSchemaConverter;
-import com.nobodyhub.datalayer.core.service.exception.AvroCoreException;
-import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,14 +13,10 @@ import java.util.List;
  * @author yan_h
  * @since 2018-04-25.
  */
-@Component
 public class DataService {
-    @Autowired
     private DataRepository repository;
-    @Autowired
     private AvroSchemaConverter converter;
 
-    @Transactional(rollbackFor = Exception.class)
     public List<DataLayerProtocol.Entity> query(Class entityClass, DataLayerProtocol.Entity entity) throws ClassNotFoundException, IOException {
         Criteria criteria = converter.decode(entity);
         List rstList = repository.query(entityClass,
@@ -39,7 +32,6 @@ public class DataService {
         return entityList;
     }
 
-    @Transactional(rollbackFor = Exception.class)
     public DataLayerProtocol.Entity execute(List<DataLayerProtocol.ExecuteRequest> operations) throws IOException, ClassNotFoundException {
         //stores the result of the last operation
         Object obj = null;

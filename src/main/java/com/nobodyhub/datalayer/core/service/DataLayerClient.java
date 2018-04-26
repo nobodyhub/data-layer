@@ -1,18 +1,15 @@
 package com.nobodyhub.datalayer.core.service;
 
 import com.google.common.collect.Lists;
-import com.nobodyhub.datalayer.core.service.util.AvroSchemaConverter;
 import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
 import com.nobodyhub.datalayer.core.proto.DataLayerServiceGrpc;
 import com.nobodyhub.datalayer.core.service.data.ExecuteRequestData;
 import com.nobodyhub.datalayer.core.service.data.QueryRequestData;
 import com.nobodyhub.datalayer.core.service.data.ResponseData;
+import com.nobodyhub.datalayer.core.service.util.AvroSchemaConverter;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -25,16 +22,12 @@ import java.util.concurrent.TimeUnit;
  * @author yan_h
  * @since 2018-04-25.
  */
-@Component
 public class DataLayerClient implements AutoCloseable {
 
-    @Value("${datalayer.server.host}")
     private String host;
 
-    @Value("${datalayer.server.port}")
     private int port;
 
-    @Autowired
     private AvroSchemaConverter converter;
 
     private ManagedChannel channel;

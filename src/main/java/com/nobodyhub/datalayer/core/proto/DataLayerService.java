@@ -3,8 +3,6 @@ package com.nobodyhub.datalayer.core.proto;
 import com.google.common.collect.Lists;
 import com.nobodyhub.datalayer.core.service.repository.DataService;
 import io.grpc.stub.StreamObserver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,10 +10,8 @@ import java.util.List;
 /**
  * @author Ryan
  */
-@Component
 public class DataLayerService extends DataLayerServiceGrpc.DataLayerServiceImplBase {
 
-    @Autowired
     private DataService service;
 
     @Override

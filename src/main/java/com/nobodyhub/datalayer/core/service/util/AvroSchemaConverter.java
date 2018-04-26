@@ -8,7 +8,6 @@ import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
 import org.apache.avro.Schema;
 import org.apache.avro.io.DecoderFactory;
 import org.apache.avro.io.EncoderFactory;
-import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -16,7 +15,6 @@ import java.io.IOException;
 /**
  * @author Ryan
  */
-@Component
 public class AvroSchemaConverter {
 
     public <T> DataLayerProtocol.Entity encode(T avroEntity) throws IOException {

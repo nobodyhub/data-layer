@@ -3,9 +3,6 @@ package com.nobodyhub.datalayer.core.service;
 import com.nobodyhub.datalayer.core.proto.DataLayerService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -14,14 +11,11 @@ import java.io.IOException;
  * @author yan_h
  * @since 2018-04-25.
  */
-@Component
 public class DataLayerServer {
 
-    @Value("${datalayer.server.port}")
     private int port;
     private Server server;
 
-    @Autowired
     private DataLayerService dataLayerService;
 
     @PostConstruct

@@ -7,18 +7,14 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * @author Ryan
  */
-@Component
 public class DataRepository {
 
-    @Autowired
     private SessionFactory sessionFactory;
 
     /**
