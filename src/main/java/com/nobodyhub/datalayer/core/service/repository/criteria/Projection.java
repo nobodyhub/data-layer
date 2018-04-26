@@ -1,6 +1,7 @@
 package com.nobodyhub.datalayer.core.service.repository.criteria;
 
 import com.google.common.base.Strings;
+import com.nobodyhub.datalayer.core.service.common.AvroEntity;
 import com.nobodyhub.datalayer.core.service.exception.AvroCoreException;
 import lombok.Data;
 import org.hibernate.criterion.ProjectionList;
@@ -11,7 +12,7 @@ import org.hibernate.criterion.Projections;
  * @since 2018-04-24.
  */
 @Data
-public class Projection {
+public class Projection implements AvroEntity {
     /**
      * The type of projections
      */

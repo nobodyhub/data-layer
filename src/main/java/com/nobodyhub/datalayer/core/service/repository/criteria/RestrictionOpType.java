@@ -1,5 +1,6 @@
 package com.nobodyhub.datalayer.core.service.repository.criteria;
 
+import com.nobodyhub.datalayer.core.service.common.AvroEntity;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 
@@ -10,7 +11,7 @@ import org.hibernate.criterion.Restrictions;
  * @see Restrictions
  * @since 2018-04-23.
  */
-public enum RestrictionOpType {
+public enum RestrictionOpType implements AvroEntity {
     /**
      * Equal
      */

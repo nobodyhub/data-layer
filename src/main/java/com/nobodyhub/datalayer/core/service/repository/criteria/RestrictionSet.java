@@ -1,6 +1,7 @@
 package com.nobodyhub.datalayer.core.service.repository.criteria;
 
 import com.google.common.collect.Lists;
+import com.nobodyhub.datalayer.core.service.common.AvroEntity;
 import com.nobodyhub.datalayer.core.service.exception.AvroCoreException;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.Set;
  */
 @RequiredArgsConstructor
 @Data
-public class RestrictionSet {
+public class RestrictionSet implements AvroEntity {
     /**
      * the junction type of restriction set, decideing how to eval the restrictions
      */

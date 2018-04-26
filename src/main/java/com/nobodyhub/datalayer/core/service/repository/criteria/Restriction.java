@@ -1,5 +1,6 @@
 package com.nobodyhub.datalayer.core.service.repository.criteria;
 
+import com.nobodyhub.datalayer.core.service.common.AvroEntity;
 import com.nobodyhub.datalayer.core.service.exception.AvroCoreException;
 import lombok.Data;
 import org.hibernate.criterion.Criterion;
@@ -13,7 +14,7 @@ import java.util.List;
  * @since 2018-04-23.
  */
 @Data
-public class Restriction {
+public class Restriction implements AvroEntity {
     /**
      * type of restriction
      */

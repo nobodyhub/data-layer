@@ -1,8 +1,9 @@
 package com.nobodyhub.datalayer.core.service.util;
 
 import avro.shaded.com.google.common.base.Joiner;
-import com.nobodyhub.datalayer.core.service.common.AvroSchemaLoaderConfiguration;
 import com.nobodyhub.datalayer.core.avro.AvroData;
+import com.nobodyhub.datalayer.core.service.common.AvroEntity;
+import com.nobodyhub.datalayer.core.service.common.AvroSchemaLoaderConfiguration;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ClasspathHelper;
@@ -12,7 +13,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -29,7 +29,7 @@ public final class AvroSchemaLoader {
     private ApplicationContext applicationContext;
 
     @PostConstruct
-    public void setup() throws ClassNotFoundException {
+    public void setup() {
         preload();
     }
 
@@ -38,35 +38,24 @@ public final class AvroSchemaLoader {
      *
      * @throws ClassNotFoundException
      */
-    public void preload() throws ClassNotFoundException {
+    public void preload() {
         logger.info("Start to preload classes for AvroSchema");
-        //get annotation settings
-//        Reflections configurationReflection = new Reflections(new ConfigurationBuilder()
-//                .addUrls(ClasspathHelper.forClassLoader())
-//                .setScanners(new TypeAnnotationsScanner(), new SubTypesScanner(false)));
-//        List<Class<?>> configurations = Lists.newArrayList(configurationReflection.getTypesAnnotatedWith(AvroSchemaLoaderConfiguration.class));
-
-        Map<String, Object> configurations = applicationContext.getBeansWithAnnotation(AvroSchemaLoaderConfiguration.class);
-        if (configurations.isEmpty()) {
+        String[] configurations = applicationContext.getBeanNamesForAnnotation(AvroSchemaLoaderConfiguration.class);
+        if (configurations.length == 0) {
             throw new RuntimeException(String.format("Can not find configuration %s within classloaders %s!",
                     AvroSchemaLoaderConfiguration.class.getName(),
                     Joiner.on(", ").join(ClasspathHelper.classLoaders())));
         }
-        for (String clsName : configurations.keySet()) {
-            Class cls = Class.forName(clsName);
-            logger.info(AvroSchemaLoaderConfiguration.class.getSimpleName() + " found on Class: " + cls.getSimpleName());
-            AvroSchemaLoaderConfiguration configuration = (AvroSchemaLoaderConfiguration) cls.getAnnotation(AvroSchemaLoaderConfiguration.class);
+        for (String beanName : configurations) {
+            logger.info(AvroSchemaLoaderConfiguration.class.getSimpleName() + " found on Bean: " + beanName);
+            AvroSchemaLoaderConfiguration configuration = applicationContext.findAnnotationOnBean(beanName, AvroSchemaLoaderConfiguration.class);
 
             for (String path : configuration.basePackages()) {
                 //get the target classes in base package
                 Reflections targetClassReflection = new Reflections(new ConfigurationBuilder()
                         .addUrls(ClasspathHelper.forPackage(path))
                         .setScanners(new SubTypesScanner(false)));
-                Set<Class<?>> targetCls = targetClassReflection.getSubTypesOf(Object.class);
-                //filter by annotation
-//            Set<Class<?>> targetCls = targetClassReflection.getTypesAnnotatedWith(configuration.annotatedWith());
-                //filter by subType
-//            targetCls.retainAll(targetClassReflection.getSubTypesOf(configuration.subTypesOf()));
+                Set<Class<? extends AvroEntity>> targetCls = targetClassReflection.getSubTypesOf(AvroEntity.class);
                 //load target as schema
                 load(targetCls.toArray(new Class<?>[0]));
             }
