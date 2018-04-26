@@ -17,7 +17,7 @@ public class DataLayerServerTest {
         DataLayerServer server = new DataLayerServer(9101);
         server.start();
         SessionFactory sessionFactory = server.getDataLayerServerService().getService().getSessionFactory();
-        DataRepository repo = new DataRepository();
+        DataRepository repo = new DataRepository(sessionFactory);
         User user = new User();
         user.setEmail("yan_h@example.com");
         user.setLastName("Yan");

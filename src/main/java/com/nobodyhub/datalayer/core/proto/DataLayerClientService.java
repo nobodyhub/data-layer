@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
  * @author yan_h
  * @since 2018-04-25.
  */
-public class DataLayerClientService implements AutoCloseable {
+public class DataLayerClientService {
 
     @Getter
     private final String host;
@@ -40,10 +40,10 @@ public class DataLayerClientService implements AutoCloseable {
         this.blockingStub = DataLayerServiceGrpc.newBlockingStub(channel);
     }
 
-    public <T> ResponseData<T> execute(ExecuteRequestData<T>... operations) throws IOException, InterruptedException {
+    public ResponseData execute(ExecuteRequestData... operations) throws IOException, InterruptedException {
         final CountDownLatch finishLatch = new CountDownLatch(1);
 
-        ResponseData<T> responseData = new ResponseData<>();
+        ResponseData<?> responseData = new ResponseData<>();
         StreamObserver<DataLayerProtocol.Response> response = new StreamObserver<DataLayerProtocol.Response>() {
             @Override
             public void onNext(DataLayerProtocol.Response response) {
@@ -70,7 +70,7 @@ public class DataLayerClientService implements AutoCloseable {
             }
         };
         StreamObserver<DataLayerProtocol.ExecuteRequest> request = asyncStub.execute(response);
-        for (ExecuteRequestData<T> operation : operations) {
+        for (ExecuteRequestData operation : operations) {
             DataLayerProtocol.ExecuteRequest reqOp = DataLayerProtocol.ExecuteRequest.newBuilder()
                     .setOpType(operation.getOpType())
                     .setEntity(AvroSchemaConverter.encode(operation.getEntity()))
@@ -105,8 +105,6 @@ public class DataLayerClientService implements AutoCloseable {
         return responseData;
     }
 
-
-    @Override
     public void close() throws Exception {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }

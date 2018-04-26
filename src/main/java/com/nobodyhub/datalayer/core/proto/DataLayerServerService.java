@@ -29,6 +29,10 @@ public class DataLayerServerService extends DataLayerServiceGrpc.DataLayerServic
     @Getter
     private final DataService service;
 
+    public DataLayerServerService() {
+        this(null);
+    }
+
     public DataLayerServerService(Properties hibernateProps) {
         Configuration configuration = configuration(hibernateProps);
         preload(configuration);
