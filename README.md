@@ -20,3 +20,6 @@ Compared to other de/serialize tool, like Jackson, Thrift, Protocal Buffers, Avr
 
 ## Hints
 1. The entity should be defined according to the business requirement.
+
+## Performance
+> Measured by: [JMH - Java Microbenchmark Harness](http://openjdk.java.net/projects/code-tools/jmh/)
