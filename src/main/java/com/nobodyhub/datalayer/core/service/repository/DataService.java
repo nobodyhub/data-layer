@@ -24,7 +24,7 @@ public class DataService {
     private final SessionFactory sessionFactory;
 
     public DataService(SessionFactory sessionFactory) {
-        this.repository = new DataRepository();
+        this.repository = new DataRepository(sessionFactory);
         this.sessionFactory = sessionFactory;
     }
 

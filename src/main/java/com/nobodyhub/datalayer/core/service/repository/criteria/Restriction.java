@@ -1,7 +1,9 @@
 package com.nobodyhub.datalayer.core.service.repository.criteria;
 
+import com.google.common.collect.Lists;
 import com.nobodyhub.datalayer.core.service.common.AvroEntity;
 import com.nobodyhub.datalayer.core.service.exception.DataLayerCoreException;
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
@@ -14,6 +16,7 @@ import java.util.List;
  * @since 2018-04-23.
  */
 @Data
+@Builder
 public class Restriction implements AvroEntity {
     /**
      * type of restriction
@@ -24,10 +27,6 @@ public class Restriction implements AvroEntity {
      */
     private String fieldName;
     /**
-     * the Type of field
-     */
-    private Class fieldCls;
-    /**
      * a list of oprands, the meaning depends on the {@link this#type}
      */
     private List<Object> operands;
@@ -36,7 +35,7 @@ public class Restriction implements AvroEntity {
      */
     private MatchMode matchMode;
 
-    public Criterion toRestriction() {
+    public Criterion toRestriction(Class fieldCls) {
         switch (type) {
             case EQ: {
                 return Restrictions.eq(fieldName, fieldCls.cast(operands.get(0)));
@@ -59,5 +58,46 @@ public class Restriction implements AvroEntity {
                 throw new DataLayerCoreException("Not Implemented!");
             }
         }
+    }
+
+    public static Restriction eq(String fieldName, Object value) {
+        return Restriction.builder()
+                .type(RestrictionOpType.EQ)
+                .fieldName(fieldName)
+                .operands(Lists.newArrayList(value))
+                .build();
+    }
+
+    public static Restriction like(String fieldName, Object value) {
+        return Restriction.builder()
+                .type(RestrictionOpType.LIKE)
+                .fieldName(fieldName)
+                .operands(Lists.newArrayList(value))
+                .build();
+    }
+
+    public static Restriction like(String fieldName, Object value, MatchMode matchMode) {
+        return Restriction.builder()
+                .type(RestrictionOpType.LIKE)
+                .fieldName(fieldName)
+                .operands(Lists.newArrayList(value))
+                .matchMode(matchMode)
+                .build();
+    }
+
+    public static Restriction between(String fieldName, Object lower, Object upper) {
+        return Restriction.builder()
+                .type(RestrictionOpType.BEWTEEN)
+                .fieldName(fieldName)
+                .operands(Lists.newArrayList(lower, upper))
+                .build();
+    }
+
+    public static Restriction in(String fieldName, Object... values) {
+        return Restriction.builder()
+                .type(RestrictionOpType.BEWTEEN)
+                .fieldName(fieldName)
+                .operands(Lists.newArrayList(values))
+                .build();
     }
 }
