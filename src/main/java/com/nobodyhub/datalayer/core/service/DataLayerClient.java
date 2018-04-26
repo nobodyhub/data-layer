@@ -10,8 +10,8 @@ import com.nobodyhub.datalayer.core.service.util.AvroSchemaConverter;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
+import lombok.Getter;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -24,24 +24,25 @@ import java.util.concurrent.TimeUnit;
  */
 public class DataLayerClient implements AutoCloseable {
 
-    private String host;
+    @Getter
+    private final String host;
+    @Getter
+    private final int port;
 
-    private int port;
+    private final ManagedChannel channel;
+    private final DataLayerServiceGrpc.DataLayerServiceStub asyncStub;
+    private final DataLayerServiceGrpc.DataLayerServiceBlockingStub blockingStub;
 
-    private ManagedChannel channel;
-    private DataLayerServiceGrpc.DataLayerServiceStub asyncStub;
-    private DataLayerServiceGrpc.DataLayerServiceBlockingStub blockingStub;
-
-
-    @PostConstruct
-    private void setup() {
+    public DataLayerClient(String host, int port) {
+        this.host = host;
+        this.port = port;
         ManagedChannelBuilder<?> channelBuilder = ManagedChannelBuilder.forAddress(host, port).usePlaintext();
         this.channel = channelBuilder.build();
         this.asyncStub = DataLayerServiceGrpc.newStub(channel);
         this.blockingStub = DataLayerServiceGrpc.newBlockingStub(channel);
     }
 
-    public <T> ResponseData<T> execute(List<ExecuteRequestData<T>> operations) throws IOException, ClassNotFoundException, InterruptedException {
+    public <T> ResponseData<T> execute(List<ExecuteRequestData<T>> operations) throws IOException, InterruptedException {
         final CountDownLatch finishLatch = new CountDownLatch(1);
 
         ResponseData<T> responseData = new ResponseData<>();
