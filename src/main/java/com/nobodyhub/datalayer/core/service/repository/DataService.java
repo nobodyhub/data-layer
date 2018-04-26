@@ -15,10 +15,9 @@ import java.util.List;
  */
 public class DataService {
     private DataRepository repository;
-    private AvroSchemaConverter converter;
 
     public List<DataLayerProtocol.Entity> query(Class entityClass, DataLayerProtocol.Entity entity) throws ClassNotFoundException, IOException {
-        Criteria criteria = converter.decode(entity);
+        Criteria criteria = AvroSchemaConverter.decode(entity);
         List rstList = repository.query(entityClass,
                 criteria.getMaxResult(),
                 criteria.getRestrictionSet(),
@@ -27,7 +26,7 @@ public class DataService {
 
         List<DataLayerProtocol.Entity> entityList = Lists.newArrayList();
         for (Object ele : rstList) {
-            entityList.add(converter.encode(ele));
+            entityList.add(AvroSchemaConverter.encode(ele));
         }
         return entityList;
     }
@@ -38,19 +37,19 @@ public class DataService {
         for (DataLayerProtocol.ExecuteRequest request : operations) {
             switch (request.getOpType()) {
                 case CREATE: {
-                    obj = repository.create(converter.decode(request.getEntity()));
+                    obj = repository.create(AvroSchemaConverter.decode(request.getEntity()));
                     break;
                 }
                 case UPDATE: {
-                    obj = repository.create(converter.decode(request.getEntity()));
+                    obj = repository.create(AvroSchemaConverter.decode(request.getEntity()));
                     break;
                 }
                 case DELETE: {
-                    obj = repository.create(converter.decode(request.getEntity()));
+                    obj = repository.create(AvroSchemaConverter.decode(request.getEntity()));
                     break;
                 }
                 case PERSIST: {
-                    obj = repository.persist(converter.decode(request.getEntity()));
+                    obj = repository.persist(AvroSchemaConverter.decode(request.getEntity()));
                     break;
                 }
                 default: {
@@ -58,6 +57,6 @@ public class DataService {
                 }
             }
         }
-        return converter.encode(obj);
+        return AvroSchemaConverter.encode(obj);
     }
 }

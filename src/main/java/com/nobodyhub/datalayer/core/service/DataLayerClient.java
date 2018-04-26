@@ -28,8 +28,6 @@ public class DataLayerClient implements AutoCloseable {
 
     private int port;
 
-    private AvroSchemaConverter converter;
-
     private ManagedChannel channel;
     private DataLayerServiceGrpc.DataLayerServiceStub asyncStub;
     private DataLayerServiceGrpc.DataLayerServiceBlockingStub blockingStub;
@@ -53,7 +51,7 @@ public class DataLayerClient implements AutoCloseable {
                 responseData.setStatus(response.getStatusCode());
                 responseData.setMessage(response.getMessage());
                 try {
-                    responseData.setEntity(converter.decode(response.getEntity()));
+                    responseData.setEntity(AvroSchemaConverter.decode(response.getEntity()));
                 } catch (ClassNotFoundException | IOException e) {
                     e.printStackTrace();
                     onError(e);
@@ -76,7 +74,7 @@ public class DataLayerClient implements AutoCloseable {
         for (ExecuteRequestData<T> operation : operations) {
             DataLayerProtocol.ExecuteRequest reqOp = DataLayerProtocol.ExecuteRequest.newBuilder()
                     .setOpType(operation.getOpType())
-                    .setEntity(converter.encode(operation.getEntity()))
+                    .setEntity(AvroSchemaConverter.encode(operation.getEntity()))
                     .build();
             request.onNext(reqOp);
         }
@@ -91,12 +89,12 @@ public class DataLayerClient implements AutoCloseable {
         try {
             DataLayerProtocol.QueryRequest request = DataLayerProtocol.QueryRequest.newBuilder()
                     .setEntityClass(query.getCls().getName())
-                    .setCriteria(converter.encode(query.getCriteria()))
+                    .setCriteria(AvroSchemaConverter.encode(query.getCriteria()))
                     .build();
             Iterator<DataLayerProtocol.Response> iter = blockingStub.query(request);
             while (iter.hasNext()) {
                 DataLayerProtocol.Response response = iter.next();
-                data.add(converter.decode(response.getEntity()));
+                data.add(AvroSchemaConverter.decode(response.getEntity()));
             }
             responseData.setStatus(DataLayerProtocol.StatusCode.OK);
             responseData.setEntity(data);
