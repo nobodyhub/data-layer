@@ -12,12 +12,12 @@ import java.util.List;
 /**
  * @author Ryan
  */
-public class DataLayerService extends DataLayerServiceGrpc.DataLayerServiceImplBase {
+public class DataLayerServerService extends DataLayerServiceGrpc.DataLayerServiceImplBase {
 
     @Getter
     private final DataService service;
 
-    public DataLayerService(SessionFactory sessionFactory) {
+    public DataLayerServerService(SessionFactory sessionFactory) {
         service = new DataService(sessionFactory);
     }
 

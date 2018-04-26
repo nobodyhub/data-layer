@@ -1,8 +1,6 @@
-package com.nobodyhub.datalayer.core.service;
+package com.nobodyhub.datalayer.core.proto;
 
 import com.google.common.collect.Lists;
-import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
-import com.nobodyhub.datalayer.core.proto.DataLayerServiceGrpc;
 import com.nobodyhub.datalayer.core.service.data.ExecuteRequestData;
 import com.nobodyhub.datalayer.core.service.data.QueryRequestData;
 import com.nobodyhub.datalayer.core.service.data.ResponseData;
@@ -22,7 +20,7 @@ import java.util.concurrent.TimeUnit;
  * @author yan_h
  * @since 2018-04-25.
  */
-public class DataLayerClient implements AutoCloseable {
+public class DataLayerClientService implements AutoCloseable {
 
     @Getter
     private final String host;
@@ -33,7 +31,7 @@ public class DataLayerClient implements AutoCloseable {
     private final DataLayerServiceGrpc.DataLayerServiceStub asyncStub;
     private final DataLayerServiceGrpc.DataLayerServiceBlockingStub blockingStub;
 
-    public DataLayerClient(String host, int port) {
+    public DataLayerClientService(String host, int port) {
         this.host = host;
         this.port = port;
         ManagedChannelBuilder<?> channelBuilder = ManagedChannelBuilder.forAddress(host, port).usePlaintext();

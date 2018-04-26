@@ -1,5 +1,6 @@
 package com.nobodyhub.datalayer.core.service;
 
+import com.nobodyhub.datalayer.core.proto.DataLayerClientService;
 import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
 import com.nobodyhub.datalayer.core.service.data.QueryRequestData;
 import com.nobodyhub.datalayer.core.service.data.ResponseData;
@@ -14,9 +15,9 @@ import static org.junit.Assert.assertEquals;
  * @author yan_h
  * @since 2018-04-25.
  */
-public class DataLayerClientApplication {
+public class DataLayerClientServiceApplication {
 
-    public DataLayerClient client;
+    public DataLayerClientService client;
 
     @Test
     public void test() {

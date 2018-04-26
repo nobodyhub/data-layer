@@ -2,7 +2,7 @@ package com.nobodyhub.datalayer.core.service;
 
 import com.google.common.collect.Sets;
 import com.nobodyhub.datalayer.core.avro.AvroData;
-import com.nobodyhub.datalayer.core.proto.DataLayerService;
+import com.nobodyhub.datalayer.core.proto.DataLayerServerService;
 import com.nobodyhub.datalayer.core.service.common.AvroEntity;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
@@ -31,7 +31,7 @@ public class DataLayerServer {
     private final Server server;
 
     @Getter
-    private final DataLayerService dataLayerService;
+    private final DataLayerServerService dataLayerServerService;
 
     public DataLayerServer(int port) {
         this(port, null);
@@ -41,8 +41,8 @@ public class DataLayerServer {
         this.port = port;
         Configuration configuration = configuration(hibernateProps);
         preload(configuration);
-        this.dataLayerService = new DataLayerService(configuration.buildSessionFactory());
-        this.server = ServerBuilder.forPort(port).addService(dataLayerService).build();
+        this.dataLayerServerService = new DataLayerServerService(configuration.buildSessionFactory());
+        this.server = ServerBuilder.forPort(port).addService(dataLayerServerService).build();
     }
 
     protected Properties getHibernateProps(Properties userDefined) {

@@ -13,17 +13,18 @@ import java.io.IOException;
  */
 public class DataLayerServerTest {
     @Test
-    public void test() throws IOException, InterruptedException {
+    public void test() throws IOException {
         DataLayerServer server = new DataLayerServer(9101);
         server.start();
-        SessionFactory sessionFactory = server.getDataLayerService().getService().getSessionFactory();
+        SessionFactory sessionFactory = server.getDataLayerServerService().getService().getSessionFactory();
         DataRepository repo = new DataRepository();
         User user = new User();
         user.setEmail("yan_h@example.com");
         user.setLastName("Yan");
         user.setFirstName("Hai");
+        long start = System.nanoTime();
         user = repo.create(sessionFactory.openSession(), user);
-        server.blockUntilShutdown();
-
+        System.out.println("Finish within:" + ((System.nanoTime() - start) / 1000000));
+//        server.blockUntilShutdown();
     }
 }
