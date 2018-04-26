@@ -20,4 +20,25 @@ public class ExecuteRequestData<T> {
                 .entity(entity)
                 .build();
     }
+
+    public static <T> ExecuteRequestData<T> update(T entity) {
+        return ExecuteRequestData.<T>builder()
+                .opType(DataLayerProtocol.OpType.UPDATE)
+                .entity(entity)
+                .build();
+    }
+
+    public static <T> ExecuteRequestData<T> delete(T entity) {
+        return ExecuteRequestData.<T>builder()
+                .opType(DataLayerProtocol.OpType.DELETE)
+                .entity(entity)
+                .build();
+    }
+
+    public static <T> ExecuteRequestData<T> persist(T entity) {
+        return ExecuteRequestData.<T>builder()
+                .opType(DataLayerProtocol.OpType.PERSIST)
+                .entity(entity)
+                .build();
+    }
 }
