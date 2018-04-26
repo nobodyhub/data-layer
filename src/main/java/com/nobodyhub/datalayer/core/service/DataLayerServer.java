@@ -1,33 +1,39 @@
 package com.nobodyhub.datalayer.core.service;
 
-import com.nobodyhub.datalayer.core.proto.DataLayerService;
+import com.nobodyhub.datalayer.core.proto.DataLayerServerService;
+import com.nobodyhub.datalayer.core.service.common.DataLayerConst;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import lombok.Getter;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 
 /**
  * @author yan_h
  * @since 2018-04-25.
  */
-@Component
 public class DataLayerServer {
 
-    @Value("${datalayer.server.port}")
-    private int port;
-    private Server server;
+    @Getter
+    private final int port;
+    private final Server server;
 
-    @Autowired
-    private DataLayerService dataLayerService;
+    @Getter
+    private final DataLayerServerService dataLayerServerService;
 
-    @PostConstruct
-    public void setup() throws IOException {
-        this.server = ServerBuilder.forPort(port).addService(dataLayerService).build();
-        start();
+
+    public DataLayerServer() {
+        this(DataLayerConst.DEFAULT_PORT);
+    }
+
+    public DataLayerServer(int port) {
+        this(port, new DataLayerServerService());
+    }
+
+    public DataLayerServer(int port, DataLayerServerService dataLayerServerService) {
+        this.port = port;
+        this.dataLayerServerService = dataLayerServerService;
+        this.server = ServerBuilder.forPort(port).addService(dataLayerServerService).build();
     }
 
     public void start() throws IOException {

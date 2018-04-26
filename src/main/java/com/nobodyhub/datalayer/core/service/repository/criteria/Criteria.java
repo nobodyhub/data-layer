@@ -1,5 +1,6 @@
 package com.nobodyhub.datalayer.core.service.repository.criteria;
 
+import com.google.common.collect.Lists;
 import com.nobodyhub.datalayer.core.service.common.AvroEntity;
 import lombok.Data;
 import org.hibernate.criterion.Order;
@@ -16,4 +17,18 @@ public class Criteria implements AvroEntity {
     private RestrictionSet restrictionSet;
     private List<Order> orders;
     private List<Projection> projections;
+
+    public void add(Order order) {
+        if (orders == null) {
+            orders = Lists.newArrayList();
+        }
+        orders.add(order);
+    }
+
+    public void add(Projection projection) {
+        if (projections == null) {
+            projections = Lists.newArrayList();
+        }
+        projections.add(projection);
+    }
 }

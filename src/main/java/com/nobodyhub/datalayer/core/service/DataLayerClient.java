@@ -1,123 +1,81 @@
 package com.nobodyhub.datalayer.core.service;
 
-import com.google.common.collect.Lists;
-import com.nobodyhub.datalayer.core.service.util.AvroSchemaConverter;
-import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
-import com.nobodyhub.datalayer.core.proto.DataLayerServiceGrpc;
+import com.nobodyhub.datalayer.core.proto.DataLayerClientService;
+import com.nobodyhub.datalayer.core.service.common.DataLayerConst;
 import com.nobodyhub.datalayer.core.service.data.ExecuteRequestData;
 import com.nobodyhub.datalayer.core.service.data.QueryRequestData;
 import com.nobodyhub.datalayer.core.service.data.ResponseData;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-import io.grpc.stub.StreamObserver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import com.nobodyhub.datalayer.core.service.exception.DataLayerCoreException;
+import com.nobodyhub.datalayer.core.service.repository.criteria.Restriction;
+import com.nobodyhub.datalayer.core.service.repository.criteria.RestrictionSet;
+import com.nobodyhub.datalayer.core.service.repository.criteria.RestrictionSetType;
+import com.nobodyhub.datalayer.core.service.util.EntityHelper;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author yan_h
- * @since 2018-04-25.
+ * @since 2018-04-26.
  */
-@Component
-public class DataLayerClient implements AutoCloseable {
+public class DataLayerClient {
+    private final DataLayerClientService dataLayerClientService;
 
-    @Value("${datalayer.server.host}")
-    private String host;
-
-    @Value("${datalayer.server.port}")
-    private int port;
-
-    @Autowired
-    private AvroSchemaConverter converter;
-
-    private ManagedChannel channel;
-    private DataLayerServiceGrpc.DataLayerServiceStub asyncStub;
-    private DataLayerServiceGrpc.DataLayerServiceBlockingStub blockingStub;
-
-
-    @PostConstruct
-    private void setup() {
-        ManagedChannelBuilder<?> channelBuilder = ManagedChannelBuilder.forAddress(host, port).usePlaintext();
-        this.channel = channelBuilder.build();
-        this.asyncStub = DataLayerServiceGrpc.newStub(channel);
-        this.blockingStub = DataLayerServiceGrpc.newBlockingStub(channel);
+    public DataLayerClient(String host) {
+        this(host, DataLayerConst.DEFAULT_PORT);
     }
 
-    public <T> ResponseData<T> execute(List<ExecuteRequestData<T>> operations) throws IOException, ClassNotFoundException, InterruptedException {
-        final CountDownLatch finishLatch = new CountDownLatch(1);
+    public DataLayerClient(String host, int port) {
+        this.dataLayerClientService = new DataLayerClientService(host, port);
+    }
 
-        ResponseData<T> responseData = new ResponseData<>();
-        StreamObserver<DataLayerProtocol.Response> response = new StreamObserver<DataLayerProtocol.Response>() {
-            @Override
-            public void onNext(DataLayerProtocol.Response response) {
-                responseData.setStatus(response.getStatusCode());
-                responseData.setMessage(response.getMessage());
-                try {
-                    responseData.setEntity(converter.decode(response.getEntity()));
-                } catch (ClassNotFoundException | IOException e) {
-                    e.printStackTrace();
-                    onError(e);
-                }
-            }
+    public <T> List<T> findAll(Class<T> cls) {
+        QueryRequestData<T> requestData = new QueryRequestData<>(cls);
+        ResponseData<List<T>> responseData = this.dataLayerClientService.query(requestData);
+        return handleResult(responseData);
+    }
 
-            @Override
-            public void onError(Throwable t) {
-                responseData.setStatus(DataLayerProtocol.StatusCode.ERROR);
-                responseData.setMessage(t.getMessage());
-                finishLatch.countDown();
-            }
+    public <T> List<T> findByField(Class<T> cls, String fieldName, Object value) {
+        QueryRequestData<T> requestData = new QueryRequestData<>(cls);
+        RestrictionSet restrictionSet = new RestrictionSet(RestrictionSetType.CONJUNCTION);
+        restrictionSet.addRestrictions(Restriction.eq(fieldName, value));
+        requestData.setRestriction(restrictionSet);
+        ResponseData<List<T>> responseData = this.dataLayerClientService.query(requestData);
+        return handleResult(responseData);
+    }
 
-            @Override
-            public void onCompleted() {
-                finishLatch.countDown();
-            }
-        };
-        StreamObserver<DataLayerProtocol.ExecuteRequest> request = asyncStub.execute(response);
-        for (ExecuteRequestData<T> operation : operations) {
-            DataLayerProtocol.ExecuteRequest reqOp = DataLayerProtocol.ExecuteRequest.newBuilder()
-                    .setOpType(operation.getOpType())
-                    .setEntity(converter.encode(operation.getEntity()))
-                    .build();
-            request.onNext(reqOp);
+    public <T> T findById(Class<T> cls, Object value) {
+        List<T> rst = findByField(cls, EntityHelper.PLACEHOLDER_ID, value);
+        if (rst == null || rst.isEmpty()) {
+            return null;
+        } else {
+            return rst.get(0);
         }
-        request.onCompleted();
-        finishLatch.await();
-        return responseData;
     }
 
-    public <T> ResponseData<List<T>> query(QueryRequestData<T> query) {
-        ResponseData<List<T>> responseData = new ResponseData<>();
-        List<T> data = Lists.newArrayList();
-        try {
-            DataLayerProtocol.QueryRequest request = DataLayerProtocol.QueryRequest.newBuilder()
-                    .setEntityClass(query.getCls().getName())
-                    .setCriteria(converter.encode(query.getCriteria()))
-                    .build();
-            Iterator<DataLayerProtocol.Response> iter = blockingStub.query(request);
-            while (iter.hasNext()) {
-                DataLayerProtocol.Response response = iter.next();
-                data.add(converter.decode(response.getEntity()));
-            }
-            responseData.setStatus(DataLayerProtocol.StatusCode.OK);
-            responseData.setEntity(data);
-        } catch (ClassNotFoundException | IOException e) {
-            e.printStackTrace();
-            responseData.setStatus(DataLayerProtocol.StatusCode.ERROR);
-            responseData.setMessage(e.getMessage());
-        }
-        return responseData;
+    @SafeVarargs
+    public final <T> T execute(ExecuteRequestData<T>... requests) throws IOException, InterruptedException {
+        ResponseData<T> responseData = this.dataLayerClientService.execute(requests);
+        return handleResult(responseData);
     }
 
-
-    @Override
     public void close() throws Exception {
-        channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+        if(dataLayerClientService!=null) {
+            this.dataLayerClientService.close();
+        }
+    }
+
+    protected <T> T handleResult(ResponseData<T> responseData) {
+        switch (responseData.getStatus()) {
+            case OK: {
+                return responseData.getEntity();
+            }
+            case ERROR: {
+                throw new DataLayerCoreException(responseData.getMessage());
+            }
+            default: {
+                throw new DataLayerCoreException("Unknown Status Code: " + responseData.getStatus());
+            }
+        }
     }
 }

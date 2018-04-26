@@ -8,7 +8,6 @@ import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
 import org.apache.avro.Schema;
 import org.apache.avro.io.DecoderFactory;
 import org.apache.avro.io.EncoderFactory;
-import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -16,10 +15,11 @@ import java.io.IOException;
 /**
  * @author Ryan
  */
-@Component
-public class AvroSchemaConverter {
+public final class AvroSchemaConverter {
+    private AvroSchemaConverter() {
+    }
 
-    public <T> DataLayerProtocol.Entity encode(T avroEntity) throws IOException {
+    public static <T> DataLayerProtocol.Entity encode(T avroEntity) throws IOException {
         Class clz = avroEntity.getClass();
         String qualifiedClassName = clz.getName();
         Schema schema = AvroData.get().getSchema(clz);
@@ -34,7 +34,7 @@ public class AvroSchemaConverter {
                 .build();
     }
 
-    public <T> T decode(DataLayerProtocol.Entity entity) throws ClassNotFoundException, IOException {
+    public static <T> T decode(DataLayerProtocol.Entity entity) throws ClassNotFoundException, IOException {
         String qualifiedClassName = entity.getEntityClass();
         Schema reflectSchema = AvroData.get().getSchema(Class.forName(qualifiedClassName));
         AvroDatumReader<T> datumReflectReader = new AvroDatumReader<>(reflectSchema);
