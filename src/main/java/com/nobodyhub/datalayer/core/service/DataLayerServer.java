@@ -27,7 +27,7 @@ public class DataLayerServer {
     }
 
     public DataLayerServer(int port) {
-        this(port, null);
+        this(port, new DataLayerServerService());
     }
 
     public DataLayerServer(int port, DataLayerServerService dataLayerServerService) {

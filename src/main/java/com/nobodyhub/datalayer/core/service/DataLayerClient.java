@@ -53,9 +53,16 @@ public class DataLayerClient {
         }
     }
 
-    public <T> T execute(ExecuteRequestData<T>... requests) throws IOException, InterruptedException {
+    @SafeVarargs
+    public final <T> T execute(ExecuteRequestData<T>... requests) throws IOException, InterruptedException {
         ResponseData<T> responseData = this.dataLayerClientService.execute(requests);
         return handleResult(responseData);
+    }
+
+    public void close() throws Exception {
+        if(dataLayerClientService!=null) {
+            this.dataLayerClientService.close();
+        }
     }
 
     protected <T> T handleResult(ResponseData<T> responseData) {
