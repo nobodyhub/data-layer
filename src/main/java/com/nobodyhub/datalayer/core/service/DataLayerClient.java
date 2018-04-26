@@ -1,6 +1,7 @@
 package com.nobodyhub.datalayer.core.service;
 
 import com.nobodyhub.datalayer.core.proto.DataLayerClientService;
+import com.nobodyhub.datalayer.core.service.data.ExecuteRequestData;
 import com.nobodyhub.datalayer.core.service.data.QueryRequestData;
 import com.nobodyhub.datalayer.core.service.data.ResponseData;
 import com.nobodyhub.datalayer.core.service.exception.DataLayerCoreException;
@@ -9,6 +10,7 @@ import com.nobodyhub.datalayer.core.service.repository.criteria.RestrictionSet;
 import com.nobodyhub.datalayer.core.service.repository.criteria.RestrictionSetType;
 import com.nobodyhub.datalayer.core.service.util.EntityHelper;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -46,7 +48,12 @@ public class DataLayerClient {
         }
     }
 
-    protected <T> List<T> handleResult(ResponseData<List<T>> responseData) {
+    public <T> T execute(ExecuteRequestData<T>... requests) throws IOException, InterruptedException {
+        ResponseData<T> responseData = this.dataLayerClientService.execute(requests);
+        return handleResult(responseData);
+    }
+
+    protected <T> T handleResult(ResponseData<T> responseData) {
         switch (responseData.getStatus()) {
             case OK: {
                 return responseData.getEntity();

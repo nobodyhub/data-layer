@@ -40,7 +40,7 @@ public class DataLayerClientService implements AutoCloseable {
         this.blockingStub = DataLayerServiceGrpc.newBlockingStub(channel);
     }
 
-    public <T> ResponseData<T> execute(List<ExecuteRequestData<T>> operations) throws IOException, InterruptedException {
+    public <T> ResponseData<T> execute(ExecuteRequestData<T>... operations) throws IOException, InterruptedException {
         final CountDownLatch finishLatch = new CountDownLatch(1);
 
         ResponseData<T> responseData = new ResponseData<>();
