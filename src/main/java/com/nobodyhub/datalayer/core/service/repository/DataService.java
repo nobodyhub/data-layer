@@ -2,7 +2,7 @@ package com.nobodyhub.datalayer.core.service.repository;
 
 import com.google.common.collect.Lists;
 import com.nobodyhub.datalayer.core.proto.DataLayerProtocol;
-import com.nobodyhub.datalayer.core.service.exception.AvroCoreException;
+import com.nobodyhub.datalayer.core.service.exception.DataLayerCoreException;
 import com.nobodyhub.datalayer.core.service.repository.criteria.Criteria;
 import com.nobodyhub.datalayer.core.service.util.AvroSchemaConverter;
 import lombok.Getter;
@@ -77,7 +77,7 @@ public class DataService {
                         break;
                     }
                     default: {
-                        throw new AvroCoreException("Unknown OpType:" + request.getOpType());
+                        throw new DataLayerCoreException("Unknown OpType:" + request.getOpType());
                     }
                 }
             }

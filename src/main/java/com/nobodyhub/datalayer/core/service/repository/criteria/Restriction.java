@@ -1,7 +1,7 @@
 package com.nobodyhub.datalayer.core.service.repository.criteria;
 
 import com.nobodyhub.datalayer.core.service.common.AvroEntity;
-import com.nobodyhub.datalayer.core.service.exception.AvroCoreException;
+import com.nobodyhub.datalayer.core.service.exception.DataLayerCoreException;
 import lombok.Data;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
@@ -56,7 +56,7 @@ public class Restriction implements AvroEntity {
             }
             default: {
                 //TODO: add all types
-                throw new AvroCoreException("Not Implemented!");
+                throw new DataLayerCoreException("Not Implemented!");
             }
         }
     }

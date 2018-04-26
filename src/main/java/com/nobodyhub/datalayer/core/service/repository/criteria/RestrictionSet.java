@@ -2,7 +2,7 @@ package com.nobodyhub.datalayer.core.service.repository.criteria;
 
 import com.google.common.collect.Lists;
 import com.nobodyhub.datalayer.core.service.common.AvroEntity;
-import com.nobodyhub.datalayer.core.service.exception.AvroCoreException;
+import com.nobodyhub.datalayer.core.service.exception.DataLayerCoreException;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Criteria;
@@ -40,7 +40,7 @@ public class RestrictionSet implements AvroEntity {
                 break;
             }
             default: {
-                throw new AvroCoreException("Unknown type:" + type);
+                throw new DataLayerCoreException("Unknown type:" + type);
             }
         }
     }
