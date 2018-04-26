@@ -65,11 +65,11 @@ public class DataService {
                         break;
                     }
                     case UPDATE: {
-                        obj = repository.create(session, AvroSchemaConverter.decode(request.getEntity()));
+                        obj = repository.update(session, AvroSchemaConverter.decode(request.getEntity()));
                         break;
                     }
                     case DELETE: {
-                        obj = repository.create(session, AvroSchemaConverter.decode(request.getEntity()));
+                        obj = repository.delete(session, AvroSchemaConverter.decode(request.getEntity()));
                         break;
                     }
                     case PERSIST: {

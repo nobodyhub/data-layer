@@ -135,7 +135,7 @@ public class DataRepository {
      * @param entity
      * @param <T>
      */
-    public <T> T remove(Session session, T entity) {
+    public <T> T delete(Session session, T entity) {
         session.remove(entity);
         return entity;
     }
