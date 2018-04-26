@@ -1,6 +1,7 @@
 package com.nobodyhub.datalayer.core.service;
 
 import com.nobodyhub.datalayer.core.proto.DataLayerClientService;
+import com.nobodyhub.datalayer.core.service.common.DataLayerConst;
 import com.nobodyhub.datalayer.core.service.data.ExecuteRequestData;
 import com.nobodyhub.datalayer.core.service.data.QueryRequestData;
 import com.nobodyhub.datalayer.core.service.data.ResponseData;
@@ -19,6 +20,10 @@ import java.util.List;
  */
 public class DataLayerClient {
     private final DataLayerClientService dataLayerClientService;
+
+    public DataLayerClient(String host) {
+        this(host, DataLayerConst.DEFAULT_PORT);
+    }
 
     public DataLayerClient(String host, int port) {
         this.dataLayerClientService = new DataLayerClientService(host, port);

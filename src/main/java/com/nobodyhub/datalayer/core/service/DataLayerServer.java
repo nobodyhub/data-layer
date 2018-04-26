@@ -1,6 +1,7 @@
 package com.nobodyhub.datalayer.core.service;
 
 import com.nobodyhub.datalayer.core.proto.DataLayerServerService;
+import com.nobodyhub.datalayer.core.service.common.DataLayerConst;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import lombok.Getter;
@@ -19,6 +20,11 @@ public class DataLayerServer {
 
     @Getter
     private final DataLayerServerService dataLayerServerService;
+
+
+    public DataLayerServer() {
+        this(DataLayerConst.DEFAULT_PORT);
+    }
 
     public DataLayerServer(int port) {
         this(port, null);
