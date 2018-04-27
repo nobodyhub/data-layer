@@ -21,6 +21,7 @@ public class RequestData<T> {
         return RequestData.<T>builder()
                 .opType(DataLayerProtocol.OpType.READ)
                 .cls(cls)
+                .criteria(new Criteria())
                 .build();
     }
 
