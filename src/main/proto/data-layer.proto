@@ -42,8 +42,9 @@ message Response {
  */
 message Request {
     OpType opType = 1;
-    Entity entity = 2;
-    Entity criteria = 3;
+    string entityClass = 2;
+    Entity entity = 3;
+    Entity criteria = 4;
 }
 
 service DataLayerService {

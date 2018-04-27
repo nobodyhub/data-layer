@@ -1669,28 +1669,38 @@ public final class DataLayerProtocol {
     com.nobodyhub.datalayer.core.proto.DataLayerProtocol.OpType getOpType();
 
     /**
-     * <code>.datalayer.model.Entity entity = 2;</code>
+     * <code>string entityClass = 2;</code>
+     */
+    java.lang.String getEntityClass();
+    /**
+     * <code>string entityClass = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getEntityClassBytes();
+
+    /**
+     * <code>.datalayer.model.Entity entity = 3;</code>
      */
     boolean hasEntity();
     /**
-     * <code>.datalayer.model.Entity entity = 2;</code>
+     * <code>.datalayer.model.Entity entity = 3;</code>
      */
     com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity getEntity();
     /**
-     * <code>.datalayer.model.Entity entity = 2;</code>
+     * <code>.datalayer.model.Entity entity = 3;</code>
      */
     com.nobodyhub.datalayer.core.proto.DataLayerProtocol.EntityOrBuilder getEntityOrBuilder();
 
     /**
-     * <code>.datalayer.model.Entity criteria = 3;</code>
+     * <code>.datalayer.model.Entity criteria = 4;</code>
      */
     boolean hasCriteria();
     /**
-     * <code>.datalayer.model.Entity criteria = 3;</code>
+     * <code>.datalayer.model.Entity criteria = 4;</code>
      */
     com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity getCriteria();
     /**
-     * <code>.datalayer.model.Entity criteria = 3;</code>
+     * <code>.datalayer.model.Entity criteria = 4;</code>
      */
     com.nobodyhub.datalayer.core.proto.DataLayerProtocol.EntityOrBuilder getCriteriaOrBuilder();
   }
@@ -1715,6 +1725,7 @@ public final class DataLayerProtocol {
     }
     private Request() {
       opType_ = 0;
+      entityClass_ = "";
     }
 
     @java.lang.Override
@@ -1755,6 +1766,12 @@ public final class DataLayerProtocol {
               break;
             }
             case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              entityClass_ = s;
+              break;
+            }
+            case 26: {
               com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity.Builder subBuilder = null;
               if (entity_ != null) {
                 subBuilder = entity_.toBuilder();
@@ -1767,7 +1784,7 @@ public final class DataLayerProtocol {
 
               break;
             }
-            case 26: {
+            case 34: {
               com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity.Builder subBuilder = null;
               if (criteria_ != null) {
                 subBuilder = criteria_.toBuilder();
@@ -1820,43 +1837,77 @@ public final class DataLayerProtocol {
       return result == null ? com.nobodyhub.datalayer.core.proto.DataLayerProtocol.OpType.UNRECOGNIZED : result;
     }
 
-    public static final int ENTITY_FIELD_NUMBER = 2;
+    public static final int ENTITYCLASS_FIELD_NUMBER = 2;
+    private volatile java.lang.Object entityClass_;
+    /**
+     * <code>string entityClass = 2;</code>
+     */
+    public java.lang.String getEntityClass() {
+      java.lang.Object ref = entityClass_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        entityClass_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string entityClass = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getEntityClassBytes() {
+      java.lang.Object ref = entityClass_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        entityClass_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ENTITY_FIELD_NUMBER = 3;
     private com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity entity_;
     /**
-     * <code>.datalayer.model.Entity entity = 2;</code>
+     * <code>.datalayer.model.Entity entity = 3;</code>
      */
     public boolean hasEntity() {
       return entity_ != null;
     }
     /**
-     * <code>.datalayer.model.Entity entity = 2;</code>
+     * <code>.datalayer.model.Entity entity = 3;</code>
      */
     public com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity getEntity() {
       return entity_ == null ? com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity.getDefaultInstance() : entity_;
     }
     /**
-     * <code>.datalayer.model.Entity entity = 2;</code>
+     * <code>.datalayer.model.Entity entity = 3;</code>
      */
     public com.nobodyhub.datalayer.core.proto.DataLayerProtocol.EntityOrBuilder getEntityOrBuilder() {
       return getEntity();
     }
 
-    public static final int CRITERIA_FIELD_NUMBER = 3;
+    public static final int CRITERIA_FIELD_NUMBER = 4;
     private com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity criteria_;
     /**
-     * <code>.datalayer.model.Entity criteria = 3;</code>
+     * <code>.datalayer.model.Entity criteria = 4;</code>
      */
     public boolean hasCriteria() {
       return criteria_ != null;
     }
     /**
-     * <code>.datalayer.model.Entity criteria = 3;</code>
+     * <code>.datalayer.model.Entity criteria = 4;</code>
      */
     public com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity getCriteria() {
       return criteria_ == null ? com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity.getDefaultInstance() : criteria_;
     }
     /**
-     * <code>.datalayer.model.Entity criteria = 3;</code>
+     * <code>.datalayer.model.Entity criteria = 4;</code>
      */
     public com.nobodyhub.datalayer.core.proto.DataLayerProtocol.EntityOrBuilder getCriteriaOrBuilder() {
       return getCriteria();
@@ -1877,11 +1928,14 @@ public final class DataLayerProtocol {
       if (opType_ != com.nobodyhub.datalayer.core.proto.DataLayerProtocol.OpType.CREATE.getNumber()) {
         output.writeEnum(1, opType_);
       }
+      if (!getEntityClassBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, entityClass_);
+      }
       if (entity_ != null) {
-        output.writeMessage(2, getEntity());
+        output.writeMessage(3, getEntity());
       }
       if (criteria_ != null) {
-        output.writeMessage(3, getCriteria());
+        output.writeMessage(4, getCriteria());
       }
       unknownFields.writeTo(output);
     }
@@ -1895,13 +1949,16 @@ public final class DataLayerProtocol {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, opType_);
       }
+      if (!getEntityClassBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, entityClass_);
+      }
       if (entity_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, getEntity());
+          .computeMessageSize(3, getEntity());
       }
       if (criteria_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, getCriteria());
+          .computeMessageSize(4, getCriteria());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1920,6 +1977,8 @@ public final class DataLayerProtocol {
 
       boolean result = true;
       result = result && opType_ == other.opType_;
+      result = result && getEntityClass()
+          .equals(other.getEntityClass());
       result = result && (hasEntity() == other.hasEntity());
       if (hasEntity()) {
         result = result && getEntity()
@@ -1943,6 +2002,8 @@ public final class DataLayerProtocol {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + OPTYPE_FIELD_NUMBER;
       hash = (53 * hash) + opType_;
+      hash = (37 * hash) + ENTITYCLASS_FIELD_NUMBER;
+      hash = (53 * hash) + getEntityClass().hashCode();
       if (hasEntity()) {
         hash = (37 * hash) + ENTITY_FIELD_NUMBER;
         hash = (53 * hash) + getEntity().hashCode();
@@ -2089,6 +2150,8 @@ public final class DataLayerProtocol {
         super.clear();
         opType_ = 0;
 
+        entityClass_ = "";
+
         if (entityBuilder_ == null) {
           entity_ = null;
         } else {
@@ -2124,6 +2187,7 @@ public final class DataLayerProtocol {
       public com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Request buildPartial() {
         com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Request result = new com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Request(this);
         result.opType_ = opType_;
+        result.entityClass_ = entityClass_;
         if (entityBuilder_ == null) {
           result.entity_ = entity_;
         } else {
@@ -2177,6 +2241,10 @@ public final class DataLayerProtocol {
         if (other == com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Request.getDefaultInstance()) return this;
         if (other.opType_ != 0) {
           setOpTypeValue(other.getOpTypeValue());
+        }
+        if (!other.getEntityClass().isEmpty()) {
+          entityClass_ = other.entityClass_;
+          onChanged();
         }
         if (other.hasEntity()) {
           mergeEntity(other.getEntity());
@@ -2255,17 +2323,86 @@ public final class DataLayerProtocol {
         return this;
       }
 
+      private java.lang.Object entityClass_ = "";
+      /**
+       * <code>string entityClass = 2;</code>
+       */
+      public java.lang.String getEntityClass() {
+        java.lang.Object ref = entityClass_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          entityClass_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string entityClass = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getEntityClassBytes() {
+        java.lang.Object ref = entityClass_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          entityClass_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string entityClass = 2;</code>
+       */
+      public Builder setEntityClass(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        entityClass_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string entityClass = 2;</code>
+       */
+      public Builder clearEntityClass() {
+        
+        entityClass_ = getDefaultInstance().getEntityClass();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string entityClass = 2;</code>
+       */
+      public Builder setEntityClassBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        entityClass_ = value;
+        onChanged();
+        return this;
+      }
+
       private com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity entity_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity, com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity.Builder, com.nobodyhub.datalayer.core.proto.DataLayerProtocol.EntityOrBuilder> entityBuilder_;
       /**
-       * <code>.datalayer.model.Entity entity = 2;</code>
+       * <code>.datalayer.model.Entity entity = 3;</code>
        */
       public boolean hasEntity() {
         return entityBuilder_ != null || entity_ != null;
       }
       /**
-       * <code>.datalayer.model.Entity entity = 2;</code>
+       * <code>.datalayer.model.Entity entity = 3;</code>
        */
       public com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity getEntity() {
         if (entityBuilder_ == null) {
@@ -2275,7 +2412,7 @@ public final class DataLayerProtocol {
         }
       }
       /**
-       * <code>.datalayer.model.Entity entity = 2;</code>
+       * <code>.datalayer.model.Entity entity = 3;</code>
        */
       public Builder setEntity(com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity value) {
         if (entityBuilder_ == null) {
@@ -2291,7 +2428,7 @@ public final class DataLayerProtocol {
         return this;
       }
       /**
-       * <code>.datalayer.model.Entity entity = 2;</code>
+       * <code>.datalayer.model.Entity entity = 3;</code>
        */
       public Builder setEntity(
           com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity.Builder builderForValue) {
@@ -2305,7 +2442,7 @@ public final class DataLayerProtocol {
         return this;
       }
       /**
-       * <code>.datalayer.model.Entity entity = 2;</code>
+       * <code>.datalayer.model.Entity entity = 3;</code>
        */
       public Builder mergeEntity(com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity value) {
         if (entityBuilder_ == null) {
@@ -2323,7 +2460,7 @@ public final class DataLayerProtocol {
         return this;
       }
       /**
-       * <code>.datalayer.model.Entity entity = 2;</code>
+       * <code>.datalayer.model.Entity entity = 3;</code>
        */
       public Builder clearEntity() {
         if (entityBuilder_ == null) {
@@ -2337,7 +2474,7 @@ public final class DataLayerProtocol {
         return this;
       }
       /**
-       * <code>.datalayer.model.Entity entity = 2;</code>
+       * <code>.datalayer.model.Entity entity = 3;</code>
        */
       public com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity.Builder getEntityBuilder() {
         
@@ -2345,7 +2482,7 @@ public final class DataLayerProtocol {
         return getEntityFieldBuilder().getBuilder();
       }
       /**
-       * <code>.datalayer.model.Entity entity = 2;</code>
+       * <code>.datalayer.model.Entity entity = 3;</code>
        */
       public com.nobodyhub.datalayer.core.proto.DataLayerProtocol.EntityOrBuilder getEntityOrBuilder() {
         if (entityBuilder_ != null) {
@@ -2356,7 +2493,7 @@ public final class DataLayerProtocol {
         }
       }
       /**
-       * <code>.datalayer.model.Entity entity = 2;</code>
+       * <code>.datalayer.model.Entity entity = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity, com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity.Builder, com.nobodyhub.datalayer.core.proto.DataLayerProtocol.EntityOrBuilder> 
@@ -2376,13 +2513,13 @@ public final class DataLayerProtocol {
       private com.google.protobuf.SingleFieldBuilderV3<
           com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity, com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity.Builder, com.nobodyhub.datalayer.core.proto.DataLayerProtocol.EntityOrBuilder> criteriaBuilder_;
       /**
-       * <code>.datalayer.model.Entity criteria = 3;</code>
+       * <code>.datalayer.model.Entity criteria = 4;</code>
        */
       public boolean hasCriteria() {
         return criteriaBuilder_ != null || criteria_ != null;
       }
       /**
-       * <code>.datalayer.model.Entity criteria = 3;</code>
+       * <code>.datalayer.model.Entity criteria = 4;</code>
        */
       public com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity getCriteria() {
         if (criteriaBuilder_ == null) {
@@ -2392,7 +2529,7 @@ public final class DataLayerProtocol {
         }
       }
       /**
-       * <code>.datalayer.model.Entity criteria = 3;</code>
+       * <code>.datalayer.model.Entity criteria = 4;</code>
        */
       public Builder setCriteria(com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity value) {
         if (criteriaBuilder_ == null) {
@@ -2408,7 +2545,7 @@ public final class DataLayerProtocol {
         return this;
       }
       /**
-       * <code>.datalayer.model.Entity criteria = 3;</code>
+       * <code>.datalayer.model.Entity criteria = 4;</code>
        */
       public Builder setCriteria(
           com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity.Builder builderForValue) {
@@ -2422,7 +2559,7 @@ public final class DataLayerProtocol {
         return this;
       }
       /**
-       * <code>.datalayer.model.Entity criteria = 3;</code>
+       * <code>.datalayer.model.Entity criteria = 4;</code>
        */
       public Builder mergeCriteria(com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity value) {
         if (criteriaBuilder_ == null) {
@@ -2440,7 +2577,7 @@ public final class DataLayerProtocol {
         return this;
       }
       /**
-       * <code>.datalayer.model.Entity criteria = 3;</code>
+       * <code>.datalayer.model.Entity criteria = 4;</code>
        */
       public Builder clearCriteria() {
         if (criteriaBuilder_ == null) {
@@ -2454,7 +2591,7 @@ public final class DataLayerProtocol {
         return this;
       }
       /**
-       * <code>.datalayer.model.Entity criteria = 3;</code>
+       * <code>.datalayer.model.Entity criteria = 4;</code>
        */
       public com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity.Builder getCriteriaBuilder() {
         
@@ -2462,7 +2599,7 @@ public final class DataLayerProtocol {
         return getCriteriaFieldBuilder().getBuilder();
       }
       /**
-       * <code>.datalayer.model.Entity criteria = 3;</code>
+       * <code>.datalayer.model.Entity criteria = 4;</code>
        */
       public com.nobodyhub.datalayer.core.proto.DataLayerProtocol.EntityOrBuilder getCriteriaOrBuilder() {
         if (criteriaBuilder_ != null) {
@@ -2473,7 +2610,7 @@ public final class DataLayerProtocol {
         }
       }
       /**
-       * <code>.datalayer.model.Entity criteria = 3;</code>
+       * <code>.datalayer.model.Entity criteria = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity, com.nobodyhub.datalayer.core.proto.DataLayerProtocol.Entity.Builder, com.nobodyhub.datalayer.core.proto.DataLayerProtocol.EntityOrBuilder> 
@@ -2566,18 +2703,18 @@ public final class DataLayerProtocol {
       "(\014\"u\n\010Response\022/\n\nstatusCode\030\001 \001(\0162\033.dat" +
       "alayer.model.StatusCode\022\017\n\007message\030\002 \001(\t" +
       "\022\'\n\006entity\030\003 \001(\0132\027.datalayer.model.Entit" +
-      "y\"\206\001\n\007Request\022\'\n\006opType\030\001 \001(\0162\027.datalaye" +
-      "r.model.OpType\022\'\n\006entity\030\002 \001(\0132\027.datalay" +
-      "er.model.Entity\022)\n\010criteria\030\003 \001(\0132\027.data" +
-      "layer.model.Entity*\037\n\nStatusCode\022\006\n\002OK\020\000" +
-      "\022\t\n\005ERROR\020\001*C\n\006OpType\022\n\n\006CREATE\020\000\022\010\n\004REA" +
-      "D\020\001\022\n\n\006UPDATE\020\002\022\n\n\006DELETE\020\003\022\013\n\007PERSIST\020\004" +
-      "2\224\001\n\020DataLayerService\022@\n\007execute\022\030.datal" +
-      "ayer.model.Request\032\031.datalayer.model.Res" +
-      "ponse(\001\022>\n\005query\022\030.datalayer.model.Reque" +
-      "st\032\031.datalayer.model.Response0\001B7\n\"com.n" +
-      "obodyhub.datalayer.core.protoB\021DataLayer" +
-      "Protocolb\006proto3"
+      "y\"\233\001\n\007Request\022\'\n\006opType\030\001 \001(\0162\027.datalaye" +
+      "r.model.OpType\022\023\n\013entityClass\030\002 \001(\t\022\'\n\006e" +
+      "ntity\030\003 \001(\0132\027.datalayer.model.Entity\022)\n\010" +
+      "criteria\030\004 \001(\0132\027.datalayer.model.Entity*" +
+      "\037\n\nStatusCode\022\006\n\002OK\020\000\022\t\n\005ERROR\020\001*C\n\006OpTy" +
+      "pe\022\n\n\006CREATE\020\000\022\010\n\004READ\020\001\022\n\n\006UPDATE\020\002\022\n\n\006" +
+      "DELETE\020\003\022\013\n\007PERSIST\020\0042\224\001\n\020DataLayerServi" +
+      "ce\022@\n\007execute\022\030.datalayer.model.Request\032" +
+      "\031.datalayer.model.Response(\001\022>\n\005query\022\030." +
+      "datalayer.model.Request\032\031.datalayer.mode" +
+      "l.Response0\001B7\n\"com.nobodyhub.datalayer." +
+      "core.protoB\021DataLayerProtocolb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2608,7 +2745,7 @@ public final class DataLayerProtocol {
     internal_static_datalayer_model_Request_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_datalayer_model_Request_descriptor,
-        new java.lang.String[] { "OpType", "Entity", "Criteria", });
+        new java.lang.String[] { "OpType", "EntityClass", "Entity", "Criteria", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
