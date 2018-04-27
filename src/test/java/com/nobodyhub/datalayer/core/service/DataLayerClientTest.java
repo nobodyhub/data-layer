@@ -48,7 +48,7 @@ public class DataLayerClientTest {
 //
 //        assertEquals("user1", user1.getFirstName());
 //        assertEquals(users.size() + 1, client.findAll(User.class).size());
-//        user1 = client.execute(ExecuteRequestData.delete(user1));
+//        user1 = client.execute(RequestData.delete(user1));
 //        assertEquals("user1", user1.getFirstName());
 //        assertEquals(users.size(), client.findAll(User.class).size());
 //    }

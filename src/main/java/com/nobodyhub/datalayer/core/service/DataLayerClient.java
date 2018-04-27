@@ -2,10 +2,10 @@ package com.nobodyhub.datalayer.core.service;
 
 import com.nobodyhub.datalayer.core.proto.DataLayerClientService;
 import com.nobodyhub.datalayer.core.service.common.DataLayerConst;
-import com.nobodyhub.datalayer.core.service.data.ExecuteRequestData;
-import com.nobodyhub.datalayer.core.service.data.QueryRequestData;
+import com.nobodyhub.datalayer.core.service.data.RequestData;
 import com.nobodyhub.datalayer.core.service.data.ResponseData;
 import com.nobodyhub.datalayer.core.service.exception.DataLayerCoreException;
+import com.nobodyhub.datalayer.core.service.repository.criteria.Criteria;
 import com.nobodyhub.datalayer.core.service.repository.criteria.Restriction;
 import com.nobodyhub.datalayer.core.service.repository.criteria.RestrictionSet;
 import com.nobodyhub.datalayer.core.service.repository.criteria.RestrictionSetType;
@@ -30,16 +30,18 @@ public class DataLayerClient {
     }
 
     public <T> List<T> findAll(Class<T> cls) {
-        QueryRequestData<T> requestData = new QueryRequestData<>(cls);
+        RequestData<T> requestData = RequestData.find(cls);
         ResponseData<List<T>> responseData = this.dataLayerClientService.query(requestData);
         return handleResult(responseData);
     }
 
     public <T> List<T> findByField(Class<T> cls, String fieldName, Object value) {
-        QueryRequestData<T> requestData = new QueryRequestData<>(cls);
+        Criteria criteria = new Criteria();
         RestrictionSet restrictionSet = new RestrictionSet(RestrictionSetType.CONJUNCTION);
         restrictionSet.addRestrictions(Restriction.eq(fieldName, value));
-        requestData.setRestriction(restrictionSet);
+        criteria.setRestrictionSet(restrictionSet);
+
+        RequestData<T> requestData = RequestData.find(cls, criteria);
         ResponseData<List<T>> responseData = this.dataLayerClientService.query(requestData);
         return handleResult(responseData);
     }
@@ -54,13 +56,13 @@ public class DataLayerClient {
     }
 
     @SafeVarargs
-    public final <T> T execute(ExecuteRequestData<T>... requests) throws IOException, InterruptedException {
+    public final <T> T execute(RequestData<T>... requests) throws IOException, InterruptedException {
         ResponseData<T> responseData = this.dataLayerClientService.execute(requests);
         return handleResult(responseData);
     }
 
     public void close() throws Exception {
-        if(dataLayerClientService!=null) {
+        if (dataLayerClientService != null) {
             this.dataLayerClientService.close();
         }
     }

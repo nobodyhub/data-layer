@@ -52,13 +52,13 @@ public class DataService {
         return entityList;
     }
 
-    public DataLayerProtocol.Entity execute(List<DataLayerProtocol.ExecuteRequest> operations) throws IOException, ClassNotFoundException {
+    public DataLayerProtocol.Entity execute(List<DataLayerProtocol.Request> operations) throws IOException, ClassNotFoundException {
         //stores the result of the last operation
         Object obj = null;
         Transaction tx = null;
         try (Session session = sessionFactory.openSession()) {
             tx = session.beginTransaction();
-            for (DataLayerProtocol.ExecuteRequest request : operations) {
+            for (DataLayerProtocol.Request request : operations) {
                 switch (request.getOpType()) {
                     case CREATE: {
                         obj = repository.create(session, AvroSchemaConverter.decode(request.getEntity()));
