@@ -1,20 +1,14 @@
 package com.nobodyhub.datalayer.core.service;
 
+import com.nobodyhub.datalayer.core.service.common.BenchmarkTest;
 import com.nobodyhub.datalayer.core.service.entity.User;
 import com.nobodyhub.datalayer.core.service.repository.DataRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.AfterClass;
-import org.junit.Test;
 import org.openjdk.jmh.annotations.*;
-import org.openjdk.jmh.results.RunResult;
-import org.openjdk.jmh.runner.Runner;
-import org.openjdk.jmh.runner.RunnerException;
-import org.openjdk.jmh.runner.options.Options;
-import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -24,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Thread)
 @BenchmarkMode(Mode.Throughput)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-public class DataLayerServerTest {
+public class DataLayerServerTest extends BenchmarkTest {
 
     private static DataLayerServer server = new DataLayerServer();
     private SessionFactory sessionFactory;
@@ -47,19 +41,6 @@ public class DataLayerServerTest {
     @Benchmark
     public void test() {
         repo.query(session, User.class, -1, null, null, null);
-    }
-
-
-    @Test
-    public void benchmark() throws RunnerException {
-        Options opt = new OptionsBuilder()
-                .include(DataLayerServerTest.class.getSimpleName())
-                .warmupIterations(1)
-                .measurementIterations(5)
-                .forks(1)
-                .build();
-        Collection<RunResult> runResults = new Runner(opt).run();
-        System.out.println(runResults);
     }
 
     @AfterClass

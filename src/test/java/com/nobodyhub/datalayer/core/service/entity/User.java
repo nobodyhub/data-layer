@@ -1,6 +1,7 @@
 package com.nobodyhub.datalayer.core.service.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import javax.persistence.*;
  */
 @Data
 @ToString
+@EqualsAndHashCode
 @Entity
 @Table(name = "User")
 public class User {
