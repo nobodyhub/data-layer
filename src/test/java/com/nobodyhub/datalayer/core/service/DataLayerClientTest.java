@@ -1,5 +1,6 @@
 package com.nobodyhub.datalayer.core.service;
 
+import com.nobodyhub.datalayer.core.service.common.BenchmarkTest;
 import com.nobodyhub.datalayer.core.service.entity.User;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -19,10 +20,7 @@ import java.util.concurrent.TimeUnit;
  * @author yan_h
  * @since 2018-04-26.
  */
-@State(Scope.Thread)
-@BenchmarkMode(Mode.Throughput)
-@OutputTimeUnit(TimeUnit.MILLISECONDS)
-public class DataLayerClientTest {
+public class DataLayerClientTest extends BenchmarkTest {
     private static DataLayerServer server = new DataLayerServer();
     private static DataLayerClient client = new DataLayerClient("localhost");
     private User user1;
@@ -41,33 +39,10 @@ public class DataLayerClientTest {
         user1.setPassword("user1Pass");
     }
 
-//    @Test
-//    public void before() throws IOException, InterruptedException {
-//        List<User> users = client.findAll(User.class);
-//        assertEquals(3, users.size());
-//
-//        assertEquals("user1", user1.getFirstName());
-//        assertEquals(users.size() + 1, client.findAll(User.class).size());
-//        user1 = client.execute(RequestData.delete(user1));
-//        assertEquals("user1", user1.getFirstName());
-//        assertEquals(users.size(), client.findAll(User.class).size());
-//    }
-
     @Benchmark
+    @Test
     public void test() throws IOException, InterruptedException {
         client.findAll(User.class);
-    }
-
-    @Test
-    public void benchmark() throws RunnerException {
-        Options opt = new OptionsBuilder()
-                .include(DataLayerClientTest.class.getSimpleName())
-                .warmupIterations(1)
-                .measurementIterations(5)
-                .forks(1)
-                .build();
-        Collection<RunResult> runResults = new Runner(opt).run();
-        System.out.println(runResults);
     }
 
     @AfterClass

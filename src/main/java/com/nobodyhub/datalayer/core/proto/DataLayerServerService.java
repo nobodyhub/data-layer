@@ -76,7 +76,7 @@ public class DataLayerServerService extends DataLayerServiceGrpc.DataLayerServic
     @Override
     public void query(DataLayerProtocol.Request request, StreamObserver<DataLayerProtocol.Response> responseObserver) {
         try {
-            List<DataLayerProtocol.Entity> entities = service.query(Class.forName(request.getEntity().getEntityClass()), request.getCriteria());
+            List<DataLayerProtocol.Entity> entities = service.query(Class.forName(request.getEntityClass()), request.getCriteria());
             for (DataLayerProtocol.Entity entity : entities) {
                 responseObserver.onNext(DataLayerProtocol.Response.newBuilder()
                         .setStatusCode(DataLayerProtocol.StatusCode.OK)
