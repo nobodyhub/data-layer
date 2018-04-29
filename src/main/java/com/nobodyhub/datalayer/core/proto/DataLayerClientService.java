@@ -1,8 +1,7 @@
 package com.nobodyhub.datalayer.core.proto;
 
 import com.google.common.collect.Lists;
-import com.nobodyhub.datalayer.core.service.data.ExecuteRequestData;
-import com.nobodyhub.datalayer.core.service.data.QueryRequestData;
+import com.nobodyhub.datalayer.core.service.data.RequestData;
 import com.nobodyhub.datalayer.core.service.data.ResponseData;
 import com.nobodyhub.datalayer.core.service.util.AvroSchemaConverter;
 import io.grpc.ManagedChannel;
@@ -40,7 +39,7 @@ public class DataLayerClientService {
         this.blockingStub = DataLayerServiceGrpc.newBlockingStub(channel);
     }
 
-    public ResponseData execute(ExecuteRequestData... operations) throws IOException, InterruptedException {
+    public ResponseData execute(RequestData... operations) throws IOException, InterruptedException {
         final CountDownLatch finishLatch = new CountDownLatch(1);
 
         ResponseData<?> responseData = new ResponseData<>();
@@ -69,11 +68,12 @@ public class DataLayerClientService {
                 finishLatch.countDown();
             }
         };
-        StreamObserver<DataLayerProtocol.ExecuteRequest> request = asyncStub.execute(response);
-        for (ExecuteRequestData operation : operations) {
-            DataLayerProtocol.ExecuteRequest reqOp = DataLayerProtocol.ExecuteRequest.newBuilder()
+        StreamObserver<DataLayerProtocol.Request> request = asyncStub.execute(response);
+        for (RequestData operation : operations) {
+            DataLayerProtocol.Request reqOp = DataLayerProtocol.Request.newBuilder()
                     .setOpType(operation.getOpType())
                     .setEntity(AvroSchemaConverter.encode(operation.getEntity()))
+                    .setCriteria(AvroSchemaConverter.encode(operation.getCriteria()))
                     .build();
             request.onNext(reqOp);
         }
@@ -82,11 +82,11 @@ public class DataLayerClientService {
         return responseData;
     }
 
-    public <T> ResponseData<List<T>> query(QueryRequestData<T> query) {
+    public <T> ResponseData<List<T>> query(RequestData<T> query) {
         ResponseData<List<T>> responseData = new ResponseData<>();
         List<T> data = Lists.newArrayList();
         try {
-            DataLayerProtocol.QueryRequest request = DataLayerProtocol.QueryRequest.newBuilder()
+            DataLayerProtocol.Request request = DataLayerProtocol.Request.newBuilder()
                     .setEntityClass(query.getCls().getName())
                     .setCriteria(AvroSchemaConverter.encode(query.getCriteria()))
                     .build();

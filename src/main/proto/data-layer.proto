@@ -35,22 +35,16 @@ message Response {
 }
 
 /*
- * Request to make a series of operations
+ * Request made to execute DB operation.
  * 1. all operations will be executed in sequence in order of received
  * 2. operation sent in the same stream will be executed in the same transaction
  * 3. if the last operation is a OpType.READ/CREATE, the result of it will be send back via Response.Entity
  */
-message ExecuteRequest {
+message Request {
     OpType opType = 1;
-    Entity entity = 2;
-}
-
-/*
- * Request to query info, the select contents are deciede by the entityClass
- */
-message QueryRequest {
-    string entityClass = 1;
-    Entity criteria = 2;
+    string entityClass = 2;
+    Entity entity = 3;
+    Entity criteria = 4;
 }
 
 service DataLayerService {
@@ -58,10 +52,10 @@ service DataLayerService {
      * Execute a series of operation in the same transaction
      * and return result of the last one if it is of OpType.READ/CREATE.
      */
-    rpc execute (stream ExecuteRequest) returns (Response);
+    rpc execute (stream Request) returns (Response);
 
     /*
      * Query information with given conditions on particular entity to work with HQL
      */
-    rpc query (QueryRequest) returns (stream Response);
+    rpc query (Request) returns (stream Response);
 }

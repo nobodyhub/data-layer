@@ -40,12 +40,12 @@ public class DataLayerServerService extends DataLayerServiceGrpc.DataLayerServic
     }
 
     @Override
-    public StreamObserver<DataLayerProtocol.ExecuteRequest> execute(StreamObserver<DataLayerProtocol.Response> responseObserver) {
-        return new StreamObserver<DataLayerProtocol.ExecuteRequest>() {
-            List<DataLayerProtocol.ExecuteRequest> operations = Lists.newArrayList();
+    public StreamObserver<DataLayerProtocol.Request> execute(StreamObserver<DataLayerProtocol.Response> responseObserver) {
+        return new StreamObserver<DataLayerProtocol.Request>() {
+            List<DataLayerProtocol.Request> operations = Lists.newArrayList();
 
             @Override
-            public void onNext(DataLayerProtocol.ExecuteRequest value) {
+            public void onNext(DataLayerProtocol.Request value) {
                 operations.add(value);
             }
 
@@ -74,7 +74,7 @@ public class DataLayerServerService extends DataLayerServiceGrpc.DataLayerServic
     }
 
     @Override
-    public void query(DataLayerProtocol.QueryRequest request, StreamObserver<DataLayerProtocol.Response> responseObserver) {
+    public void query(DataLayerProtocol.Request request, StreamObserver<DataLayerProtocol.Response> responseObserver) {
         try {
             List<DataLayerProtocol.Entity> entities = service.query(Class.forName(request.getEntityClass()), request.getCriteria());
             for (DataLayerProtocol.Entity entity : entities) {
