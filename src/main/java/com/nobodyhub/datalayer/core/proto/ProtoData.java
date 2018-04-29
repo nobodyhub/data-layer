@@ -32,13 +32,13 @@ public class ProtoData {
 
     protected final LoadingCache<Class<?>, List<Field>> fieldCache =
             CacheBuilder.newBuilder()
-            .weakKeys()
-            .build(new CacheLoader<Class<?>, List<Field>>() {
-                @Override
-                public List<Field> load(Class<?> key) throws Exception {
-                    return getFields(key);
-                }
-            });
+                    .weakKeys()
+                    .build(new CacheLoader<Class<?>, List<Field>>() {
+                        @Override
+                        public List<Field> load(Class<?> key) throws Exception {
+                            return getFields(key);
+                        }
+                    });
 
     protected DescriptorProtos.DescriptorProto createProto(Class<?> cls) throws ExecutionException {
         DescriptorProtos.DescriptorProto.Builder protoBuilder = DescriptorProtos.DescriptorProto.newBuilder();
@@ -48,7 +48,10 @@ public class ProtoData {
         for (Field field : fields) {
             DescriptorProtos.FieldDescriptorProto protoField =
                     DescriptorProtos.FieldDescriptorProto.newBuilder()
-                            .setName(field.getName()).setNumber(idx++).setType(getType(field.getType())).build();
+                            .setName(field.getName())
+                            .setNumber(idx++)
+                            .setType(getType(field.getType()))
+                            .build();
             protoBuilder.addField(protoField);
         }
 
@@ -87,6 +90,7 @@ public class ProtoData {
         DescriptorProtos.DescriptorProto proto = createProto(cls);
         DescriptorProtos.FileDescriptorProto fileDescP = DescriptorProtos.FileDescriptorProto.newBuilder()
                 .addMessageType(proto)
+                .setSyntax(Syntax.SYNTAX_PROTO3.name())
                 .setPackage(cls.getPackage().getName())
                 .build();
 
